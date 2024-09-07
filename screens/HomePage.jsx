@@ -15,7 +15,7 @@ const HomePage = () => {
                     <Text style={styles.logoTxt}>G! Tara Na!</Text>
                 </View>
                 <TouchableOpacity style={styles.searchBox}>
-                    <FontAwesome5 name='search' size={18}/>
+                    <FontAwesome5 name='search' size={16}/>
                     <Text style={styles.searchTxt}>Search a Chord</Text>
                 </TouchableOpacity>
             </View>
@@ -84,10 +84,10 @@ const styles = StyleSheet.create ({
         width: 135,
         height: 30,
         borderRadius: 5,
-        gap: 7,
+        gap: 10,
     },
     searchTxt: {
-        fontSize: 14,
+        fontSize: 13,
         fontWeight: '800'
     },
     mainContent: {
