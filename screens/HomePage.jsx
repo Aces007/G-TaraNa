@@ -4,8 +4,6 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
-
-
 const HomePage = () => {
     return (
         <ScrollView contentContainerStyle={styles.mainCont}>
@@ -39,7 +37,6 @@ const HomePage = () => {
                     <Text style={styles.charTxt3}>Harmonic Bliss</Text>    
                 </TouchableOpacity>
             </View>
-
         </ScrollView>
     )
 }
