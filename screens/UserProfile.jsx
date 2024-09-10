@@ -132,6 +132,9 @@ const styles = StyleSheet.create ({
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         paddingHorizontal: 5,
+        backgroundColor: '#1A2433',
+        paddingVertical: 20,
+        borderRadius: 10,
     },  
     userProfLeft: {
         display: 'flex',
