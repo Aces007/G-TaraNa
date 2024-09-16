@@ -49,27 +49,6 @@ const UserProfile = () => {
                         </TouchableOpacity>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.preferencesMenu}>
-                    <Text style={styles.preferencesMenuLab}>Preferences</Text>
-                    <TouchableOpacity style={styles.notifCont}>
-                        <View style={styles.manageNotifLeft}>
-                            <Ionicons name='notifications-outline' size={21} style={styles.manageSVG} />
-                            <Text style={styles.manageNotifTxt}>Notifications</Text>
-                        </View>
-                        <TouchableOpacity style={styles.manageNotifBtn}>
-                            <FontAwesome name='caret-right' size={30} style={styles.rightBtn}/>
-                        </TouchableOpacity>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.themeCont}>
-                        <View style={styles.manageThemeLeft}>
-                            <Octicons name='paintbrush' size={21} style={styles.manageSVG} />
-                            <Text style={styles.manageThemeTxt}>Theme</Text>
-                        </View>
-                        <TouchableOpacity style={styles.manageThemeBtn}>
-                            <FontAwesome name='caret-right' size={30} style={styles.rightBtn}/>
-                        </TouchableOpacity>
-                    </TouchableOpacity>
-                </View>
             </View>
         </ScrollView>
     )
@@ -101,8 +80,8 @@ const styles = StyleSheet.create ({
         gap: 13,
     },
     logoImg: {
-        width: 30,
-        height: 45,
+        width: 28,
+        height: 62,
     },
     logoTxt: {
         color: '#FFF',
@@ -195,7 +174,7 @@ const styles = StyleSheet.create ({
         justifyContent: 'space-evenly',
     },
 
-    //#region Profile Menu
+        //#region Profile Menu
     profileMenu: {
         marginBottom: 20,
         gap: 10,
@@ -240,94 +219,7 @@ const styles = StyleSheet.create ({
         backgroundColor: '#fff',
         borderRadius: 60,
     },
-    //#endregion Profile Menu
-
-    // Preferences Menu
-    preferencesMenu: {
-        marginBottom: 20,
-        gap: 15,
-    },
-    preferencesMenuLab: {
-        color: '#fff',
-        fontWeight: '800',
-        fontSize: 25,
-    },
-        
-    //#region Notifications Section
-    notifCont: {
-        paddingHorizontal: 15,
-        marginTop: 5,
-        display: 'flex',
-        flexDirection: 'row',
-        gap: 75,
-        alignItems: 'center'
-    },
-    manageNotifLeft: {
-        display: 'flex',
-        flexDirection: 'row',
-        gap: 20,
-        alignItems: 'center'
-    },
-    manageSVG: {
-        padding: 7.5,
-        width: 40,
-        height: 40,
-        backgroundColor: '#fff',
-        borderRadius: 60,
-        textAlign: 'center'
-    },
-    manageNotifTxt: {
-        color: '#fff',
-        fontWeight: '700',
-        fontSize: 18,
-    },
-    rightBtn: {
-        paddingVertical: 2,
-        textAlign: 'center',
-        width: 35,
-        height: 35,
-        backgroundColor: '#fff',
-        borderRadius: 60,
-    },
-    //#endregion Notifications Section
-
-    //#region Theme Section
-    themeCont: {
-        paddingHorizontal: 15,
-        marginTop: 5,
-        display: 'flex',
-        flexDirection: 'row',
-        gap: 118,
-        alignItems: 'center'
-    },
-    manageThemeLeft: {
-        display: 'flex',
-        flexDirection: 'row',
-        gap: 20,
-        alignItems: 'center'
-    },
-    manageSVG: {
-        padding: 7.5,
-        width: 40,
-        height: 40,
-        backgroundColor: '#fff',
-        borderRadius: 60,
-        textAlign: 'center'
-    },
-    manageThemeTxt: {
-        color: '#fff',
-        fontWeight: '700',
-        fontSize: 18,
-    },
-    rightBtn: {
-        paddingVertical: 2,
-        textAlign: 'center',
-        width: 35,
-        height: 35,
-        backgroundColor: '#fff',
-        borderRadius: 60,
-    },
-    //#endregion Theme Section
+        //#endregion Profile Menu
 
     //#endregion User Profile and Preferences Menu Section
 

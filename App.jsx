@@ -10,10 +10,8 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Foundation from 'react-native-vector-icons/Foundation';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import HomePage from './screens/HomePage';
 import ChordChecker from './screens/ChordChecker';
 import UserProfile from './screens/UserProfile';
-import ResultsCont from './screens/ResultsCont';
 import SettingsPage from './screens/SettingsPage';
 import loginSignUp from './screens/LoginSignUp';
 
@@ -54,10 +52,8 @@ function TabNavigator() {
         tabBarInactiveTintColor: '#D3D3D3',
       })}
     >
-        <Tab.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
         <Tab.Screen name="Chords" component={ChordChecker} options={{ headerShown: false }} />
         <Tab.Screen name="User" component={UserProfile} options={{ headerShown: false }} />
-        <Tab.Screen name="Results" component={ResultsCont} options={{ headerShown: false }} />
         <Tab.Screen name="Settings" component={SettingsPage} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
