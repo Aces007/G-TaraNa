@@ -64,8 +64,8 @@ const styles = StyleSheet.create ({
         gap: 13,
     },
     logoImg: {
-        width: 48,
-        height: 48,
+        width: 30,
+        height: 45,
     },
     logoTxt: {
         color: '#FFF',

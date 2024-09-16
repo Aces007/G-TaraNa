@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         backgroundColor: '#0a0f1b',
         padding: 20,
-        paddingTop: 40,
+        paddingTop: 50,
     },
 
     //#region Header
