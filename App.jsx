@@ -13,7 +13,8 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import ChordChecker from './screens/ChordChecker';
 import UserProfile from './screens/UserProfile';
 import SettingsPage from './screens/SettingsPage';
-import loginSignUp from './screens/LoginSignUp';
+import Login from './screens/Login';
+import SignUp from './screens/SignUp';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -59,6 +60,15 @@ function TabNavigator() {
   );
 }
 
+function UserAccountManager() {
+  return (
+    <Stack.Navigator initialRouteName={'Login'}>
+      <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
+      <Stack.Screen name="SignUp" component={SignUp} options={{headerShown: false}}/>
+    </Stack.Navigator>
+  )
+}
+
 function MainScreen() {
   const {userId, loading } = useAppContext();
 
@@ -67,9 +77,9 @@ function MainScreen() {
   }
 
   return (
-    <Stack.Navigator initialRouteName={userId ? "mainTabs" : 'loginSignUp'}>
+    <Stack.Navigator initialRouteName={userId ? 'Login' : 'mainTabs'}>
       <Stack.Screen name="mainTabs" component={TabNavigator} options={{headerShown: false}}/>
-      <Stack.Screen name="loginSignUp" component={loginSignUp} options={{headerShown: false}}/>
+      <Stack.Screen name="userAccountScreen" component={UserAccountManager} options={{headerShown: false}}/>
     </Stack.Navigator>
   )
 }
@@ -78,7 +88,7 @@ export default function App() {
   return (
     <AppProvider>
       <NavigationContainer>
-        <TabNavigator />
+        <UserAccountManager />
       </NavigationContainer>
     </AppProvider>
   );
