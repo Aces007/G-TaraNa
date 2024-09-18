@@ -24,7 +24,8 @@ const Login = ({ route, navigation }) => {
                     >
                         <Text style={[styles.buttonText, 
                             selected === 'SignUp' ? styles.activeText : 
-                            styles.inactiveText]}
+                            styles.inactiveText
+                        ]}
                         >
                             {'Login'}
                         </Text>
@@ -46,6 +47,7 @@ const Login = ({ route, navigation }) => {
                         </Text>
                     </TouchableOpacity>
                 </View>
+                
                 <TextInput
                     style={styles.inputFields}
                     placeholder="Email"
@@ -168,6 +170,7 @@ const styles = StyleSheet.create({
         padding: 8,
         borderColor: '#FFF',
         color: '#FFF',
+        fontWeight: '800',
     },
     loginBtn: {
         backgroundColor: '#A8F94F', 
