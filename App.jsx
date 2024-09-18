@@ -24,7 +24,7 @@ function TabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({ color, size }) => {
           let iconName;
           let IconComponent;
 
@@ -34,16 +34,10 @@ function TabNavigator() {
           } else if (route.name === 'User') {
             IconComponent = FontAwesome6;
             iconName = 'user'; 
-          } else if (route.name === 'Results') {
-            IconComponent = MaterialIcons;
-            iconName = 'graphic-eq';
           } else if (route.name === 'Settings') {
             IconComponent = SimpleLineIcons;
             iconName = 'settings'; 
-          } else if (route.name === 'Home') {
-            IconComponent = Foundation;
-            iconName = 'home'; 
-          }
+          } 
 
           return <IconComponent name={iconName} size={size} color={color} />
         },
@@ -62,7 +56,29 @@ function TabNavigator() {
 
 function UserAccountManager() {
   return (
-    <Stack.Navigator initialRouteName={'Login'}>
+    <Stack.Navigator 
+      initialRouteName={'Login'}
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        cardStyleInterpolator: ({ current, next, layouts }) => {
+          const isSignUp = route.name === 'SignUp';
+          
+          return {
+            cardStyle: {
+              transform: [
+                {
+                  translateX: current.progress.interpolate({
+                    inputRange: [0, 1],
+                    // When navigating to SignUp, slide from right. When navigating back, slide from left.
+                    outputRange: isSignUp ? [layouts.screen.width, 0] : [-layouts.screen.width, 0],
+                  }),
+                },
+              ],
+            },
+          };
+        },
+      })}
+    >
       <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
       <Stack.Screen name="SignUp" component={SignUp} options={{headerShown: false}}/>
     </Stack.Navigator>
@@ -77,7 +93,7 @@ function MainScreen() {
   }
 
   return (
-    <Stack.Navigator initialRouteName={userId ? 'Login' : 'mainTabs'}>
+    <Stack.Navigator initialRouteName={userId ? 'mainTabs' : 'userAccountScreen'}>
       <Stack.Screen name="mainTabs" component={TabNavigator} options={{headerShown: false}}/>
       <Stack.Screen name="userAccountScreen" component={UserAccountManager} options={{headerShown: false}}/>
     </Stack.Navigator>
@@ -88,7 +104,7 @@ export default function App() {
   return (
     <AppProvider>
       <NavigationContainer>
-        <UserAccountManager />
+        <MainScreen />
       </NavigationContainer>
     </AppProvider>
   );

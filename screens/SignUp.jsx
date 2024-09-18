@@ -1,8 +1,57 @@
-import { View, TouchableOpacity, TextInput, Text, Image, ImageBackground, StyleSheet, ScrollView } from 'react-native';
+import { View, TouchableOpacity, TextInput, Text, Image, ImageBackground, StyleSheet, ScrollView, Alert } from 'react-native';
 import React, {useState} from 'react';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { useAppContext } from '../AppContext';
 
 const SignUp = ({ route, navigation }) => {
-    const [selected, setSelected] = useState('Login');
+    const [selected, setSelected] = useState('SignUp');
+    const [date, setDate] = useState(new Date());
+    const [show, setShow] = useState(false);
+    const [dobString, setDobString] = useState('');
+
+    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const { signUp } = useAppContext();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+    const onChange = ( event, selectedDate ) => {
+        const currentDate = selectedDate || date;
+        setShow(false);
+        setDate(currentDate);
+        setDobString(currentDate.toLocaleDateString()); 
+    }
+
+    const handleAuth = async () => {
+        if (!email || !password) {
+            Alert.alert("Please fill in the required fields.");
+            return;
+        }
+
+        if (!emailRegex.test(email)) {
+            Alert.alert("Please enter a valid email address.");
+            return;
+        }
+
+        if (password.length < 7) {
+            Alert.alert("Please enter a password with a minimum of 7 characters.");
+            return;
+        }
+
+        if (username.length < 3) {
+            alert('Username should be at least 3 characters long.');
+            return;
+        }
+
+        try {
+            await signUp(email, username, password);
+            navigation.navigate('mainTabs');
+        } catch (error) {
+            Alert.alert("Error during sign-up", error.message);
+        }
+    }
+
 
     return (
         <ScrollView contentContainerStyle={styles.mainCont}>
@@ -44,23 +93,48 @@ const SignUp = ({ route, navigation }) => {
                         </Text>
                     </TouchableOpacity>
                 </View>
+
+                <TextInput
+                    style={styles.inputFields}
+                    placeholder="Username"
+                    placeholderTextColor={"#FFF"}
+                    value={username}
+                    onChangeText={setUsername}
+                    autoCapitalize="none"
+                />
                 <TextInput
                     style={styles.inputFields}
                     placeholder="Email"
                     placeholderTextColor={"#FFF"}
-                    // value={email}
-                    // onChangeText={setEmail}
+                    value={email}
+                    onChangeText={setEmail}
                     autoCapitalize="none"
                 />
                 <TextInput
                     style={styles.inputFields}
                     placeholder="Password"
                     placeholderTextColor={"#FFF"}
-                    // value={password}
-                    // onChangeText={setPassword}
+                    value={password}
+                    onChangeText={setPassword}
                     secureTextEntry
                 />
-                <TouchableOpacity style={styles.signUpBtn}>
+
+                <TouchableOpacity onPress={()=> setShow(true)} style={styles.birthBtn}> 
+                    <Text style={dobString ? styles.birthDateTxt : styles.birthBtnTxt}>
+                        {dobString ? dobString : 'Date of Birth'}
+                    </Text>
+                </TouchableOpacity>
+                {show && (
+                    <DateTimePicker 
+                        value={date}
+                        mode='date'
+                        is24Hour={true}
+                        display='default'
+                        onChange={onChange}
+                    />
+                )}
+
+                <TouchableOpacity style={styles.signUpBtn} onPress={handleAuth}>
                     <Text style={styles.signUpBtnTxt}>{'SignUp'}</Text>
                 </TouchableOpacity>
             </View>
@@ -140,7 +214,7 @@ const styles = StyleSheet.create({
     },
     //#endregion EntryMethods
 
-    //#region LoginBox 
+    //#region SignUpBox 
     signUpContainer: {
         display: 'flex',
         backgroundColor: '#1A2433',
@@ -166,6 +240,22 @@ const styles = StyleSheet.create({
         padding: 8,
         borderColor: '#FFF',
         color: '#FFF',
+        fontWeight: '800',
+    },
+    birthBtn: {
+        width: '90%',
+        borderBottomWidth: 1,
+        marginBottom: 20,
+        padding: 8,
+        borderColor: '#FFF',
+    },
+    birthBtnTxt: {
+        color: '#FFF',
+        fontWeight: '800',
+    },
+    birthDateTxt: {
+        color: '#FFF',
+        fontWeight: '800',
     },
     signUpBtn: {
         backgroundColor: '#A8F94F', 
@@ -179,7 +269,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textTransform: 'uppercase',
     },
-    //#endregion LoginBox 
+    //#endregion SignUpBox 
 
     // Bottom Quote
     mainTxt: {
