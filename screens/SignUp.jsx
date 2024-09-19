@@ -2,6 +2,7 @@ import { View, TouchableOpacity, TextInput, Text, Image, ImageBackground, StyleS
 import React, {useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useAppContext } from '../AppContext';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const SignUp = ({ route, navigation }) => {
     const [selected, setSelected] = useState('SignUp');
@@ -11,7 +12,10 @@ const SignUp = ({ route, navigation }) => {
 
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
+    const [name, setName] = useState('');
+    const [age, setAge] = useState('');
     const [password, setPassword] = useState('');
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const { signUp } = useAppContext();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -45,13 +49,16 @@ const SignUp = ({ route, navigation }) => {
         }
 
         try {
-            await signUp(email, username, password);
+            await signUp(email, username, name, age, password);
             navigation.navigate('mainTabs');
         } catch (error) {
             Alert.alert("Error during sign-up", error.message);
         }
     }
 
+    const togglePasswordVisibility = () => {
+        setIsPasswordVisible(!isPasswordVisible);
+    };
 
     return (
         <ScrollView contentContainerStyle={styles.mainCont}>
@@ -96,12 +103,31 @@ const SignUp = ({ route, navigation }) => {
 
                 <TextInput
                     style={styles.inputFields}
+                    placeholder="Name"
+                    placeholderTextColor={"#FFF"}
+                    value={name}
+                    onChangeText={setName}
+                    autoCapitalize="none"
+                />
+
+                <TextInput
+                    style={styles.inputFields}
+                    placeholder="Age"
+                    placeholderTextColor={"#FFF"}
+                    value={age}
+                    onChangeText={setAge}
+                    autoCapitalize="none"
+                />
+
+                <TextInput
+                    style={styles.inputFields}
                     placeholder="Username"
                     placeholderTextColor={"#FFF"}
                     value={username}
                     onChangeText={setUsername}
                     autoCapitalize="none"
                 />
+
                 <TextInput
                     style={styles.inputFields}
                     placeholder="Email"
@@ -110,14 +136,25 @@ const SignUp = ({ route, navigation }) => {
                     onChangeText={setEmail}
                     autoCapitalize="none"
                 />
-                <TextInput
-                    style={styles.inputFields}
-                    placeholder="Password"
-                    placeholderTextColor={"#FFF"}
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry
-                />
+
+                <View style={styles.passwordInputCont}>
+                    <TextInput
+                        style={styles.passwordInput}
+                        placeholder="Password"
+                        placeholderTextColor={"#FFF"}
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry={!isPasswordVisible}
+                    />
+                    <TouchableOpacity onPress={togglePasswordVisibility}>
+                        <MaterialIcons
+                            name={isPasswordVisible ? 'visibility' : 'visibility-off'}
+                            size={20}
+                            color='#FFF'
+                        />
+                    </TouchableOpacity>
+                </View>
+
 
                 <TouchableOpacity onPress={()=> setShow(true)} style={styles.birthBtn}> 
                     <Text style={dobString ? styles.birthDateTxt : styles.birthBtnTxt}>
@@ -240,6 +277,20 @@ const styles = StyleSheet.create({
         padding: 8,
         borderColor: '#FFF',
         color: '#FFF',
+        fontWeight: '800',
+    },
+    passwordInputCont: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderColor: '#FFF',
+        marginBottom: 20,
+        width: '90%',
+    },
+    passwordInput: {
+        flex: 1,
+        color: '#FFF',
+        padding: 8,
         fontWeight: '800',
     },
     birthBtn: {

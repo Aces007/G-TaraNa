@@ -1,8 +1,40 @@
-import { View, TouchableOpacity, TextInput, Text, Image, ImageBackground, StyleSheet, ScrollView } from 'react-native';
+import { View, TouchableOpacity, TextInput, Text, Image, ImageBackground, StyleSheet, ScrollView, Alert } from 'react-native';
 import React, {useState} from 'react';
+import { useAppContext } from '../AppContext';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 
 const Login = ({ route, navigation }) => {
     const [selected, setSelected] = useState('Login');
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const { logIn } = useAppContext();
+
+    const togglePasswordVisibility = () => {
+        setIsPasswordVisible(!isPasswordVisible);
+    };
+
+    const handleAuth = async () => {
+        if (!email || !password) {
+            Alert.alert("Please fill in the required fields.");
+            return;
+        }
+
+        if (password.length < 7) {
+            Alert.alert("Please enter a password with a minimum of 7 characters.");
+            return;
+        }
+
+        try {
+            await logIn(email, password);
+            navigation.navigate('mainTabs');
+        } catch (error) {
+            console.error('Login Error:', error);
+            Alert.alert("Error during log-in", error.message || "Invalid login credentials");
+        }
+    }
 
     return (
         <ScrollView contentContainerStyle={styles.mainCont}>
@@ -52,19 +84,30 @@ const Login = ({ route, navigation }) => {
                     style={styles.inputFields}
                     placeholder="Email"
                     placeholderTextColor={"#FFF"}
-                    // value={email}
-                    // onChangeText={setEmail}
+                    value={email}
+                    onChangeText={setEmail}
                     autoCapitalize="none"
                 />
-                <TextInput
-                    style={styles.inputFields}
-                    placeholder="Password"
-                    placeholderTextColor={"#FFF"}
-                    // value={password}
-                    // onChangeText={setPassword}
-                    secureTextEntry
-                />
-                <TouchableOpacity style={styles.loginBtn}>
+
+                <View style={styles.passwordInputCont}>
+                    <TextInput
+                        style={styles.passwordInput}
+                        placeholder="Password"
+                        placeholderTextColor={"#FFF"}
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry={!isPasswordVisible}
+                    />
+                    <TouchableOpacity onPress={togglePasswordVisibility}>
+                        <MaterialIcons
+                            name={isPasswordVisible ? 'visibility' : 'visibility-off'}
+                            size={20}
+                            color='#FFF'
+                        />
+                    </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity style={styles.loginBtn} onPress={handleAuth}>
                     <Text style={styles.loginBtnTxt}>{'Login'}</Text>
                 </TouchableOpacity>
             </View>
@@ -170,6 +213,20 @@ const styles = StyleSheet.create({
         padding: 8,
         borderColor: '#FFF',
         color: '#FFF',
+        fontWeight: '800',
+    },
+    passwordInputCont: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderColor: '#FFF',
+        marginBottom: 20,
+        width: '90%',
+    },
+    passwordInput: {
+        flex: 1,
+        color: '#FFF',
+        padding: 8,
         fontWeight: '800',
     },
     loginBtn: {

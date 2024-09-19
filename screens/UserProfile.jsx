@@ -1,11 +1,28 @@
+import React, {useEffect, useState} from 'react';
 import { View, TouchableOpacity, TouchableHighlight, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import { useAppContext } from '../AppContext';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Octicons from 'react-native-vector-icons/Octicons';
 
 const UserProfile = () => {
+    const [userName, setUserName] = useState('');
+    const [joinDate, setJoinDate] = useState('');
+    const [userAge, setUserAge] = useState('');
+    const { userId, fetchUserData } = useAppContext();
+
+    useEffect(() => {
+        console.log('userId in UserProfile:', userId);
+        const getUserData = async () => {
+            const userData = await fetchUserData(userId);
+            setUserName(userData.name);
+            setJoinDate(userData.created_at)
+            setUserAge(userData.age)
+        };
+
+        getUserData();
+    }, [userId]);
+
     return (
         <ScrollView contentContainerStyle={styles.mainCont}>
             <View style={styles.headerCont}>
@@ -22,16 +39,16 @@ const UserProfile = () => {
             <View style={styles.userProfileCont}>
                 <View style={styles.userProfLeft}>
                     <Image source={require('../assets/erus.jpg')} style={styles.userProfPic}/>
-                    <Text style={styles.userProfName}>User Name</Text>
+                    <Text style={styles.userProfName}>{userName}</Text>
                 </View>
                 <View style={styles.userProfRight}>
                     <TouchableOpacity style={styles.userAgeCont}>
                         <Text style={styles.userAgeLab}>Age</Text>
-                        <Text style={styles.userAge}>No. Years Old</Text>
+                        <Text style={styles.userAge}>{userAge}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.userJoinCont}>
                         <Text style={styles.userJoinLab}>Joined</Text>
-                        <Text style={styles.userJoin}>No. Year Ago</Text>
+                        <Text style={styles.userJoin}>{joinDate}</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -128,8 +145,9 @@ const styles = StyleSheet.create ({
         height: 120,
     },
     userProfName: {
+        width: '80%',
         color: '#fff',
-        fontSize: 25,
+        fontSize: 24,
         textTransform: 'uppercase',
         fontWeight: '800'
     },
