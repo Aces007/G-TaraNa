@@ -1,4 +1,6 @@
-import { View, TouchableOpacity, TouchableHighlight, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { View, TouchableOpacity, TouchableHighlight, Text, Image, StyleSheet, ScrollView, Alert } from 'react-native';
+import { useAppContext } from '../AppContext';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -6,7 +8,44 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Octicons from  'react-native-vector-icons/Octicons';
 
 
-const SettingsPage = () => {
+const SettingsPage = ({ navigation }) => {
+    const { logOut } = useAppContext();
+
+    const [userName, setUserName] = useState('');
+    const [userEmail, setUserEmail] = useState('');
+    const { userId, fetchUserData } = useAppContext();
+
+    useEffect(() => {
+        console.log('userId in UserProfile:', userId);
+        const getUserData = async () => {
+            const userData = await fetchUserData(userId);
+            setUserName(userData.name);
+            setUserEmail(userData.email)
+        };
+
+        getUserData();
+    }, [userId]);
+
+    const handleLogout = () => {
+        Alert.alert(
+          "Log Out", 
+          "Are you sure you want to log out?", 
+          [
+            {
+              text: "Cancel",
+              style: "cancel"
+            },
+            {
+              text: "Log Out",
+              onPress: async () => {
+                await logOut(),
+              navigation.navigate("userAccountScreen")
+              }
+            }
+          ]
+        );
+      };
+
     return (
         <ScrollView contentContainerStyle={styles.mainCont}>
             <View style={styles.headerCont}>
@@ -14,7 +53,7 @@ const SettingsPage = () => {
                     <Ionicons name='settings-outline' color={'#FFF'} size={25}/>
                     <Text style={styles.settingsTxt}>Settings</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.logoutCont}>
+                <TouchableOpacity style={styles.logoutCont} onPress={handleLogout}>
                     <AntDesign name='logout' color={'#000'} size={16}/>
                     <Text style={styles.logoutTxt}>Logout</Text>
                 </TouchableOpacity>
@@ -26,8 +65,8 @@ const SettingsPage = () => {
                 </View>
                 <View style={styles.userProfRight}>
                     <TouchableOpacity style={styles.userAgeCont}>
-                        <Text style={styles.userProfName}>User Name</Text>
-                        <Text style={styles.userNumber}>+63 955 874 9783</Text>
+                        <Text style={styles.userProfName}>{userName}</Text>
+                        <Text style={styles.userNumber}>{userEmail}</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -127,6 +166,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-evenly',
+        gap: 10,
         paddingHorizontal: 5,
         backgroundColor: '#1A2433',
         paddingVertical: 20,
@@ -151,13 +191,13 @@ const styles = StyleSheet.create({
     },
     userProfName: {
         color: '#fff',
-        fontSize: 25,
+        fontSize: 22,
         textTransform: 'uppercase',
         fontWeight: '800'
     },
     userNumber: {
         color: '#fff',
-        fontSize: 17,
+        fontSize: 15,
     },
     //#endregion User
 
