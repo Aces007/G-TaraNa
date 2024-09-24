@@ -15,6 +15,8 @@ import UserProfile from './screens/UserProfile';
 import SettingsPage from './screens/SettingsPage';
 import Login from './screens/Login';
 import SignUp from './screens/SignUp';
+import ManageUser from './screens/ManageUser';
+import UserProgress from './screens/UserProgress';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -96,6 +98,8 @@ function MainScreen() {
     <Stack.Navigator initialRouteName={userId ? 'mainTabs' : 'userAccountScreen'}>
       <Stack.Screen name="mainTabs" component={TabNavigator} options={{headerShown: false}}/>
       <Stack.Screen name="userAccountScreen" component={UserAccountManager} options={{headerShown: false}}/>
+      <Stack.Screen name="ManageUser" component={ManageUser} options={{headerShown: false}}/>
+      <Stack.Screen name="UserProgress" component={UserProgress} options={{headerShown: false}}/>
     </Stack.Navigator>
   )
 }
