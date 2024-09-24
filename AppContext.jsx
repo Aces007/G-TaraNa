@@ -5,7 +5,10 @@ const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
     const [userId, setUserId] = useState(null);
+    const [updatedData, setUpdatedData] = useState(null);
+    const [newPassword, setNewPassword] = useState(null);
 
+    //region Initial User Management Stage (SignUp, SignIn, FetchUserData)
     const signUp = async (email, username, name, age, password) => {
         try {
             const { data: signupData, error: authError } = await supabase.auth.signUp({ email, password });
@@ -93,7 +96,7 @@ export const AppProvider = ({ children }) => {
         try {
             const { data, error } = await supabase
                 .from('Users')
-                .select('name, age, email, created_at')
+                .select('name, age, username, email, created_at')
                 .eq('id', userId)
                 .single()
     
@@ -101,6 +104,7 @@ export const AppProvider = ({ children }) => {
     
             return {
                 name: data.name, 
+                username: data.username,
                 age: data.age, 
                 email: data.email, 
                 created_at: data.created_at}
@@ -110,14 +114,42 @@ export const AppProvider = ({ children }) => {
             return null;
         }
     };
-    
 
+    //endregion Initial User Management Stage (SignUp, SignIn, FetchUserData)
+    
+    //region User Management Modification 
+    const updateUserDetails = async ({ userId, updatedData }) => {
+        try {
+            const { data, error } = await supabase
+                .from('Users')
+                .update(updatedData)
+                .eq('id', userId)
+
+            if (error) throw error;
+
+            return data;
+        } catch (error) {
+            console.error('Error updating user details:', error.message);
+        }
+    }
+
+    const updatePassword = async (newPassword) => {
+        try {
+            const { error } = await supabase.auth.updateUser({ password: newPassword });
+            if (error) throw error;
+        } catch (error) {
+            console.error('Error updating user password:', error.message)
+        }
+    }
+    //endregion User Management Modification 
 
 
 
     return (
         <AppContext.Provider 
-            value={{userId, signUp, logIn, logOut, fetchUserData}}
+            value={{userId, updatedData, signUp, logIn, logOut, fetchUserData,
+                updateUserDetails, updatePassword
+            }}
         >
             {children}
         </AppContext.Provider>

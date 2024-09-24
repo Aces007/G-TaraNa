@@ -4,8 +4,9 @@ import { useAppContext } from '../AppContext';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const UserProfile = () => {
+const UserProfile = ({ navigation }) => {
     const [userName, setUserName] = useState('');
     const [joinDate, setJoinDate] = useState('');
     const [userAge, setUserAge] = useState('');
@@ -61,7 +62,17 @@ const UserProfile = () => {
                             <FontAwesome6 name='user' size={21} style={styles.manageSVG} />
                             <Text style={styles.manageUserTxt}>Manage User</Text>
                         </View>
-                        <TouchableOpacity style={styles.manageUserBtn}>
+                        <TouchableOpacity style={styles.manageUserBtn} onPress={() => navigation.navigate('ManageUser')}>
+                            <FontAwesome name='caret-right' size={30} style={styles.rightBtn}/>
+                        </TouchableOpacity>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.manageUserProgress}>
+                        <View style={styles.manageUserLeft}>
+                            <AntDesign name='areachart' size={21} style={styles.manageSVG} />
+                            <Text style={styles.manageUserTxt}>User Progress</Text>
+                        </View>
+                        <TouchableOpacity style={styles.manageUserBtn} onPress={() => navigation.navigate('UserProgress')}>
                             <FontAwesome name='caret-right' size={30} style={styles.rightBtn}/>
                         </TouchableOpacity>
                     </TouchableOpacity>
@@ -145,7 +156,7 @@ const styles = StyleSheet.create ({
         height: 120,
     },
     userProfName: {
-        width: '80%',
+        width: '100%',
         color: '#fff',
         fontSize: 24,
         textTransform: 'uppercase',
@@ -195,7 +206,7 @@ const styles = StyleSheet.create ({
         //#region Profile Menu
     profileMenu: {
         marginBottom: 20,
-        gap: 10,
+        gap: 20,
     },
     profileMenuLab: {
         color: '#fff',
@@ -208,6 +219,14 @@ const styles = StyleSheet.create ({
         display: 'flex',
         flexDirection: 'row',
         gap: 75,
+        alignItems: 'center'
+    },
+    manageUserProgress: {
+        paddingHorizontal: 15,
+        marginTop: 5,
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 68,
         alignItems: 'center'
     },
     manageUserLeft: {
