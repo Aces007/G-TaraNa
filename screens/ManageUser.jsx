@@ -2,10 +2,11 @@ import React, {useEffect, useState} from 'react';
 import { View, TouchableOpacity, TouchableHighlight, Text, TextInput, Image, StyleSheet, ScrollView, Alert } from 'react-native';
 import { useAppContext } from '../AppContext';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
 const ManageUser = ({ navigation }) => {
-    const { userId, fetchUserData, updateUserDetails } = useAppContext();
+    const { userId, fetchUserData, updateUserDetails, logOut } = useAppContext();
     const [name, setName] = useState('');
     const [username, setUserName] = useState('');
     const [age, setAge] = useState('');
@@ -61,12 +62,40 @@ const ManageUser = ({ navigation }) => {
         }
     };
 
+    const handleLogout = () => {
+        Alert.alert(
+          "Log Out", 
+          "Are you sure you want to log out?", 
+          [
+            {
+              text: "Cancel",
+              style: "cancel"
+            },
+            {
+              text: "Log Out",
+              onPress: async () => {
+                await logOut(),
+              navigation.navigate("userAccountScreen")
+                }
+            }
+            ]
+        );
+    };
+
     return (
         <ScrollView style={styles.mainCont}>
-            <TouchableOpacity style={styles.backBtn} onPress={() => navigation.navigate('User')}>
-                <Ionicons name='arrow-back' color="white" size={21} style={styles.manageSVG} />
-            </TouchableOpacity>
-            <Text style={styles.manageUserLabel}>Manage User Details</Text>
+            <View style={styles.headerCont}>
+                <TouchableOpacity style={styles.backBtn} onPress={() => navigation.navigate('User')}>
+                    <Ionicons name='arrow-back' color="white" size={21} style={styles.manageSVG} />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.logoutCont} onPress={handleLogout}>
+                    <AntDesign name='logout' color={'#000'} size={16}/>
+                    <Text style={styles.logoutTxt}>Logout</Text>
+                </TouchableOpacity>
+            </View>
+
+
+            <Text style={styles.manageUserLabel}>Manage User</Text>
 
             <View style={styles.infoCont}>
                 <View style={styles.basicInfo}>
@@ -97,13 +126,21 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         backgroundColor: '#0a0f1b',
         padding: 20,
-        paddingTop: 40,
+        paddingTop: 45,
     },
     manageSVG: {
         padding: 7.5,
         width: 40,
         height: 40,
         textAlign: 'center'
+    },
+    headerCont: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: 30,
+        marginBottom: 5,
     },
     manageUserLabel: {
         color: '#FFF',
@@ -112,17 +149,37 @@ const styles = StyleSheet.create({
         textTransform: 'uppercase',
         textAlign: 'center',
         marginTop: 20,
-        marginBottom: 15,
+        marginBottom: 25,
     },
     infoCont: {
         display: 'flex',
         gap: 50,
         justifyContent: 'space-evenly',
         paddingHorizontal: 25,
-        backgroundColor: '#1A2433',
+        backgroundColor: '#001d3d',
         paddingVertical: 30,
         borderRadius: 10,  
     },
+
+    //#region Logout
+    logoutCont: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        backgroundColor: '#A8F94F',
+        width: 95,
+        height: 30,
+        borderRadius: 5,
+        gap: 10,
+    },
+    logoutTxt: {
+        color: '#000',
+        fontSize: 14,
+        fontWeight: '800',
+        textTransform: 'uppercase',
+    },
+    //#endregion Logout
 
     //#region Basic Information
     basicInfo: {
