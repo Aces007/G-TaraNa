@@ -40,11 +40,11 @@ const SettingsPage = ({ navigation }) => {
               onPress: async () => {
                 await logOut(),
               navigation.navigate("userAccountScreen")
-              }
             }
-          ]
-        );
-      };
+        }
+        ]
+    );
+    };
 
     return (
         <ScrollView contentContainerStyle={styles.mainCont}>
