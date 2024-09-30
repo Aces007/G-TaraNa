@@ -17,48 +17,53 @@ const ManageUser = ({ navigation }) => {
         console.log('userId in UserProfile:', userId);
         const getUserData = async () => {
             const userData = await fetchUserData(userId);
-            setName(userData.name);
-            setUserName(userData.username);
-            setAge(userData.age);
             setEmail(userData.email)
+            setUserName(userData.username);
+            setName(userData.name);
+            setAge(userData.age);
         };
 
         getUserData();
     }, [userId]);
 
     const handleUpdate = async () => {
-        const initialData = { 
+        console.log("Update Btn pressed.")
+
+        const initialData = {
             email: email.trim(),
-            username: username.trim(), 
-            name: name.trim(), 
-            age: age? age : null, 
+            username: username.trim(),
+            name: name.trim(),
+            age: age ? age : null,
         };
 
-        updatedData = Object.fromEntries(
+        const updatedData = Object.fromEntries(
             Object.entries(initialData).filter(([_, v]) => v != null && v !== '')
         );
-        
-        if (Object.keys(updatedData).length === 0) {
+
+        if (Object.keys(updatedData).length === 0 && !password.trim()) {
             Alert.alert('Nothing to update');
             return;
         }
 
-        
         try {
-            console.log("Current Input:", updatedData);
-            const result = await updateUserDetails(userId, updatedData);
-            if (result) {
-                Alert.alert('Success, user details updated!')
+            // Log the current input for debugging
+            console.log('Current Input:', updatedData);
+    
+            // If user details are present, update them
+            if (Object.keys(updatedData).length > 0) {
+                const result = await updateUserDetails(userId, updatedData);
+                Alert.alert('Success, user details updated!');
             } else {
-                Alert.alert('Error, user details failed to update.')
+                Alert.alert('Error, user details failed to update.');
+                console.log('Update result:', result);
             }
-
+    
+            // If the password is provided, update it
             if (password.trim()) {
                 await updatePassword(password);
-                Alert.alert('Password updated successfully!');
             }
         } catch (error) {
-            console.error('Error updating user details:', error.message);
+            console.error('Error updating user details or password:', error.message);
         }
     };
 

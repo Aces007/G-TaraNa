@@ -7,10 +7,10 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const UserProfile = ({ navigation }) => {
+    const { userId, fetchUserData } = useAppContext();
     const [userName, setUserName] = useState('');
     const [joinDate, setJoinDate] = useState('');
     const [userAge, setUserAge] = useState('');
-    const { userId, fetchUserData } = useAppContext();
 
     useEffect(() => {
         console.log('userId in UserProfile:', userId);
@@ -137,7 +137,8 @@ const styles = StyleSheet.create ({
     userProfileCont: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
+        justifyContent: 'center',
+        gap: 10,
         paddingHorizontal: 5,
         backgroundColor: '#1A2433',
         paddingVertical: 20,
@@ -156,7 +157,7 @@ const styles = StyleSheet.create ({
         height: 120,
     },
     userProfName: {
-        width: '100%',
+        width: '95%',
         color: '#fff',
         fontSize: 24,
         textTransform: 'uppercase',
@@ -165,7 +166,7 @@ const styles = StyleSheet.create ({
     userProfRight: {
         display: 'flex',
         alignItems: 'flex-start',
-        gap: 20,
+        gap: 40,
         marginTop: 15,
     },
     userAgeCont: {

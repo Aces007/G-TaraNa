@@ -118,12 +118,12 @@ export const AppProvider = ({ children }) => {
     //endregion Initial User Management Stage (SignUp, SignIn, FetchUserData)
     
     //region User Management Modification 
-    const updateUserDetails = async ({ userId, updatedData }) => {
+    const updateUserDetails = async (userId, updatedData) => {
         try {
             const { data, error } = await supabase
                 .from('Users')
                 .update(updatedData)
-                .eq('id', userId)
+                .eq('id', userId);
 
             if (error) throw error;
 
@@ -137,6 +137,7 @@ export const AppProvider = ({ children }) => {
         try {
             const { error } = await supabase.auth.updateUser({ password: newPassword });
             if (error) throw error;
+            
         } catch (error) {
             console.error('Error updating user password:', error.message)
         }
