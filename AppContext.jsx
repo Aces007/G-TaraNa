@@ -68,9 +68,11 @@ export const AppProvider = ({ children }) => {
             console.log('Login successful, User ID:', user.id);
 
             setUserId(user.id);
+            return true;
 
         } catch (error) {
             console.error('Error during Login:', error.message);
+            return false;
         }
     };
 
