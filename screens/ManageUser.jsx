@@ -3,6 +3,7 @@ import { View, TouchableOpacity, TouchableHighlight, Text, TextInput, Image, Sty
 import { useAppContext } from '../AppContext';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 
 const ManageUser = ({ navigation }) => {
@@ -12,6 +13,9 @@ const ManageUser = ({ navigation }) => {
     const [age, setAge] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [joinDate, setJoinDate] = useState('');
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    
 
     useEffect(() => {
         console.log('userId in UserProfile:', userId);
@@ -21,10 +25,15 @@ const ManageUser = ({ navigation }) => {
             setUserName(userData.username);
             setName(userData.name);
             setAge(userData.age);
+            setJoinDate(userData.created_at)
         };
 
         getUserData();
     }, [userId]);
+
+    const togglePasswordVisibility = () => {
+        setIsPasswordVisible(!isPasswordVisible);
+    };
 
     const handleUpdate = async () => {
         console.log("Update Btn pressed.")
@@ -103,17 +112,51 @@ const ManageUser = ({ navigation }) => {
             <Text style={styles.manageUserLabel}>Manage User</Text>
 
             <View style={styles.infoCont}>
-                <View style={styles.basicInfo}>
-                    <Text style={styles.basicInfoLabel}>User Basic Information</Text>
-                    <TextInput placeholder='Name' placeholderTextColor={'#FFF'} value={name} onChangeText={setName} style={styles.nameInput}/>
-                    <TextInput placeholder='UserName' placeholderTextColor={'#FFF'} value={username} onChangeText={setUserName} style={styles.usernameInput}/>
-                    <TextInput placeholder='Age' placeholderTextColor={'#FFF'} value={age} onChangeText={setAge} style={styles.ageInput}/>
+                <Text style={styles.basicInfoLabel}>User Basic Information</Text>
+                <View style={styles.infoContainer}>
+                    <View style={styles.profilePic}>
+                        <Image source={require('../assets/erus.jpg')} style={styles.userProfPic}/>
+                        <View style={styles.joinDateCont}>
+                            <Text style={styles.userJoin}>{joinDate}</Text>
+                            <Text style={styles.userJoinLab}>Join Date</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.basicInfo}>
+                        <>
+                            <TextInput placeholder='Name' placeholderTextColor={'#FFF'} value={name} onChangeText={setName} style={styles.infoInput}/>
+                            <Text style={styles.infoLabel}>Name</Text>
+                        </>
+                        <>
+                            <TextInput placeholder='UserName' placeholderTextColor={'#FFF'} value={username} onChangeText={setUserName} style={styles.infoInput}/>
+                            <Text style={styles.infoLabel}>Username</Text>
+                        </>
+                        <>
+                            <TextInput placeholder='Age' placeholderTextColor={'#FFF'} value={age} onChangeText={setAge} style={styles.infoInput}/>
+                            <Text style={styles.infoLabel}>Age</Text>
+                        </>
+                    </View>
                 </View>
 
                 <View style={styles.emailPassword}>
                     <Text style={styles.emailPassLabel}>Email & Password</Text>
-                    <TextInput placeholder='Email' placeholderTextColor={'#FFF'} value={email} onChangeText={setEmail} style={styles.emailInput}/>
-                    <TextInput placeholder='Password' placeholderTextColor={'#FFF'} value={password} onChangeText={setPassword} style={styles.passwordInput}/>
+                    <>
+                        <TextInput placeholder='Email' placeholderTextColor={'#FFF'} value={email} onChangeText={setEmail} style={styles.emailInput}/>
+                        <Text style={styles.infoLabel}>Email</Text>
+                    </>
+                    <View style={styles.passwordInputCont}>
+                        <View style={styles.passwordCont}>
+                            <TextInput placeholder='Password' placeholderTextColor={'#FFF'} value={password} onChangeText={setPassword} style={styles.passwordInput} secureTextEntry={!isPasswordVisible} />
+                            <Text style={styles.infoLabel}>Password</Text>
+                        </View>
+                        <TouchableOpacity onPress={togglePasswordVisibility} style={styles.visibilityBtn}>
+                            <MaterialIcons
+                                name={isPasswordVisible ? 'visibility' : 'visibility-off'}
+                                size={20}
+                                color='#FFF'
+                            />
+                        </TouchableOpacity>
+                    </View>
                 </View>
 
                 <TouchableOpacity onPress={handleUpdate} style={styles.updateBtn}
@@ -127,6 +170,7 @@ const ManageUser = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
+    //#region Main Preferences
     mainCont: {
         flexGrow: 1,
         backgroundColor: '#0a0f1b',
@@ -158,13 +202,21 @@ const styles = StyleSheet.create({
     },
     infoCont: {
         display: 'flex',
-        gap: 50,
+        gap: 30,
         justifyContent: 'space-evenly',
         paddingHorizontal: 25,
         backgroundColor: '#001d3d',
         paddingVertical: 30,
+        marginBottom: 100,
         borderRadius: 10,  
     },
+    infoContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        gap: 25,
+    },
+    //#endregion Main Preferences
 
     //#region Logout
     logoutCont: {
@@ -186,26 +238,44 @@ const styles = StyleSheet.create({
     },
     //#endregion Logout
 
-    //#region Basic Information
+    //#region Profile Pic Container && Basic Information 
+    profilePic: {
+        display: 'flex',
+        gap: 30,
+        marginTop: 10,
+    },
     basicInfo: {
         display: 'flex',
-        gap: 20,
+        gap: 10,
+        justifyContent: 'flex-end',
     },
     basicInfoLabel: {
         color: '#FFF',
         fontSize: 18,
         fontWeight: '800',
+        textAlign: 'center',
     },
-    nameInput: {
-        borderWidth: 2,
-        borderColor: '#FFF',
-        padding: 5,
-        paddingHorizontal: 10,
-        color: '#FFF',
-        fontWeight: '700',
-        borderRadius: 10,
+    userProfPic: {
+        borderWidth: 1,
+        borderColor: '#fff',
+        borderRadius: 60,
+        width: 110,
+        height: 110,
     },
-    usernameInput: {
+    joinDateCont: {
+        gap: 5,
+    },
+    userJoinLab: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: '800',
+        textTransform: 'uppercase'
+    },
+    userJoin: {
+        color: '#fff',
+        fontSize: 17,
+    },
+    infoInput: {
         borderWidth: 2,
         borderColor: '#FFF',
         padding: 5,
@@ -213,27 +283,28 @@ const styles = StyleSheet.create({
         color: '#FFF',
         fontWeight: '700',
         borderRadius: 10,
-    },  
-    ageInput: {
-        borderWidth: 2,
-        borderColor: '#FFF',
-        padding: 5,
-        paddingHorizontal: 10,
-        color: '#FFF',
-        fontWeight: '700',
-        borderRadius: 10,
+        fontSize: 17,
+        width: 140,
+    },
+    infoLabel: {
+        color: '#fff',
+        fontWeight: '800',
+        textTransform: 'uppercase',
+        fontSize: 14,
+        marginLeft: 5
     },
     //#endregion Basic Information
 
     //#region Email & Password 
     emailPassword: {
         display: 'flex',
-        gap: 20,
+        gap: 15,
     },
     emailPassLabel: {
         color: '#FFF',
         fontSize: 18,
         fontWeight: '800',
+        textAlign: 'center'
     },
     emailInput: {
         borderWidth: 2,
@@ -242,7 +313,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         color: '#FFF',
         fontWeight: '700',
+        fontSize: 17,
         borderRadius: 10,
+    },
+    passwordCont: {
+        display: 'flex',
+        gap: 15,
     },
     passwordInput: {
         borderWidth: 2,
@@ -251,7 +327,19 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         color: '#FFF',
         fontWeight: '700',
+        fontSize: 17,
         borderRadius: 10,
+        width: 270,
+    },
+    passwordInputCont: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    visibilityBtn: {
+        position: 'relative',
+        left: -30,
+        top: -15
     },
     //#endregion Email & Password 
 
