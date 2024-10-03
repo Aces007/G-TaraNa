@@ -27,12 +27,13 @@ const Login = ({ route, navigation }) => {
             return;
         }
 
-        try {
-            await logIn(email, password);
+        const isLoginCorrect = await logIn(email, password);
+
+        if (isLoginCorrect) {
             navigation.navigate('mainTabs');
-        } catch (error) {
-            console.error('Login Error:', error);
-            Alert.alert("Error during log-in", error.message || "Invalid login credentials");
+        }
+        else {
+            Alert.alert("Error during Log-in", "Invalid login credentials");
         }
     }
 
