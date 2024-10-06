@@ -98,7 +98,7 @@ export const AppProvider = ({ children }) => {
         try {
             const { data, error } = await supabase
                 .from('Users')
-                .select('name, age, username, email, created_at')
+                .select('name, age, username, email, created_at, profile_picture')
                 .eq('id', userId)
                 .single()
     
@@ -109,7 +109,9 @@ export const AppProvider = ({ children }) => {
                 username: data.username,
                 age: data.age, 
                 email: data.email, 
-                created_at: data.created_at}
+                created_at: data.created_at,
+                profile_picture: data.profile_picture
+            }
         
         } catch (error) {
             console.error('Error fetching user data:', error.message);
@@ -146,12 +148,69 @@ export const AppProvider = ({ children }) => {
     }
     //endregion User Management Modification 
 
+    //region Profile Picture Upload
+    const uploadProfilePicture = async (userId, imageUri) => {
+        try {
+            
+            const fileExt = imageUri.split('.').pop();
+            const fileName = `${userId}-${Date.now()}.${fileExt}`; 
+    
+            
+            const { data: storageData, error: storageError } = await supabase
+                .storage
+                .from('ProfilePictures')
+                .upload(fileName, {
+                    uri: imageUri,  
+                    type: `image/${fileExt}`,
+                    name: fileName
+                });
+    
+            if (storageError) {
+                console.error('Storage Error: Failed to upload profile picture:', storageError.message);
+                throw storageError;
+            }
+    
+    
+            const { data: publicUrlData, error: publicUrlError } = await supabase
+                .storage
+                .from('ProfilePictures')
+                .getPublicUrl(fileName);
+    
+            if (publicUrlError || !publicUrlData?.publicUrl) {
+                console.error('Error fetching public URL:', publicUrlError?.message);
+                throw publicUrlError;
+            }
+    
+            const publicUrl = publicUrlData.publicUrl;
+    
+            
+            const { error: updateError } = await supabase
+                .from('Users')
+                .update({ profile_picture: publicUrl }) 
+                .eq('id', userId);
+    
+            if (updateError) {
+                console.error('Database Error: Failed to update user profile:', updateError.message);
+                throw updateError;
+            }
+    
+            console.log('Profile picture successfully uploaded and updated.');
+            return publicUrl;
+    
+        } catch (error) {
+            console.error('Error uploading profile picture:', error.message);
+            throw error;
+        }
+    };
+    
+    //endregion Profile Picture Upload
+
 
 
     return (
         <AppContext.Provider 
             value={{userId, updatedData, signUp, logIn, logOut, fetchUserData,
-                updateUserDetails, updatePassword
+                updateUserDetails, updatePassword, uploadProfilePicture
             }}
         >
             {children}

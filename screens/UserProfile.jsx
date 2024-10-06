@@ -11,6 +11,7 @@ const UserProfile = ({ navigation }) => {
     const [userName, setUserName] = useState('');
     const [joinDate, setJoinDate] = useState('');
     const [userAge, setUserAge] = useState('');
+    const [profilePic, setProfPic] = useState('');
 
     useEffect(() => {
         console.log('userId in UserProfile:', userId);
@@ -19,6 +20,7 @@ const UserProfile = ({ navigation }) => {
             setUserName(userData.name);
             setJoinDate(userData.created_at)
             setUserAge(userData.age)
+            setProfPic(userData.profile_picture)
         };
 
         getUserData();
@@ -39,7 +41,7 @@ const UserProfile = ({ navigation }) => {
 
             <View style={styles.userProfileCont}>
                 <View style={styles.userProfLeft}>
-                    <Image source={require('../assets/erus.jpg')} style={styles.userProfPic}/>
+                    <Image source={profilePic ? {uri: profilePic} : require('../assets/erus.jpg')} style={styles.userProfPic}/>
                     <Text style={styles.userProfName}>{userName}</Text>
                 </View>
                 <View style={styles.userProfRight}>

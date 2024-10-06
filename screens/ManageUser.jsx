@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { View, TouchableOpacity, TouchableHighlight, Text, TextInput, Image, StyleSheet, ScrollView, Alert } from 'react-native';
 import { useAppContext } from '../AppContext';
+import { launchImageLibrary } from 'react-native-image-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -15,6 +16,8 @@ const ManageUser = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [joinDate, setJoinDate] = useState('');
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [profilePic, setProfPic] = useState('');
+
     
 
     useEffect(() => {
@@ -96,6 +99,24 @@ const ManageUser = ({ navigation }) => {
         );
     };
 
+    const selectProfilePicture = () => {
+        const options = {
+            mediaType: 'photo',
+        };
+    
+        launchImageLibrary(options, async (response) => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else {
+                const imageUri = response.assets[0].uri;
+                const imageUrl = await uploadProfilePicture(userId, imageUri);
+                setProfPic(imageUrl);  
+            }
+        });
+    };
+
     return (
         <ScrollView style={styles.mainCont}>
             <View style={styles.headerCont}>
@@ -115,7 +136,9 @@ const ManageUser = ({ navigation }) => {
                 <Text style={styles.basicInfoLabel}>User Basic Information</Text>
                 <View style={styles.infoContainer}>
                     <View style={styles.profilePic}>
-                        <Image source={require('../assets/erus.jpg')} style={styles.userProfPic}/>
+                        <TouchableOpacity onPress={selectProfilePicture}> 
+                            <Image source={profilePic ? { uri: profilePic } : require('../assets/erus.jpg')} style={styles.userProfPic}/>
+                        </TouchableOpacity>
                         <View style={styles.joinDateCont}>
                             <Text style={styles.userJoin}>{joinDate}</Text>
                             <Text style={styles.userJoinLab}>Join Date</Text>
