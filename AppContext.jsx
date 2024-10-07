@@ -153,7 +153,7 @@ export const AppProvider = ({ children }) => {
         try {
             
             const fileExt = imageUri.split('.').pop();
-            const fileName = `${userId}-${Date.now()}.${fileExt}`; 
+            const fileName = `users/${userId}/${userId}-${Date.now()}.${fileExt}`; 
     
             
             const { data: storageData, error: storageError } = await supabase
@@ -162,7 +162,7 @@ export const AppProvider = ({ children }) => {
                 .upload(fileName, {
                     uri: imageUri,  
                     type: `image/${fileExt}`,
-                    name: fileName
+                    name: fileName,
                 });
     
             if (storageError) {
