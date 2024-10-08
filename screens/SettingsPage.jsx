@@ -9,11 +9,10 @@ import Octicons from  'react-native-vector-icons/Octicons';
 
 
 const SettingsPage = ({ navigation }) => {
-    const { logOut } = useAppContext();
-
+    const { logOut, userId, fetchUserData } = useAppContext();
     const [userName, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');
-    const { userId, fetchUserData } = useAppContext();
+    const [profilePic, setProfPic] = useState('');
 
     useEffect(() => {
         console.log('userId in UserProfile:', userId);
@@ -21,6 +20,7 @@ const SettingsPage = ({ navigation }) => {
             const userData = await fetchUserData(userId);
             setUserName(userData.name);
             setUserEmail(userData.email)
+            setProfPic(userData.profile_picture)
         };
 
         getUserData();
@@ -61,7 +61,7 @@ const SettingsPage = ({ navigation }) => {
 
             <View style={styles.userProfileCont}>
                 <View style={styles.userProfLeft}>
-                    <Image source={require('../assets/erus.jpg')} style={styles.userProfPic}/>
+                    <Image source={profilePic ? {uri: profilePic} : require('../assets/erus.jpg')} style={styles.userProfPic}/>
                 </View>
                 <View style={styles.userProfRight}>
                     <TouchableOpacity style={styles.userAgeCont}>

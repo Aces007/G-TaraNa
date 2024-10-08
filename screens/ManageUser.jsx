@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import { View, TouchableOpacity, TouchableHighlight, Text, TextInput, Image, StyleSheet, ScrollView, Alert } from 'react-native';
+import { View, TouchableOpacity, TouchableHighlight, Text, TextInput, Image, StyleSheet, ScrollView, Alert, Platform } from 'react-native';
 import { useAppContext } from '../AppContext';
-import { launchImageLibrary } from 'react-native-image-picker';
+import * as ImagePicker from 'expo-image-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 
 const ManageUser = ({ navigation }) => {
-    const { userId, fetchUserData, updateUserDetails, logOut } = useAppContext();
+    const { userId, fetchUserData, updateUserDetails, logOut, uploadProfilePicture  } = useAppContext();
     const [name, setName] = useState('');
     const [username, setUserName] = useState('');
     const [age, setAge] = useState('');
@@ -29,6 +29,7 @@ const ManageUser = ({ navigation }) => {
             setName(userData.name);
             setAge(userData.age);
             setJoinDate(userData.created_at)
+            setProfPic(userData.profile_picture)
         };
 
         getUserData();
@@ -99,22 +100,23 @@ const ManageUser = ({ navigation }) => {
         );
     };
 
-    const selectProfilePicture = () => {
-        const options = {
-            mediaType: 'photo',
-        };
-    
-        launchImageLibrary(options, async (response) => {
-            if (response.didCancel) {
-                console.log('User cancelled image picker');
-            } else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
-            } else {
-                const imageUri = response.assets[0].uri;
+    const selectProfilePicture = async () => {
+        try {
+            const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [1, 1],
+                quality: 1,
+            });
+
+            if (!result.canceled) {
+                const imageUri = result.assets[0].uri;
                 const imageUrl = await uploadProfilePicture(userId, imageUri);
-                setProfPic(imageUrl);  
+                setProfPic(imageUrl);
             }
-        });
+        } catch (error) {
+            console.error('Error selecting image:', error);
+        }
     };
 
     return (
@@ -136,8 +138,10 @@ const ManageUser = ({ navigation }) => {
                 <Text style={styles.basicInfoLabel}>User Basic Information</Text>
                 <View style={styles.infoContainer}>
                     <View style={styles.profilePic}>
-                        <TouchableOpacity onPress={selectProfilePicture}> 
-                            <Image source={profilePic ? { uri: profilePic } : require('../assets/erus.jpg')} style={styles.userProfPic}/>
+                        <Image source={profilePic ? { uri: profilePic } : require('../assets/erus.jpg')} style={styles.userProfPic}/>
+                        <TouchableOpacity onPress={selectProfilePicture} style={styles.uploadBtnCont}> 
+                            <AntDesign name='clouduploado' color={'#000'} size={16} />
+                            <Text style={styles.uploadBtn}>Upload</Text>
                         </TouchableOpacity>
                         <View style={styles.joinDateCont}>
                             <Text style={styles.userJoin}>{joinDate}</Text>
@@ -216,7 +220,7 @@ const styles = StyleSheet.create({
     },
     manageUserLabel: {
         color: '#FFF',
-        fontSize: 25,
+        fontSize: 28,
         fontWeight: '800',
         textTransform: 'uppercase',
         textAlign: 'center',
@@ -264,8 +268,7 @@ const styles = StyleSheet.create({
     //#region Profile Pic Container && Basic Information 
     profilePic: {
         display: 'flex',
-        gap: 30,
-        marginTop: 10,
+        gap: 15,
     },
     basicInfo: {
         display: 'flex',
@@ -274,7 +277,7 @@ const styles = StyleSheet.create({
     },
     basicInfoLabel: {
         color: '#FFF',
-        fontSize: 18,
+        fontSize: 24,
         fontWeight: '800',
         textAlign: 'center',
     },
@@ -284,6 +287,24 @@ const styles = StyleSheet.create({
         borderRadius: 60,
         width: 110,
         height: 110,
+    },
+    uploadBtnCont: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        backgroundColor: '#A8F94F',
+        width: 95,
+        height: 30,
+        borderRadius: 5,
+        gap: 5,
+    },
+    uploadBtn: {
+        color: '#000',
+        fontSize: 14,
+        fontWeight: '800',
+        textTransform: 'uppercase',
+        borderRadius: 5,
     },
     joinDateCont: {
         gap: 5,
@@ -325,9 +346,8 @@ const styles = StyleSheet.create({
     },
     emailPassLabel: {
         color: '#FFF',
-        fontSize: 18,
+        fontSize: 22,
         fontWeight: '800',
-        textAlign: 'center'
     },
     emailInput: {
         borderWidth: 2,

@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     },
     progressLabel: {
         color: '#FFF',
-        fontSize: 25,
+        fontSize: 28,
         textTransform: 'uppercase',
         fontWeight: '800',
         textAlign: 'center',
