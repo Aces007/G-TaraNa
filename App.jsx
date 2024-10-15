@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { AppProvider, useAppContext } from "./AppContext"; 
+import { ThemeProvider, useTheme } from './ThemeContext';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -17,6 +18,8 @@ import Login from './screens/Login';
 import SignUp from './screens/SignUp';
 import ManageUser from './screens/ManageUser';
 import UserProgress from './screens/UserProgress';
+import ThemePicker from './screens/ThemePicker';
+import CreditsPage from './screens/CreditsPage';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -88,7 +91,8 @@ function UserAccountManager() {
 }
 
 function MainScreen() {
-  const {userId, loading } = useAppContext();
+  const { userId, loading } = useAppContext();
+  const { currentTheme } = useTheme();
 
   if (loading) {
     return <SplashScreen />;
@@ -100,16 +104,20 @@ function MainScreen() {
       <Stack.Screen name="userAccountScreen" component={UserAccountManager} options={{headerShown: false}}/>
       <Stack.Screen name="ManageUser" component={ManageUser} options={{headerShown: false}}/>
       <Stack.Screen name="UserProgress" component={UserProgress} options={{headerShown: false}}/>
+      <Stack.Screen name="ThemePicker" component={ThemePicker} options={{headerShown: false}}/>
+      <Stack.Screen name="CreditsPage" component={CreditsPage} options={{headerShown: false}}/>
     </Stack.Navigator>
   )
 }
 
 export default function App() {
   return (
-    <AppProvider>
-      <NavigationContainer>
-        <MainScreen />
-      </NavigationContainer>
-    </AppProvider>
+    <ThemeProvider>
+      <AppProvider>
+        <NavigationContainer>
+          <MainScreen />
+        </NavigationContainer>
+      </AppProvider>
+    </ThemeProvider>
   );
 }

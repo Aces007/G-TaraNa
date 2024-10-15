@@ -1,5 +1,6 @@
 ├── @babel/core@7.25.2
 ├── @expo-google-fonts/roboto@0.2.3
+├── @react-native-async-storage/async-storage@2.0.0
 ├── @react-native-community/datetimepicker@8.2.0 (git+ssh://git@github.com/react-native-community/datetimepicker.git#aef382a71df344d3847fe60ca8795bcdbd952b8e)
 ├── @react-navigation/bottom-tabs@6.6.1
 ├── @react-navigation/native@6.1.18
