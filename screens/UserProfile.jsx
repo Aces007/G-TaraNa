@@ -7,6 +7,7 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const UserProfile = ({ navigation }) => {
+    // App Contexts
     const { userId, fetchUserData } = useAppContext();
     const [userName, setUserName] = useState('');
     const [joinDate, setJoinDate] = useState('');

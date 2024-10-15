@@ -74,38 +74,29 @@ const SettingsPage = ({ navigation }) => {
             <View style={styles.userSettings}>
                 <View style={styles.generalMenu}>
                     <Text style={styles.generalLabel}>General</Text>
-                    <TouchableOpacity style={styles.sectionContent}>
-                        <View style={styles.manageSection}>
+                    <View style={styles.sectionContent}>
+                        <TouchableOpacity style={styles.manageSection} onPress={() => navigation.navigate('ThemePicker')}>
                             <Octicons name='paintbrush' size={21} style={styles.manageSVG} />
                             <Text style={styles.btnTxt}>Theme</Text>
-                        </View>
-                        <View style={styles.manageSection}>
-                            <Ionicons name='language' size={21} style={styles.manageSVG} />
-                            <Text style={styles.btnTxt}>Language</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.personalizationMenu}>
-                    <Text style={styles.personalizationLabel}>Personalization</Text>
-                    <TouchableOpacity style={styles.sectionContent}>
-                        <View style={styles.manageSection}>
-                            <FontAwesome name='gears' size={21} style={styles.manageSVG} />
-                            <Text style={styles.btnTxt}>Preferences</Text>
-                        </View>
-                    </TouchableOpacity>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.manageSection} onPress={() => navigation.navigate('ThemePicker')}>
+                            <Ionicons name='notifications-outline' size={21} style={styles.manageSVG} />
+                            <Text style={styles.btnTxt}>Notifications</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 <View style={styles.supportMenu}>
                     <Text style={styles.supportLabel}>Support</Text>
-                    <TouchableOpacity style={styles.sectionContent}>
-                        <View style={styles.manageSection}>
-                            <FontAwesome name='exclamation' size={21} style={styles.manageSVG} />
-                            <Text style={styles.btnTxt}>Report</Text>
-                        </View>
-                        <View style={styles.manageSection}>
+                    <View style={styles.sectionContent}>
+                        <TouchableOpacity style={styles.manageSection} onPress={() => navigation.navigate('CreditsPage')}>
+                            <FontAwesome name='trademark' size={21} style={styles.manageSVG} />
+                            <Text style={styles.btnTxt}>Credits</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.manageSection}>
                             <Entypo name='documents' size={21} style={styles.manageSVG} />
                             <Text style={styles.btnTxt}>FAQs</Text>
-                        </View>
-                    </TouchableOpacity>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
 
@@ -257,18 +248,6 @@ const styles = StyleSheet.create({
         borderRadius: 60,
     },
     //#endregion General Menu
-
-    //#region Personalization Menu
-    personalizationMenu: {
-        marginBottom: 20,
-        gap: 10,
-    },
-    personalizationLabel: {
-        color: '#fff',
-        fontWeight: '800',
-        fontSize: 25,
-    },
-    //#endregion Personalization Menu
     
     //#region Support Menu
     supportMenu: {
