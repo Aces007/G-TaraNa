@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTheme } from '../ThemeContext';
 
 const ThemePicker = ({ navigation }) => {
-    const { isDarkMode, toggleTheme } = useTheme();
+    const { isDarkMode, toggleTheme, currentTheme } = useTheme();
     const [selectedTheme, setSelectedTheme] = useState(isDarkMode ? 'dark' : 'light');
 
     useEffect(() => {
@@ -47,9 +47,9 @@ const ThemePicker = ({ navigation }) => {
                         <Ionicons
                             name={selectedTheme === 'dark' ? 'radio-button-on' : 'radio-button-off'}
                             size={24}
-                            color={'#FFF'}
+                            color={currentTheme.textColor}
                         />
-                        <Text style={styles.radioLabel}>Dark Mode</Text>
+                        <Text style={[styles.radioLabel, {color: currentTheme.textColor}]}>Dark Mode</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.radioBtn}
@@ -58,9 +58,9 @@ const ThemePicker = ({ navigation }) => {
                         <Ionicons
                             name={selectedTheme === 'light' ? 'radio-button-on' : 'radio-button-off'}
                             size={24}
-                            color={'#FFF'}
+                            color={currentTheme.textColor}
                         />
-                        <Text style={styles.radioLabel}>Light Mode</Text>
+                        <Text style={[styles.radioLabel, {color: currentTheme.textColor}]}>Light Mode</Text>
                     </TouchableOpacity>
                 </View>
 

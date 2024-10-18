@@ -79,7 +79,7 @@ const SettingsPage = ({ navigation }) => {
                             <Octicons name='paintbrush' size={21} style={styles.manageSVG} />
                             <Text style={styles.btnTxt}>Theme</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.manageSection} onPress={() => navigation.navigate('ThemePicker')}>
+                        <TouchableOpacity style={styles.manageSection} onPress={() => navigation.navigate('')}>
                             <Ionicons name='notifications-outline' size={21} style={styles.manageSVG} />
                             <Text style={styles.btnTxt}>Notifications</Text>
                         </TouchableOpacity>
