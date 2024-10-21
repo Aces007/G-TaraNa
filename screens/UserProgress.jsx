@@ -1,18 +1,33 @@
 import React, {useEffect, useState} from 'react';
+import { View, TouchableOpacity, TouchableHighlight, Text, TextInput, Image, StyleSheet, ScrollView, Alert, Animated } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { useAppContext } from '../AppContext';
-import { View, TouchableOpacity, TouchableHighlight, Text, TextInput, Image, StyleSheet, ScrollView, Alert, Animated } from 'react-native';
+import { useTheme } from '../ThemeContext';
+import { FlatList } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
-import { FlatList } from 'react-native-gesture-handler';
 
 const UserProgress = ({ navigation }) => {
     const [selectedDate, setSelectedDate] = useState(moment());
     const [weekDays, setWeekDays] = useState([]);
     const { userId, fetchUserData } = useAppContext();
     const [userName, setUserName] = useState('');
+    const { isDarkMode, toggleTheme, currentTheme } = useTheme();
+    const [selectedTheme, setSelectedTheme] = useState(isDarkMode ? 'dark' : 'light');
 
+    useEffect(() => {
+        setSelectedTheme(isDarkMode ? 'dark' : 'light');
+    }, [isDarkMode]);
+
+    const handleThemeChange = async (theme) => {
+        setSelectedTheme(theme);
+
+        await AsyncStorage.setItem('theme', theme);
+        if ((theme === 'dark' && !isDarkMode) || (theme === 'light' && isDarkMode)) {
+            toggleTheme();
+        }
+    };
 
     useEffect(() => {
         const startOfWeek = moment().startOf('week');
@@ -43,15 +58,15 @@ const UserProgress = ({ navigation }) => {
     };
 
     return (
-        <ScrollView contentContainerStyle={styles.mainCont}>
+        <ScrollView contentContainerStyle={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
             <TouchableOpacity style={styles.backBtn} onPress={() => navigation.navigate('User')}>
-                <Ionicons name='arrow-back' color="white" size={21} style={styles.manageSVG} />
+                <Ionicons name='arrow-back' color="white" size={21} style={[styles.manageSVG, {color: currentTheme.textColor}]} />
             </TouchableOpacity>
             
-            <Text style={styles.progressLabel}>User Progress</Text>
-            <Text style={styles.greetingCont}>Good Day! {userName}!</Text>
+            <Text style={[styles.progressLabel, {color: currentTheme.textColor}]}>User Progress</Text>
+            <Text style={[styles.greetingCont, {color: currentTheme.textColor}]}>Good Day! {userName}!</Text>
 
-            <View style={styles.calendarCont}>
+            <View style={[styles.calendarCont, {backgroundColor: currentTheme.backgroundColor5}]}>
                 <View style={styles.monthSelector}>
                     <Text style={styles.monthText}>{selectedDate.format('MMMM')}</Text>
                 </View>
@@ -68,19 +83,19 @@ const UserProgress = ({ navigation }) => {
             </View>
             
             <View style={styles.progressCharts}>
-                <View style={styles.progressMajor}>
-                    <Text style={styles.progressMajorLabel}>Major Chords</Text>
+                <View style={[styles.progressMajor, {backgroundColor: currentTheme.backgroundColor2}]}>
+                    <Text style={[styles.progressMajorLabel, {color: currentTheme.textColor}]}>Major Chords</Text>
                     <AnimatedCircularProgress
                         size={120}
                         width={15}
                         fill={75}
-                        tintColor='#A8F94F'
-                        backgroundColor='#3d5875'
+                        tintColor={currentTheme.buttonColor}
+                        backgroundColor={currentTheme.backgroundColor4}
                     >
                         {
                             (fill) => (
                                 <Text
-                                    style={styles.progressMajorTxt}
+                                    style={[styles.progressMajorTxt, {color: currentTheme.textColor}]}
                                 >
                                     {`${Math.round(fill)}%`}
                                 </Text>
@@ -89,19 +104,19 @@ const UserProgress = ({ navigation }) => {
                     </AnimatedCircularProgress>
                 </View>
 
-                <View style={styles.progressMinor}>
-                    <Text style={styles.progressMinorLabel}>Minor Chords</Text>
+                <View style={[styles.progressMinor, {backgroundColor: currentTheme.backgroundColor2}]}>
+                    <Text style={[styles.progressMinorLabel, {color: currentTheme.textColor}]}>Minor Chords</Text>
                     <AnimatedCircularProgress
                         size={120}
                         width={15}
                         fill={75}
-                        tintColor='#A8F94F'
-                        backgroundColor='#3d5875'
+                        tintColor={currentTheme.buttonColor}
+                        backgroundColor={currentTheme.backgroundColor4}
                     >
                         {
                             (fill) => (
                                 <Text
-                                    style={styles.progressMinorTxt}
+                                    style={[styles.progressMinorTxt, {color: currentTheme.textColor}]}
                                 >
                                     {`${Math.round(fill)}%`}
                                 </Text>
@@ -209,7 +224,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#001d3d',
         padding: 25,
         borderRadius: 20,
     },
@@ -231,7 +245,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#001d3d',
         padding: 25,
         borderRadius: 20,
     },

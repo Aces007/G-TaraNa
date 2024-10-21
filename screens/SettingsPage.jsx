@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { View, TouchableOpacity, TouchableHighlight, Text, Image, StyleSheet, ScrollView, Alert } from 'react-native';
 import { useAppContext } from '../AppContext';
+import { useTheme } from '../ThemeContext';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -13,6 +14,21 @@ const SettingsPage = ({ navigation }) => {
     const [userName, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');
     const [profilePic, setProfPic] = useState('');
+    const { isDarkMode, toggleTheme, currentTheme } = useTheme();
+    const [selectedTheme, setSelectedTheme] = useState(isDarkMode ? 'dark' : 'light');
+
+    useEffect(() => {
+        setSelectedTheme(isDarkMode ? 'dark' : 'light');
+    }, [isDarkMode]);
+
+    const handleThemeChange = async (theme) => {
+        setSelectedTheme(theme);
+
+        await AsyncStorage.setItem('theme', theme);
+        if ((theme === 'dark' && !isDarkMode) || (theme === 'light' && isDarkMode)) {
+            toggleTheme();
+        }
+    };
 
     useEffect(() => {
         console.log('userId in UserProfile:', userId);
@@ -47,54 +63,54 @@ const SettingsPage = ({ navigation }) => {
     };
 
     return (
-        <ScrollView contentContainerStyle={styles.mainCont}>
-            <View style={styles.headerCont}>
+        <ScrollView contentContainerStyle={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
+            <View style={[styles.headerCont, {color: currentTheme.textColor}]}>
                 <TouchableOpacity style={styles.settingLabel}>
-                    <Ionicons name='settings-outline' color={'#FFF'} size={25}/>
-                    <Text style={styles.settingsTxt}>Settings</Text>
+                    <Ionicons name='settings-outline' color={'#FFF'} size={25} style={{color: currentTheme.textColor}}/>
+                    <Text style={[styles.settingsTxt, {color: currentTheme.textColor}]}>Settings</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.logoutCont} onPress={handleLogout}>
+                <TouchableOpacity style={[styles.logoutCont, {backgroundColor: currentTheme.buttonColor}]} onPress={handleLogout}>
                     <AntDesign name='logout' color={'#000'} size={16}/>
                     <Text style={styles.logoutTxt}>Logout</Text>
                 </TouchableOpacity>
             </View>
 
-            <View style={styles.userProfileCont}>
+            <View style={[styles.userProfileCont, {backgroundColor: currentTheme.backgroundColor2}]}>
                 <View style={styles.userProfLeft}>
                     <Image source={profilePic ? {uri: profilePic} : require('../assets/erus.jpg')} style={styles.userProfPic}/>
                 </View>
                 <View style={styles.userProfRight}>
                     <TouchableOpacity style={styles.userAgeCont}>
-                        <Text style={styles.userProfName}>{userName}</Text>
-                        <Text style={styles.userNumber}>{userEmail}</Text>
+                        <Text style={[styles.userProfName, {color: currentTheme.textColor}]}>{userName}</Text>
+                        <Text style={[styles.userNumber, {color: currentTheme.textColor}]}>{userEmail}</Text>
                     </TouchableOpacity>
                 </View>
             </View>
 
             <View style={styles.userSettings}>
                 <View style={styles.generalMenu}>
-                    <Text style={styles.generalLabel}>General</Text>
+                    <Text style={[styles.generalLabel, {color: currentTheme.textColor}]}>General</Text>
                     <View style={styles.sectionContent}>
                         <TouchableOpacity style={styles.manageSection} onPress={() => navigation.navigate('ThemePicker')}>
-                            <Octicons name='paintbrush' size={21} style={styles.manageSVG} />
-                            <Text style={styles.btnTxt}>Theme</Text>
+                            <Octicons name='paintbrush' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
+                            <Text style={[styles.btnTxt, {color: currentTheme.textColor}]}>Theme</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.manageSection} onPress={() => navigation.navigate('')}>
-                            <Ionicons name='notifications-outline' size={21} style={styles.manageSVG} />
-                            <Text style={styles.btnTxt}>Notifications</Text>
+                            <Ionicons name='notifications-outline' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
+                            <Text style={[styles.btnTxt, {color: currentTheme.textColor}]}>Notifications</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
                 <View style={styles.supportMenu}>
-                    <Text style={styles.supportLabel}>Support</Text>
+                    <Text style={[styles.supportLabel, {color: currentTheme.textColor}]}>Support</Text>
                     <View style={styles.sectionContent}>
                         <TouchableOpacity style={styles.manageSection} onPress={() => navigation.navigate('CreditsPage')}>
-                            <FontAwesome name='trademark' size={21} style={styles.manageSVG} />
-                            <Text style={styles.btnTxt}>Credits</Text>
+                            <FontAwesome name='trademark' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
+                            <Text style={[styles.btnTxt, {color: currentTheme.textColor}]}>Credits</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.manageSection}>
-                            <Entypo name='documents' size={21} style={styles.manageSVG} />
-                            <Text style={styles.btnTxt}>FAQs</Text>
+                            <Entypo name='documents' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
+                            <Text style={[styles.btnTxt, {color: currentTheme.textColor}]}>FAQs</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
