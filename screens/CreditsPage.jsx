@@ -7,52 +7,68 @@ import { Linking } from 'react-native';
 
 
 const CreditsPage = () => {
+    const { isDarkMode, toggleTheme, currentTheme } = useTheme();
+    const [selectedTheme, setSelectedTheme] = useState(isDarkMode ? 'dark' : 'light');
+
+    useEffect(() => {
+        setSelectedTheme(isDarkMode ? 'dark' : 'light');
+    }, [isDarkMode]);
+
+    const handleThemeChange = async (theme) => {
+        setSelectedTheme(theme);
+
+        await AsyncStorage.setItem('theme', theme);
+        if ((theme === 'dark' && !isDarkMode) || (theme === 'light' && isDarkMode)) {
+            toggleTheme();
+        }
+    };
+
     return(
-        <ScrollView contentContainerStyle={styles.mainCont}>
-            <View style={styles.labelCont}>
+        <ScrollView contentContainerStyle={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
+            <View style={[styles.labelCont, {backgroundColor: currentTheme.backgroundColor}]}>
                 <TouchableOpacity style={styles.backBtn} onPress={() => navigation.navigate('mainTabs')}>
-                    <Ionicons name='arrow-back' color="white" size={24} style={styles.manageSVG} />
+                    <Ionicons name='arrow-back' color="white" size={24} style={[styles.manageSVG, {color: currentTheme.textColor}]} />
                 </TouchableOpacity>
-                <Text style={styles.themeLabel}>Credits to the Creator</Text>
+                <Text style={[styles.themeLabel, {color: currentTheme.textColor}]}>Credits to the Creator</Text>
             </View>
 
-            <Text style={styles.appTrademark}>G! Tara Na!</Text>
+            <Text style={[styles.appTrademark, {color: currentTheme.textColor}]}>G! Tara Na!</Text>
 
             <TouchableOpacity style={styles.quoteCont}>
-                <Text style={styles.mainQuote}>Harmony Unleashed</Text>
-                <Text style={styles.subQuote}>Your Ultimate Guide to Guitar Chords!</Text>
+                <Text style={[styles.mainQuote, {color: currentTheme.textColor}]}>Harmony Unleashed</Text>
+                <Text style={[styles.subQuote, {color: currentTheme.textColor}]}>Your Ultimate Guide to Guitar Chords!</Text>
             </TouchableOpacity>
 
             <View style={styles.contriCont}>
-                <Text style={styles.contriLabel}>Contributors</Text>
+                <Text style={[styles.contriLabel, {color: currentTheme.textColor}]}>Contributors</Text>
                 <TouchableOpacity onPress={() => {
                     Linking.openURL("https://www.instagram.com/lawlensphotography/")
                 }}>
                     <Image source={require('../assets/Contributors/Ace.jpg')} style={styles.contriJPG}/>
-                    <Text style={styles.contriTXT}>Ace Clavano</Text>
+                    <Text style={[styles.contriTXT, {color: currentTheme.textColor}]}>Ace Clavano</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                     Linking.openURL("https://www.instagram.com/airacaughton4k/")
                 }}>
                     <Image source={require('../assets/Contributors/Aira.png')} style={styles.contriJPG}/>
-                    <Text style={styles.contriTXT}>Aira Estur</Text>
+                    <Text style={[styles.contriTXT, {color: currentTheme.textColor}]}>Aira Estur</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                     Linking.openURL("https://www.instagram.com/cmllnieto_/")
                 }}>
                     <Image source={require('../assets/Contributors/Cams.jpg')} style={styles.contriJPG}/>
-                    <Text style={styles.contriTXT}>Camille Nieto</Text>
+                    <Text style={[styles.contriTXT, {color: currentTheme.textColor}]}>Camille Nieto</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                     Linking.openURL("https://www.instagram.com/ec_pzzz/")
                 }}>
                     <Image source={require('../assets/Contributors/Eros.jpg')} style={styles.contriJPG}/>
-                    <Text style={styles.contriTXT}>Eros Ruffy</Text>
+                    <Text style={[styles.contriTXT, {color: currentTheme.textColor}]}>Eros Ruffy</Text>
                 </TouchableOpacity>
             </View>
 
             <View style={styles.frameworkCont}>
-                <Text style={styles.frameworkLabel}>Frameworks and Languages</Text>
+                <Text style={[styles.frameworkLabel, {color: currentTheme.textColor}]}>Frameworks and Languages</Text>
                 <View style={styles.frame1}>
                     <Image source={require('../assets/react-native.png')} style={styles.frameworkJPG1}/>
                     <Image source={require('../assets/js.png')} style={styles.frameworkJPG1}/>
@@ -63,7 +79,7 @@ const CreditsPage = () => {
                 </View>
             </View>
 
-            <Text style={styles.rightsReserve}>@ 2024 G! Tara Na! by AACE. All Rights Reserved</Text>
+            <Text style={[styles.rightsReserve, {color: currentTheme.textColor}]}>@ 2024 G! Tara Na! by AACE. All Rights Reserved</Text>
         </ScrollView>
     )
 }

@@ -23,6 +23,9 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 function TabNavigator() {
+  const { currentTheme } = useTheme();
+
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -45,17 +48,17 @@ function TabNavigator() {
         },
         tabBarStyle: {
           height: 70,
-          backgroundColor: "#0A0F1B",
+          backgroundColor: currentTheme.backgroundColor,
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-evenly',
           paddingBottom: 10,
           paddingTop: 5,
-          borderTopColor: '#808080',
+          borderTopColor: currentTheme.backgroundColor,
           borderTopWidth: 1,
         },
-        tabBarActiveTintColor: '#A8F94F',
-        tabBarInactiveTintColor: '#D3D3D3',
+        tabBarActiveTintColor: currentTheme.buttonColor,
+        tabBarInactiveTintColor: currentTheme.textColor,
       })}
     >
       <Tab.Screen name="Chords" component={ChordChecker} options={{ headerShown: false }} />

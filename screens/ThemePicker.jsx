@@ -9,14 +9,8 @@ const ThemePicker = ({ navigation }) => {
     const [selectedTheme, setSelectedTheme] = useState(isDarkMode ? 'dark' : 'light');
 
     useEffect(() => {
-        const loadTheme = async() => {
-            const storedTheme = await AsyncStorage.getItem('theme');
-            if (storedTheme) {
-                setSelectedTheme(storedTheme);
-            }
-        };
-        loadTheme();
-    }, []);
+        setSelectedTheme(isDarkMode ? 'dark' : 'light');
+    }, [isDarkMode]);
 
     const handleThemeChange = async (theme) => {
         setSelectedTheme(theme);
@@ -29,17 +23,17 @@ const ThemePicker = ({ navigation }) => {
 
 
     return (
-        <ScrollView contentContainerStyle={styles.mainCont}>
-            <View style={styles.themePickers}>
-                <View style={styles.labelCont}>
+        <ScrollView contentContainerStyle={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
+            <View style={[styles.themePickers, {backgroundColor: currentTheme.backgroundColor}]}>
+                <View style={[styles.labelCont, {backgroundColor: currentTheme.backgroundColor}]}>
                     <TouchableOpacity style={styles.backBtn} onPress={() => navigation.navigate('mainTabs')}>
-                        <Ionicons name='arrow-back' color="white" size={24} style={styles.manageSVG} />
+                        <Ionicons name='arrow-back' color="white" size={24} style={[styles.manageSVG, {color: currentTheme.textColor}]} />
                     </TouchableOpacity>
-                    <Text style={styles.themeLabel}>Theme</Text>
+                    <Text style={[styles.themeLabel, {color: currentTheme.textColor}]}>Theme</Text>
                 </View>
 
 
-                <View style={styles.modePicker}>
+                <View style={[styles.modePicker, {backgroundColor: currentTheme.backgroundColor2}]}>
                     <TouchableOpacity
                         style={styles.radioBtn}
                         onPress={() => handleThemeChange('dark')}

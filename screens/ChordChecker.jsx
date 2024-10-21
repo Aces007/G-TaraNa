@@ -1,40 +1,58 @@
+import React, {useEffect, useState} from 'react';
 import { View, TouchableOpacity, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import { useTheme } from '../ThemeContext';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 const ChordChecker = () => {
+    const { isDarkMode, toggleTheme, currentTheme } = useTheme();
+    const [selectedTheme, setSelectedTheme] = useState(isDarkMode ? 'dark' : 'light');
+
+    useEffect(() => {
+        setSelectedTheme(isDarkMode ? 'dark' : 'light');
+    }, [isDarkMode]);
+
+    const handleThemeChange = async (theme) => {
+        setSelectedTheme(theme);
+
+        await AsyncStorage.setItem('theme', theme);
+        if ((theme === 'dark' && !isDarkMode) || (theme === 'light' && isDarkMode)) {
+            toggleTheme();
+        }
+    };
+
     return (
-        <ScrollView contentContainerStyle={styles.mainCont}>
-            <View style={styles.headerCont}>
-                <View style={styles.logoContainer}>
+        <ScrollView contentContainerStyle={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
+            <View style={[styles.headerCont, {backgroundColor: currentTheme.backgroundColor}]}>
+                <View style={[styles.logoContainer, {backgroundColor: currentTheme.backgroundColor}]}>
                     <Image source={require('../assets/icon.png')} style={styles.logoImg}/>
-                    <Text style={styles.logoTxt}>G! Tara Na!</Text>
+                    <Text style={[styles.logoTxt, {color: currentTheme.textColor}]}>G! Tara Na!</Text>
                 </View>
-                <TouchableOpacity style={styles.searchBox}>
+                <TouchableOpacity style={[styles.searchBox, {backgroundColor: currentTheme.buttonColor}]}>
                     <FontAwesome5 name='search' size={16}/>
-                    <Text style={styles.searchTxt}>Search a Chord</Text>
+                    <Text style={[styles.searchTxt, {color: currentTheme.searchColor}]}>Search a Chord</Text>
                 </TouchableOpacity>
             </View>
 
             <View style={styles.mainContent}>
-                <Text style={styles.mainTxt}>Harmony Unleashed: Your Ultimate Guide to Guitar Chords!</Text>
+                <Text style={[styles.mainTxt, {color: currentTheme.textColor}]}>Harmony Unleashed: Your Ultimate Guide to Guitar Chords!</Text>
                 <Image source={require('../assets/homeImg.png')} style={styles.mainImg}/>
             </View>
 
             <View style={styles.charBoxes}>
-                <TouchableOpacity style={styles.charBox1}>
-                    <FontAwesome5 name='hands-helping' color='#FFF' size={25}/>
-                    <Text style={styles.charTxt1}>Easy To Use</Text>    
+                <TouchableOpacity style={[styles.charBox1, {backgroundColor: currentTheme.backgroundColor4}]}>
+                    <FontAwesome5 name='hands-helping' color={currentTheme.textColor} size={25}/>
+                    <Text style={[styles.charTxt1, {color: currentTheme.textColor}]}>Easy To Use</Text>    
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.charBox2}>                    
-                    <FontAwesome6 name='ear-listen' color='#FFF' size={25}/>
-                    <Text style={styles.charTxt2}>Ear Trainer</Text>    
+                <TouchableOpacity style={[styles.charBox2, {backgroundColor: currentTheme.backgroundColor4}]}>                    
+                    <FontAwesome6 name='ear-listen' color={currentTheme.textColor} size={25}/>
+                    <Text style={[styles.charTxt2, {color: currentTheme.textColor}]}>Ear Trainer</Text>    
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.charBox3}>                    
-                    <Ionicons name='musical-note' color='#FFF' size={25}/>
-                    <Text style={styles.charTxt3}>Harmonic Bliss</Text>    
+                <TouchableOpacity style={[styles.charBox3, {backgroundColor: currentTheme.backgroundColor4}]}>                    
+                    <Ionicons name='musical-note' color={currentTheme.textColor} size={25}/>
+                    <Text style={[styles.charTxt3, {color: currentTheme.textColor}]}>Harmonic Bliss</Text>    
                 </TouchableOpacity>
             </View>
         </ScrollView>
