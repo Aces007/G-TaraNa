@@ -74,7 +74,7 @@ const CreditsPage = () => {
                     <Image source={require('../assets/js.png')} style={styles.frameworkJPG1}/>
                 </View>
                 <View style={styles.frame2}>
-                    <Image source={require('../assets/expo.png')} style={styles.frameworkJPG2}/>
+                    <Image source={isDarkMode ? require('../assets/expo.png') : require('../assets/expo-2.png')} style={styles.frameworkJPG2}/>
                     <Image source={require('../assets/supabase.png')} style={styles.frameworkJPG2}/>
                 </View>
             </View>

@@ -4,6 +4,8 @@ import { useTheme } from '../ThemeContext';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import IconDark from '../assets/icon4-1.png';
+import IconLight from '../assets/icon4-2.png';
 
 
 const ChordChecker = () => {
@@ -27,12 +29,12 @@ const ChordChecker = () => {
         <ScrollView contentContainerStyle={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
             <View style={[styles.headerCont, {backgroundColor: currentTheme.backgroundColor}]}>
                 <View style={[styles.logoContainer, {backgroundColor: currentTheme.backgroundColor}]}>
-                    <Image source={require('../assets/icon.png')} style={styles.logoImg}/>
+                    <Image source={isDarkMode ? IconDark : IconLight} style={styles.logoImg}/>
                     <Text style={[styles.logoTxt, {color: currentTheme.textColor}]}>G! Tara Na!</Text>
                 </View>
                 <TouchableOpacity style={[styles.searchBox, {backgroundColor: currentTheme.buttonColor}]}>
                     <FontAwesome5 name='search' size={16}/>
-                    <Text style={[styles.searchTxt, {color: currentTheme.searchColor}]}>Search a Chord</Text>
+                    <Text style={[styles.searchTxt, {color: currentTheme.searchColor}]}>Search Chords</Text>
                 </TouchableOpacity>
             </View>
 
@@ -72,18 +74,17 @@ const styles = StyleSheet.create ({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        gap: 30,
     },
     logoContainer: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         alignItems: 'center',
-        gap: 13,
     },
     logoImg: {
-        width: 43,
-        height: 43,
+        width: 50,
+        height: 50,
+        margin: 0,
     },
     logoTxt: {
         color: '#FFF',
@@ -94,12 +95,13 @@ const styles = StyleSheet.create ({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 10,
+        paddingHorizontal: 8,
         backgroundColor: '#A8F94F',
-        width: 135,
+        width: 125,
         height: 30,
         borderRadius: 5,
         gap: 10,
+        marginRight: 10,
     },
     searchTxt: {
         fontSize: 13,
