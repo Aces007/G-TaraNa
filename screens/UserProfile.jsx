@@ -52,10 +52,6 @@ const UserProfile = ({ navigation }) => {
                     <Image source={isDarkMode ? IconDark : IconLight} style={styles.logoImg}/>
                     <Text style={[styles.logoTxt, {color: currentTheme.textColor}]}>G! Tara Na!</Text>
                 </View>
-                <TouchableOpacity style={[styles.searchBox, , {backgroundColor: currentTheme.buttonColor}]}>
-                    <FontAwesome5 name='search' size={16}/>
-                    <Text style={[styles.searchTxt, {color: currentTheme.searchColor}]}>Search Chords</Text>
-                </TouchableOpacity>
             </View>
 
             <View style={[styles.userProfileCont, {backgroundColor: currentTheme.backgroundColor2}]}>
