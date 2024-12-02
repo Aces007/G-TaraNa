@@ -41,7 +41,7 @@ const Login = ({ route, navigation }) => {
         <ScrollView contentContainerStyle={styles.mainCont}>
             <View style={styles.logoCont}>
                 <ImageBackground source={require('../assets/loginSignUpBG.png')} style={styles.mainLogoBG}>
-                    <Image source={require('../assets/icon.png')} style={styles.mainLogo} />
+                    <Image source={require('../assets/icon4-1.png')} style={styles.mainLogo} />
                     <Text style={styles.mainLogoTxt}>G! Tara Na!</Text>
                 </ImageBackground>
             </View>
@@ -144,9 +144,9 @@ const styles = StyleSheet.create({
         overflow: 'hidden', 
     },
     mainLogo: {
-        marginTop: 20,
-        width: 120,
-        height: 120,
+        marginTop: 10,
+        width: 140,
+        height: 140,
     },
     mainLogoTxt: {
         color: '#FFF',

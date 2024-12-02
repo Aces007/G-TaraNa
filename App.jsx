@@ -18,6 +18,7 @@ import ManageUser from './screens/ManageUser';
 import UserProgress from './screens/UserProgress';
 import ThemePicker from './screens/ThemePicker';
 import CreditsPage from './screens/CreditsPage';
+import ClassPicker from './screens/ClassPicker';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -107,13 +108,14 @@ function MainScreen() {
   }
 
   return (
-    <Stack.Navigator initialRouteName={userId ? 'mainTabs' : 'userAccountScreen'}>
+    <Stack.Navigator initialRouteName={'ClassPicker'}>
       <Stack.Screen name="mainTabs" component={TabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="userAccountScreen" component={UserAccountManager} options={{ headerShown: false }} />
       <Stack.Screen name="ManageUser" component={ManageUser} options={{ headerShown: false }} />
       <Stack.Screen name="UserProgress" component={UserProgress} options={{ headerShown: false }} />
       <Stack.Screen name="ThemePicker" component={ThemePicker} options={{ headerShown: false }} />
       <Stack.Screen name="CreditsPage" component={CreditsPage} options={{ headerShown: false }} />
+      <Stack.Screen name="ClassPicker" component={ClassPicker} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }
