@@ -19,26 +19,28 @@ const ClassPicker = () => {
                 <Text style={styles.classPickQuote}>WHAT'S YOUR ROLE?</Text>
 
                 <View style={styles.roleClass}>
-                    <View style={styles.adminClass}>
-                        <FontAwesome6 name='user-gear' color={'#FFF'} size={35} />
+                    <TouchableOpacity style={styles.adminClass}>
+                        <FontAwesome6 name='user-gear' color={'#1B1212'} size={35} />
                         <Text style={styles.roleTxt}>ADMIN</Text>
-                    </View>
+                    </TouchableOpacity>
                 </View>
                 
                 <View style={styles.roleClass}>
-                    <View style={styles.userClass}>
-                        <FontAwesome6 name='user-large' color={'#FFF'} size={35} />
+                    <TouchableOpacity style={styles.userClass}>
+                        <FontAwesome6 name='user-large' color={'#1B1212'} size={35} />
                         <Text style={styles.roleTxt}>USER</Text>
-                    </View>
+                    </TouchableOpacity>
                 </View>
                 
                 <View style={styles.roleClass}>
-                    <View style={styles.coachClass}>
-                        <FontAwesome6 name='user-group' color={'#FFF'} size={35} />
+                    <TouchableOpacity style={styles.coachClass}>
+                        <FontAwesome6 name='user-group' color={'#1B1212'} size={35} />
                         <Text style={styles.roleTxt}>COACH</Text>
-                    </View>
+                    </TouchableOpacity>
                 </View>
             </View>
+
+            <Text style={styles.mainTxt}>"Harmony Unleashed: Your Ultimate Guide to Guitar Chords!"</Text>
         </ScrollView>
         
     )
@@ -86,7 +88,7 @@ const styles = StyleSheet.create ({
     classPickCont: {
         display: 'flex',
         backgroundColor: '#1A2433',
-        paddingVertical: 30,
+        paddingVertical: 50,
         paddingHorizontal: 25,
         alignItems: 'center',
         borderRadius: 10,
@@ -97,25 +99,68 @@ const styles = StyleSheet.create ({
     classPickQuote: {
         color: '#FFF',
         fontSize: 20,
-        fontWeight: 800,
+        fontWeight: '800',
         letterSpacing: 1.5,
     },
 
     roleClass: {
         display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        flexDirection: 'column',
         gap: 40,
     },
 
-    adminClass: {},
-    userClass: {},
-    coachClass: {},
+    adminClass: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 20,
+        backgroundColor: '#4A6E8F',
+        width: '80%',
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderRadius: 10,
+    },
+    userClass: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 20,
+        backgroundColor: '#A8F94F',
+        width: '80%',
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderRadius: 10,
+    },
+    coachClass: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 20,
+        backgroundColor: '#80E0B4',
+        width: '80%',
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderRadius: 10,
+    },
     
     roleTxt: {
-        color: '#FFF',
+        color: '#1B1212',
+        fontSize: 23,
+        fontWeight: '800',
         
     },  
+
+    // Bottom Quote
+    mainTxt: {
+        marginTop: 40,
+        color: '#FFF',
+        fontSize: 13,
+        textAlign: 'center',
+        width: '75%',
+        fontWeight: '700',
+    },
 })
 export default ClassPicker;
