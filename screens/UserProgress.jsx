@@ -4,6 +4,8 @@ import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { useAppContext } from '../AppContext';
 import { useTheme } from '../ThemeContext';
 import { FlatList } from 'react-native-gesture-handler';
+import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
@@ -41,7 +43,7 @@ const UserProgress = ({ navigation }) => {
         console.log('userId in UserProfile:', userId);
         const getUserData = async () => {
             const userData = await fetchUserData(userId);
-            setUserName(userData.name);
+            setUserName(userData.first_name);
         };
 
         getUserData();
@@ -57,10 +59,20 @@ const UserProgress = ({ navigation }) => {
         );
     };
 
+    const [fontsLoaded] = useFonts({
+        'Poppins-ExtraB': require('../assets/fonts/Poppins/Poppins-ExtraBold.ttf'),
+        'Montserrat-ExtraB': require('../assets/fonts/Montserrat/static/Montserrat-ExtraBold.ttf'),
+        'Montserrat-Bold': require('../assets/fonts/Montserrat/static/Montserrat-Bold.ttf'),
+        'Montserrat-Med': require('../assets/fonts/Montserrat/static/Montserrat-Medium.ttf'),
+        'Montserrat-Reg': require('../assets/fonts/Montserrat/static/Montserrat-Regular.ttf'),
+        'RedHat-Bold': require('../assets/fonts/Red_Hat_Display/static/RedHatDisplay-Bold.ttf'),
+    });
+
+
     return (
         <ScrollView contentContainerStyle={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
             <TouchableOpacity style={styles.backBtn} onPress={() => navigation.navigate('User')}>
-                <Ionicons name='arrow-back' color="white" size={21} style={[styles.manageSVG, {color: currentTheme.textColor}]} />
+                <Ionicons name='arrow-back' color="white" size={25} style={[styles.manageSVG, {color: currentTheme.textColor}]} />
             </TouchableOpacity>
             
             <Text style={[styles.progressLabel, {color: currentTheme.textColor}]}>User Progress</Text>
@@ -147,16 +159,18 @@ const styles = StyleSheet.create({
     progressLabel: {
         color: '#FFF',
         fontSize: 28,
+        fontFamily: 'Montserrat-ExtraB',
         textTransform: 'uppercase',
-        fontWeight: '800',
         textAlign: 'center',
-        marginBottom: 20,
+        marginTop: 20,
+        marginBottom: 25,
     },
     greetingCont: {
         color: '#FFF',
+        fontSize: 20,
+        fontFamily: 'Montserrat-Bold',
         textAlign: 'center',
-        fontSize: 19,
-        fontWeight: '700',
+        marginTop: 20,
         marginBottom: 25,
     },
 
@@ -175,9 +189,11 @@ const styles = StyleSheet.create({
     },
     monthText: {
         color: '#000',
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginRight: 10,
+        fontSize: 20,
+        fontFamily: 'Poppins-ExtraB',
+        textTransform: 'uppercase',
+        textAlign: 'center',
+        marginTop: 10,
     },
     weekList: {
         justifyContent: 'space-around',
@@ -188,12 +204,15 @@ const styles = StyleSheet.create({
     },
     dayLabel: {
         color: '#000',
-        fontSize: 14,
-        fontWeight: 'bold',
+        fontSize: 15,
+        fontFamily: 'Montserrat-Med',
+        textAlign: 'center',
     },
     dateLabel: {
         color: '#000',
-        fontSize: 18,
+        fontSize: 15,
+        fontFamily: 'Montserrat-Reg',
+        textAlign: 'center',
         marginTop: 5,
     },
     selectedDayLabel: {
@@ -215,10 +234,11 @@ const styles = StyleSheet.create({
 
     //#region Minor Chords section
     progressMinorLabel: {
-        fontSize: 20,
         color: '#FFF',
-        fontWeight: '700',
-        marginBottom: 20,
+        fontSize: 20,
+        fontFamily: 'Montserrat-Bold',
+        textAlign: 'center',
+        marginBottom: 12,
     },
     progressMinor: {
         flex: 1,
@@ -228,18 +248,22 @@ const styles = StyleSheet.create({
         borderRadius: 20,
     },
     progressMinorTxt: {
-        fontSize: 19,
         color: '#FFF',
-        fontWeight: '800',
+        fontSize: 18,
+        fontFamily: 'Montserrat-Med',
+        textAlign: 'center',
+        marginTop: 25,
+        marginBottom: 25,
     },
     //#endregion Minor Chords section
 
     //#region Major Chords section
     progressMajorLabel: {
-        fontSize: 20,
         color: '#FFF',
-        fontWeight: '700',
-        marginBottom: 20,
+        fontSize: 20,
+        fontFamily: 'Montserrat-Bold',
+        textAlign: 'center',
+        marginBottom: 12,
     },
     progressMajor: {
         flex: 1,
@@ -249,9 +273,12 @@ const styles = StyleSheet.create({
         borderRadius: 20,
     },
     progressMajorTxt: {
-        fontSize: 19,
         color: '#FFF',
-        fontWeight: '800',
+        fontSize: 18,
+        fontFamily: 'Montserrat-Med',
+        textAlign: 'center',
+        marginTop: 25,
+        marginBottom: 25,
     },
     //#endregion Major Chords section
 })

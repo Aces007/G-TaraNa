@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import { View, TouchableOpacity, TouchableHighlight, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import { useTheme } from '../ThemeContext';
+import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading';
 import Ionicons from  'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useTheme } from '../ThemeContext';
 
 const ThemePicker = ({ navigation }) => {
     const { isDarkMode, toggleTheme, currentTheme } = useTheme();
@@ -21,17 +23,26 @@ const ThemePicker = ({ navigation }) => {
         }
     };
 
+    const [fontsLoaded] = useFonts({
+        'Poppins-ExtraB': require('../assets/fonts/Poppins/Poppins-ExtraBold.ttf'),
+        'Montserrat-ExtraB': require('../assets/fonts/Montserrat/static/Montserrat-ExtraBold.ttf'),
+        'Montserrat-Bold': require('../assets/fonts/Montserrat/static/Montserrat-Bold.ttf'),
+        'Montserrat-Med': require('../assets/fonts/Montserrat/static/Montserrat-Medium.ttf'),
+        'Montserrat-Reg': require('../assets/fonts/Montserrat/static/Montserrat-Regular.ttf'),
+        'RedHat-Bold': require('../assets/fonts/Red_Hat_Display/static/RedHatDisplay-Bold.ttf'),
+    });
+
 
     return (
         <ScrollView contentContainerStyle={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
             <View style={[styles.themePickers, {backgroundColor: currentTheme.backgroundColor}]}>
                 <View style={[styles.labelCont, {backgroundColor: currentTheme.backgroundColor}]}>
                     <TouchableOpacity style={styles.backBtn} onPress={() => navigation.navigate('mainTabs')}>
-                        <Ionicons name='arrow-back' color="white" size={24} style={[styles.manageSVG, {color: currentTheme.textColor}]} />
+                        <Ionicons name='arrow-back' color="white" size={25} style={[styles.manageSVG, {color: currentTheme.textColor}]} />
                     </TouchableOpacity>
-                    <Text style={[styles.themeLabel, {color: currentTheme.textColor}]}>Theme</Text>
                 </View>
 
+                <Text style={[styles.themeLabel, {color: currentTheme.textColor}]}>Theme</Text>
 
                 <View style={[styles.modePicker, {backgroundColor: currentTheme.backgroundColor2}]}>
                     <TouchableOpacity
@@ -84,10 +95,19 @@ const styles = StyleSheet.create({
         height: 40,
         textAlign: 'center'
     },
-    themeLabel: {
-        color: '#fff',
-        fontWeight: '700',
+    themePickLabel: {
+        color: '#FFF',
         fontSize: 21,
+        fontFamily: 'Montserrat-Bold',
+    },
+    themeLabel: {
+        color: '#FFF',
+        fontSize: 28,
+        fontFamily: 'Montserrat-ExtraB',
+        textTransform: 'uppercase',
+        textAlign: 'center',
+        marginTop: 20,
+        marginBottom: 25,
     },
     //#endregion Label Container
 
@@ -100,14 +120,16 @@ const styles = StyleSheet.create({
     radioBtn: {
         flexDirection: 'row',
         alignItems: 'center',
+        gap: 10,
         paddingHorizontal: 35,
         paddingVertical: 20,
         marginLeft: 10,
     },
     radioLabel: {
-        color: '#fff',
+        color: '#FFF',
         fontSize: 18,
-        marginLeft: 10,
+        fontFamily: 'Montserrat-Med',
+        textAlign: 'center',
     },
     //#endregion Color Mode Selections
 })

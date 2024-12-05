@@ -10,7 +10,7 @@ export const AppProvider = ({ children }) => {
     const [newPassword, setNewPassword] = useState(null);
 
     //region Initial User Management Stage (SignUp, SignIn, FetchUserData)
-    const signUp = async (email, username, name, age, password, role) => {
+    const signUp = async (email, username, first_name, last_name, age, password, role) => {
         try {
             const { data: signupData, error: authError } = await supabase.auth.signUp({ email, password });
             console.log('SignUp Response ', signupData);
@@ -38,7 +38,8 @@ export const AppProvider = ({ children }) => {
                     email, 
                     username, 
                     age,
-                    name, 
+                    first_name, 
+                    last_name,  
                     role,
                     created_at: formattedDate
                 }, 
@@ -101,14 +102,15 @@ export const AppProvider = ({ children }) => {
         try {
             const { data, error } = await supabase
                 .from('Users')
-                .select('name, age, username, email, created_at, profile_picture')
+                .select('first_name, last_name, age, username, email, created_at, profile_picture')
                 .eq('id', userId)
                 .single()
     
             if (error) throw error;
     
             return {
-                name: data.name, 
+                first_name: data.first_name, 
+                last_name: data.last_name, 
                 username: data.username,
                 age: data.age, 
                 email: data.email, 

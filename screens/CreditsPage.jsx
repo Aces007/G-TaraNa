@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import { View, TouchableOpacity, TouchableHighlight, Text, Image, StyleSheet, ScrollView } from 'react-native';
-import Ionicons from  'react-native-vector-icons/Ionicons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTheme } from '../ThemeContext';
 import { Linking } from 'react-native';
+import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading';
+import Ionicons from  'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const CreditsPage = () => {
+const CreditsPage = ({ navigation }) => {
     const { isDarkMode, toggleTheme, currentTheme } = useTheme();
     const [selectedTheme, setSelectedTheme] = useState(isDarkMode ? 'dark' : 'light');
 
@@ -23,21 +25,30 @@ const CreditsPage = () => {
         }
     };
 
+    const [fontsLoaded] = useFonts({
+        'Poppins-ExtraB': require('../assets/fonts/Poppins/Poppins-ExtraBold.ttf'),
+        'Montserrat-ExtraB': require('../assets/fonts/Montserrat/static/Montserrat-ExtraBold.ttf'),
+        'Montserrat-Bold': require('../assets/fonts/Montserrat/static/Montserrat-Bold.ttf'),
+        'Montserrat-Med': require('../assets/fonts/Montserrat/static/Montserrat-Medium.ttf'),
+        'Montserrat-Reg': require('../assets/fonts/Montserrat/static/Montserrat-Regular.ttf'),
+        'Montserrat-Thin': require('../assets/fonts/Montserrat/static/Montserrat-Light.ttf'),
+        'RedHat-Bold': require('../assets/fonts/Red_Hat_Display/static/RedHatDisplay-Bold.ttf'),
+    });
+
     return(
         <ScrollView contentContainerStyle={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
             <View style={[styles.labelCont, {backgroundColor: currentTheme.backgroundColor}]}>
                 <TouchableOpacity style={styles.backBtn} onPress={() => navigation.navigate('mainTabs')}>
                     <Ionicons name='arrow-back' color="white" size={24} style={[styles.manageSVG, {color: currentTheme.textColor}]} />
                 </TouchableOpacity>
-                <Text style={[styles.themeLabel, {color: currentTheme.textColor}]}>Credits to the Creator</Text>
             </View>
 
             <Text style={[styles.appTrademark, {color: currentTheme.textColor}]}>G! Tara Na!</Text>
 
-            <TouchableOpacity style={styles.quoteCont}>
-                <Text style={[styles.mainQuote, {color: currentTheme.textColor}]}>Harmony Unleashed</Text>
-                <Text style={[styles.subQuote, {color: currentTheme.textColor}]}>Your Ultimate Guide to Guitar Chords!</Text>
-            </TouchableOpacity>
+            <View style={styles.quoteCont}>
+                <Text style={[styles.mainTxt, {color: currentTheme.textColor}]}>Harmony Unleashed</Text>
+                <Text style={[styles.subTxt, {color: currentTheme.textColor}]}>Your Ultimate Guide to Guitar Chords!</Text>
+            </View>
 
             <View style={styles.contriCont}>
                 <Text style={[styles.contriLabel, {color: currentTheme.textColor}]}>Contributors</Text>
@@ -97,13 +108,15 @@ const styles = StyleSheet.create({
         color: '#FFF',
         textAlign: 'center',
         fontSize: 45,
-        fontWeight: '900'
+        fontFamily: 'Poppins-ExtraB'
     },
 
     rightsReserve: {
         textAlign: 'center',
         color: '#FFF',
         marginTop: 50,
+        fontFamily: 'Montserrat-Thin',
+        fontSize: 11,
     },
     
     //#region Quote Container
@@ -113,18 +126,20 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         gap: 5,
     },
-    mainQuote: {
+    mainTxt: {
         color: '#FFF',
+        fontSize: 23,
         textAlign: 'center',
-        fontSize: 20,
-        fontWeight: '900'
-    },
-    subQuote: {
+        fontFamily: 'Montserrat-Bold',
+    },  
+    subTxt: {
         color: '#FFF',
+        fontSize: 16,
         textAlign: 'center',
-        fontSize: 15,
-        fontWeight: '500'
-    },
+        fontFamily: 'Montserrat-Med',
+        opacity: 0.6,
+        paddingHorizontal: 10,
+    },  
     //#endregion Quote Container
 
     //#region Label Container
@@ -140,11 +155,6 @@ const styles = StyleSheet.create({
         height: 40,
         textAlign: 'center'
     },
-    themeLabel: {
-        color: '#fff',
-        fontWeight: '700',
-        fontSize: 21,
-    },
     //#endregion Label Container
 
     //#region Contributors
@@ -154,10 +164,10 @@ const styles = StyleSheet.create({
         marginTop: 40,
     },
     contriLabel: {
-        fontSize: 30,
         color: '#FFF',
+        fontSize: 25,
         textAlign: 'center',
-        fontWeight: '800',
+        fontFamily: 'Montserrat-Med',
     },
     contriJPG: {
         width: 120,
@@ -166,10 +176,10 @@ const styles = StyleSheet.create({
         marginVertical: 20,
     },
     contriTXT: {
-        fontSize: 21,
         color: '#FFF',
+        fontSize: 21,
         textAlign: 'center',
-        fontWeight: '800',
+        fontFamily: 'Montserrat-Reg',
     },  
     //#endregion Contributors
 
@@ -189,10 +199,10 @@ const styles = StyleSheet.create({
         height: 110,
     },
     frameworkLabel: {
-        fontSize: 30,
         color: '#FFF',
+        fontSize: 25,
         textAlign: 'center',
-        fontWeight: '800',
+        fontFamily: 'Montserrat-Med',
     },
     frame1: {
         display: 'flex',

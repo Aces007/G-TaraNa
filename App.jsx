@@ -6,6 +6,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { AppProvider, useAppContext } from "./AppContext"; 
 import { ThemeProvider, useTheme } from './ThemeContext';
+import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
@@ -27,6 +29,15 @@ const Stack = createStackNavigator();
 function TabNavigator() {
   const { currentTheme } = useTheme();
 
+  const [fontsLoaded] = useFonts({
+    'Poppins-ExtraB': require('./assets/fonts/Poppins/Poppins-ExtraBold.ttf'),
+    'Montserrat-ExtraB': require('./assets/fonts/Montserrat/static/Montserrat-ExtraBold.ttf'),
+    'Montserrat-Bold': require('./assets/fonts/Montserrat/static/Montserrat-Bold.ttf'),
+    'Montserrat-Med': require('./assets/fonts/Montserrat/static/Montserrat-Medium.ttf'),
+    'Montserrat-Reg': require('./assets/fonts/Montserrat/static/Montserrat-Regular.ttf'),
+    'RedHat-Bold': require('./assets/fonts/Red_Hat_Display/static/RedHatDisplay-Bold.ttf'),
+});
+
 
   return (
     <Tab.Navigator
@@ -47,6 +58,11 @@ function TabNavigator() {
           }
 
           return <IconComponent name={iconName} size={size} color={color} />;
+        },
+        tabBarLabelStyle: {
+          fontFamily: 'RedHat-Bold', // Use the loaded font
+          fontSize: 11,
+          textAlign: 'center',
         },
         tabBarStyle: {
           height: 70,
@@ -109,7 +125,7 @@ function MainScreen() {
   }
 
   return (
-    <Stack.Navigator initialRouteName={'SplashScreen'}>
+    <Stack.Navigator initialRouteName={'ClassPicker'}>
       <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
       <Stack.Screen name="ClassPicker" component={ClassPicker} options={{ headerShown: false }} />
       <Stack.Screen name="userAccountScreen" component={UserAccountManager} options={{ headerShown: false }} />

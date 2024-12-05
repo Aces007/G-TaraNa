@@ -1,11 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import { View, TouchableOpacity, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '../ThemeContext';
+import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading';
+import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import IconDark from '../assets/icon4-1.png';
 import IconLight from '../assets/icon4-2.png';
+
 
 
 const ChordChecker = () => {
@@ -25,6 +29,15 @@ const ChordChecker = () => {
         }
     };
 
+    const [fontsLoaded] = useFonts({
+        'Poppins-ExtraB': require('../assets/fonts/Poppins/Poppins-ExtraBold.ttf'),
+        'Montserrat-ExtraB': require('../assets/fonts/Montserrat/static/Montserrat-ExtraBold.ttf'),
+        'Montserrat-Bold': require('../assets/fonts/Montserrat/static/Montserrat-Bold.ttf'),
+        'Montserrat-Med': require('../assets/fonts/Montserrat/static/Montserrat-Medium.ttf'),
+        'Montserrat-Reg': require('../assets/fonts/Montserrat/static/Montserrat-Regular.ttf'),
+        'RedHat-Bold': require('../assets/fonts/Red_Hat_Display/static/RedHatDisplay-Bold.ttf'),
+    });
+
     return (
         <ScrollView contentContainerStyle={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
             <View style={[styles.headerCont, {backgroundColor: currentTheme.backgroundColor}]}>
@@ -32,14 +45,17 @@ const ChordChecker = () => {
                     <Image source={isDarkMode ? IconDark : IconLight} style={styles.logoImg}/>
                     <Text style={[styles.logoTxt, {color: currentTheme.textColor}]}>G! Tara Na!</Text>
                 </View>
-                <TouchableOpacity style={[styles.searchBox, {backgroundColor: currentTheme.buttonColor}]}>
-                    <FontAwesome5 name='search' size={16}/>
-                    <Text style={[styles.searchTxt, {color: currentTheme.searchColor}]}>Search Chords</Text>
+                
+                <TouchableOpacity style={styles.searchBtn}>
+                    <Feather name='search' size={25} color={currentTheme.buttonColor}/>
                 </TouchableOpacity>
             </View>
 
             <View style={styles.mainContent}>
-                <Text style={[styles.mainTxt, {color: currentTheme.textColor}]}>Harmony Unleashed: Your Ultimate Guide to Guitar Chords!</Text>
+                <View style={styles.quoteCont}>
+                    <Text style={[styles.mainTxt, {color: currentTheme.textColor}]}>Harmony Unleashed</Text>
+                    <Text style={[styles.subTxt, {color: currentTheme.textColor}]}>Your Ultimate Guide to Guitar Chords!</Text>
+                </View>
                 <Image source={require('../assets/homeImg.png')} style={styles.mainImg}/>
             </View>
 
@@ -67,8 +83,10 @@ const styles = StyleSheet.create ({
         flexGrow: 1,
         backgroundColor: '#0a0f1b',
         padding: 20,
-        paddingTop: 40,
+        paddingTop: 45,
     },
+
+    //#region Header
     headerCont: {
         display: 'flex',
         flexDirection: 'row',
@@ -80,100 +98,105 @@ const styles = StyleSheet.create ({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
+        gap: 5,
     },
     logoImg: {
-        width: 50,
-        height: 50,
+        width: 58,
+        height: 58,
         margin: 0,
     },
     logoTxt: {
         color: '#FFF',
-        fontSize: 20,
-        fontWeight: '800',
+        fontSize: 21,
+        fontFamily: 'Poppins-ExtraB',
     },
-    searchBox: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: 8,
-        backgroundColor: '#A8F94F',
-        width: 125,
-        height: 30,
-        borderRadius: 5,
-        gap: 10,
-        marginRight: 10,
+    searchBtn: {
+        marginHorizontal: 15,
+        marginBottom: 5,
     },
-    searchTxt: {
-        fontSize: 13,
-        fontWeight: '800'
-    },
+    //#endregion Header
+
+    //#region Main
     mainContent: {
         display: 'flex',
-        flexDirection: 'column',
         alignItems: 'center',
-        gap: 30,
-        padding: 10,
+        gap: 50,
         marginVertical: 25,
+    },
+    quoteCont: {
+        display: 'flex',
+        alignItems: 'center',
     },
     mainTxt: {
         color: '#FFF',
-        fontSize: 20,
+        fontSize: 25,
         textAlign: 'center',
-        width: '75%',
-        fontWeight: '700',
+        fontFamily: 'Montserrat-Bold',
+    },  
+    subTxt: {
+        color: '#FFF',
+        fontSize: 18,
+        textAlign: 'center',
+        fontFamily: 'Montserrat-Med',
+        opacity: 0.6,
+        paddingHorizontal: 10,
     },  
     mainImg: {
         width: 300,
         height: 280,
     },
+    //#endregion Main
 
-    /*region charBoxes */
+    //#region charBoxes 
     charBoxes: {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-around',
-        gap: 5,
+        marginVertical: 25,
     },
     charBox1: {
-        backgroundColor: '#26393E',
+        backgroundColor: '#1A2433',
         width: 100,
         height: 130,
         borderRadius: 5,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        gap: 10,
+        gap: 15,
     }, charTxt1: {
         color: '#FFF',
-        fontWeight: '700',
+        fontSize: 11,
+        fontFamily: 'Montserrat-Bold',
     },
     charBox2: {
-        backgroundColor: '#26393E',
+        backgroundColor: '#1A2433',
         width: 100,
         height: 130,
         borderRadius: 5,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        gap: 10,
+        gap: 15,
     }, charTxt2: {
         color: '#FFF',
-        fontWeight: '700',
+        fontSize: 11,
+        fontFamily: 'Montserrat-Bold',
     },
     charBox3: {
-        backgroundColor: '#26393E',
+        backgroundColor: '#1A2433',
         width: 100,
         height: 130,
         borderRadius: 5,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        gap: 10,
+        gap: 15,
     }, charTxt3: {
         color: '#FFF',
-        fontWeight: '700',
+        fontSize: 11,
+        fontFamily: 'Montserrat-Bold',
     },
-    /*endregion charBoxes */
+    //#endregion charBoxes 
 })
 
 export default ChordChecker;

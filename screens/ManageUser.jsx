@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { View, TouchableOpacity, TouchableHighlight, Text, TextInput, Image, StyleSheet, ScrollView, Alert, Platform } from 'react-native';
 import { useAppContext } from '../AppContext';
 import { useTheme } from '../ThemeContext';
+import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading';
 import * as ImagePicker from 'expo-image-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -10,7 +12,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const ManageUser = ({ navigation }) => {
     const { userId, fetchUserData, updateUserDetails, logOut, uploadProfilePicture  } = useAppContext();
-    const [name, setName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [username, setUserName] = useState('');
     const [age, setAge] = useState('');
     const [email, setEmail] = useState('');
@@ -34,13 +37,24 @@ const ManageUser = ({ navigation }) => {
         }
     };
 
+    const [fontsLoaded] = useFonts({
+        'Poppins-ExtraB': require('../assets/fonts/Poppins/Poppins-ExtraBold.ttf'),
+        'Montserrat-ExtraB': require('../assets/fonts/Montserrat/static/Montserrat-ExtraBold.ttf'),
+        'Montserrat-Bold': require('../assets/fonts/Montserrat/static/Montserrat-Bold.ttf'),
+        'Montserrat-Med': require('../assets/fonts/Montserrat/static/Montserrat-Medium.ttf'),
+        'Montserrat-Reg': require('../assets/fonts/Montserrat/static/Montserrat-Regular.ttf'),
+        'RedHat-Bold': require('../assets/fonts/Red_Hat_Display/static/RedHatDisplay-Bold.ttf'),
+    });
+
+
     useEffect(() => {
         console.log('userId in UserProfile:', userId);
         const getUserData = async () => {
             const userData = await fetchUserData(userId);
             setEmail(userData.email)
             setUserName(userData.username);
-            setName(userData.name);
+            setFirstName(userData.first_name);
+            setLastName(userData.last_name);
             setAge(userData.age);
             setJoinDate(userData.created_at)
             setProfPic(userData.profile_picture)
@@ -137,11 +151,12 @@ const ManageUser = ({ navigation }) => {
         <ScrollView style={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
             <View style={[styles.headerCont, {backgroundColor: currentTheme.backgroundColor}]}>
                 <TouchableOpacity style={styles.backBtn} onPress={() => navigation.navigate('User')}>
-                    <Ionicons name='arrow-back' color="white" size={21} style={[styles.manageSVG, {color: currentTheme.textColor}]} />
+                    <Ionicons name='arrow-back' color="white" size={25} style={[styles.manageSVG, {color: currentTheme.textColor}]} />
                 </TouchableOpacity>
+
                 <TouchableOpacity style={[styles.logoutCont, {backgroundColor: currentTheme.buttonColor}]} onPress={handleLogout}>
                     <AntDesign name='logout' color={'#000'} size={16}/>
-                    <Text style={[styles.logoutTxt, {color: currentTheme.textColor}]}>Logout</Text>
+                    <Text style={[styles.logoutTxt, {color: currentTheme.searchColor}]}>Logout</Text>
                 </TouchableOpacity>
             </View>
 
@@ -150,13 +165,16 @@ const ManageUser = ({ navigation }) => {
 
             <View style={[styles.infoCont, {backgroundColor: currentTheme.backgroundColor2}]}>
                 <Text style={[styles.basicInfoLabel, {color: currentTheme.textColor}]}>User Basic Information</Text>
+
                 <View style={styles.infoContainer}>
                     <View style={styles.profilePic}>
                         <Image source={profilePic ? { uri: profilePic } : require('../assets/erus.jpg')} style={styles.userProfPic}/>
+
                         <TouchableOpacity onPress={selectProfilePicture} style={[styles.uploadBtnCont, {backgroundColor: currentTheme.buttonColor}]}> 
                             <AntDesign name='clouduploado' color={'#000'} size={16} />
-                            <Text style={[styles.uploadBtn, {color: currentTheme.textColor}]}>Upload</Text>
+                            <Text style={[styles.uploadBtn, {color: currentTheme.searchColor}]}>Upload</Text>
                         </TouchableOpacity>
+
                         <View style={styles.joinDateCont}>
                             <Text style={[styles.userJoin, {color: currentTheme.textColor}]}>{joinDate}</Text>
                             <Text style={[styles.userJoinLab, {color: currentTheme.textColor}]}>Join Date</Text>
@@ -165,18 +183,23 @@ const ManageUser = ({ navigation }) => {
 
                     <View style={styles.basicInfo}>
                         <>
-                            <TextInput placeholder='Name' placeholderTextColor={'#FFF'} value={name} onChangeText={setName} style={[styles.infoInput, {color: currentTheme.textColor, borderColor: currentTheme.borderColor}]}/>
-                            <Text style={[styles.infoLabel, {color: currentTheme.textColor}]}>Name</Text>
+                            <TextInput placeholder='Name' placeholderTextColor={'#FFF'} value={firstName} onChangeText={setFirstName} style={[styles.infoInput, {color: currentTheme.textColor, borderColor: currentTheme.borderColor}]}/>
+                            <Text style={[styles.infoLabel, {color: currentTheme.textColor}]}>First Name</Text>
                         </>
                         <>
-                            <TextInput placeholder='UserName' placeholderTextColor={'#FFF'} value={username} onChangeText={setUserName} style={[styles.infoInput, {color: currentTheme.textColor, borderColor: currentTheme.borderColor}]}/>
-                            <Text style={[styles.infoLabel, {color: currentTheme.textColor}]}>Username</Text>
+                            <TextInput placeholder='Name' placeholderTextColor={'#FFF'} value={lastName} onChangeText={setLastName} style={[styles.infoInput, {color: currentTheme.textColor, borderColor: currentTheme.borderColor}]}/>
+                            <Text style={[styles.infoLabel, {color: currentTheme.textColor}]}>Surname</Text>
                         </>
                         <>
                             <TextInput placeholder='Age' placeholderTextColor={'#FFF'} value={age} onChangeText={setAge} style={[styles.infoInput, {color: currentTheme.textColor, borderColor: currentTheme.borderColor}]}/>
                             <Text style={[styles.infoLabel, {color: currentTheme.textColor}]}>Age</Text>
                         </>
                     </View>
+                </View>
+                
+                <View style={styles.userNameCont}>
+                    <TextInput placeholder='UserName' placeholderTextColor={'#FFF'} value={username} onChangeText={setUserName} style={[styles.infoInputLong, {color: currentTheme.textColor, borderColor: currentTheme.borderColor}]}/>
+                    <Text style={[styles.infoLabel, {color: currentTheme.textColor}]}>Username</Text>
                 </View>
 
                 <View style={styles.emailPassword}>
@@ -190,6 +213,7 @@ const ManageUser = ({ navigation }) => {
                             <TextInput placeholder='Password' placeholderTextColor={currentTheme.textColor} value={password} onChangeText={setPassword} style={[styles.passwordInput, {color: currentTheme.textColor, borderColor: currentTheme.borderColor}]} secureTextEntry={!isPasswordVisible} />
                             <Text style={[styles.infoLabel, {color: currentTheme.textColor}]}>Password</Text>
                         </View>
+
                         <TouchableOpacity onPress={togglePasswordVisibility} style={styles.visibilityBtn}>
                             <MaterialIcons
                                 name={isPasswordVisible ? 'visibility' : 'visibility-off'}
@@ -204,7 +228,6 @@ const ManageUser = ({ navigation }) => {
                 >
                     <Text style={styles.updateBtnTxt}>Update</Text>
                 </TouchableOpacity>
-
             </View>
         </ScrollView>
     )
@@ -216,7 +239,7 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         backgroundColor: '#0a0f1b',
         padding: 20,
-        paddingTop: 45,
+        paddingVertical: 45,
     },
     manageSVG: {
         padding: 7.5,
@@ -235,27 +258,27 @@ const styles = StyleSheet.create({
     manageUserLabel: {
         color: '#FFF',
         fontSize: 28,
-        fontWeight: '800',
+        fontFamily: 'Montserrat-ExtraB',
         textTransform: 'uppercase',
         textAlign: 'center',
         marginTop: 20,
         marginBottom: 25,
     },
     infoCont: {
+        backgroundColor: '#1A2433',
         display: 'flex',
-        gap: 30,
+        gap: 20,
         justifyContent: 'space-evenly',
         paddingHorizontal: 25,
-        backgroundColor: '#1A2433',
         paddingVertical: 30,
-        marginBottom: 100,
-        borderRadius: 10,  
+        marginBottom: 90,
+        borderRadius: 10,
     },
     infoContainer: {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        gap: 25,
+        gap: 15,
     },
     //#endregion Main Preferences
 
@@ -270,12 +293,13 @@ const styles = StyleSheet.create({
         height: 30,
         borderRadius: 5,
         gap: 10,
+        marginRight: 5,
     },
     logoutTxt: {
         color: '#000',
-        fontSize: 14,
-        fontWeight: '800',
+        fontSize: 12,
         textTransform: 'uppercase',
+        fontFamily: 'RedHat-Bold',
     },
     //#endregion Logout
 
@@ -291,8 +315,8 @@ const styles = StyleSheet.create({
     },
     basicInfoLabel: {
         color: '#FFF',
-        fontSize: 24,
-        fontWeight: '800',
+        fontSize: 21,
+        fontFamily: 'Montserrat-Bold',
         textAlign: 'center',
     },
     userProfPic: {
@@ -311,14 +335,13 @@ const styles = StyleSheet.create({
         width: 95,
         height: 30,
         borderRadius: 5,
-        gap: 5,
+        gap: 10,
     },
     uploadBtn: {
         color: '#000',
-        fontSize: 14,
-        fontWeight: '800',
+        fontSize: 12,
         textTransform: 'uppercase',
-        borderRadius: 5,
+        fontFamily: 'RedHat-Bold',
     },
     joinDateCont: {
         gap: 5,
@@ -326,30 +349,46 @@ const styles = StyleSheet.create({
     userJoinLab: {
         color: '#fff',
         fontSize: 18,
-        fontWeight: '800',
-        textTransform: 'uppercase'
+        fontFamily: 'Montserrat-Bold',
     },
     userJoin: {
         color: '#fff',
-        fontSize: 17,
+        fontSize: 15,
+        fontFamily: 'Montserrat-Med',
+        opacity: 0.8,
     },
     infoInput: {
-        borderWidth: 2,
+        borderWidth: 1.5,
+        borderColor: '#FFF',
+        padding: 3,
+        paddingHorizontal: 10,
+        borderRadius: 5,
+        width: 140,
+        color: '#fff',
+        fontSize: 15,
+        fontFamily: 'Montserrat-Med',
+        opacity: 0.8,
+    },
+    userNameCont: {
+        display: 'flex',
+        gap: 10,
+    },
+    infoInputLong: {
+        borderWidth: 1.5,
         borderColor: '#FFF',
         padding: 5,
         paddingHorizontal: 10,
-        color: '#FFF',
-        fontWeight: '700',
-        borderRadius: 10,
-        fontSize: 17,
-        width: 140,
+        color: '#fff',
+        fontSize: 15,
+        fontFamily: 'Montserrat-Med',
+        opacity: 0.8,
+        borderRadius: 5,
     },
     infoLabel: {
         color: '#fff',
-        fontWeight: '800',
-        textTransform: 'uppercase',
-        fontSize: 14,
-        marginLeft: 5
+        fontSize: 15,
+        fontFamily: 'Montserrat-Bold',
+        marginLeft: 3,
     },
     //#endregion Basic Information
 
@@ -360,32 +399,35 @@ const styles = StyleSheet.create({
     },
     emailPassLabel: {
         color: '#FFF',
-        fontSize: 22,
-        fontWeight: '800',
+        fontSize: 21,
+        fontFamily: 'Montserrat-Bold',
+        textAlign: 'center',
     },
     emailInput: {
-        borderWidth: 2,
+        borderWidth: 1.5,
         borderColor: '#FFF',
-        padding: 5,
+        padding: 3,
         paddingHorizontal: 10,
-        color: '#FFF',
-        fontWeight: '700',
-        fontSize: 17,
-        borderRadius: 10,
+        borderRadius: 5,
+        color: '#fff',
+        fontSize: 15,
+        fontFamily: 'Montserrat-Med',
+        opacity: 0.8,
     },
     passwordCont: {
         display: 'flex',
         gap: 15,
     },
     passwordInput: {
-        borderWidth: 2,
+        borderWidth: 1.5,
         borderColor: '#FFF',
-        padding: 5,
+        padding: 3,
         paddingHorizontal: 10,
-        color: '#FFF',
-        fontWeight: '700',
-        fontSize: 17,
-        borderRadius: 10,
+        borderRadius: 5,
+        color: '#fff',
+        fontSize: 15,
+        fontFamily: 'Montserrat-Med',
+        opacity: 0.8,
         width: 270,
     },
     passwordInputCont: {
@@ -396,7 +438,8 @@ const styles = StyleSheet.create({
     visibilityBtn: {
         position: 'relative',
         left: -30,
-        top: -15
+        top: -20,
+        opacity: 0.8,
     },
     //#endregion Email & Password 
 
@@ -404,13 +447,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#A8F94F', 
         padding: 8,
         borderRadius: 5,
-        marginBottom: 5,
     },
     updateBtnTxt: {
         color: '#000',
-        fontSize: 16,
-        fontWeight: 'bold',
-        textTransform: 'uppercase',
+        fontSize: 15,
+        fontFamily: 'Montserrat-Bold',
         textAlign: 'center'
     },
 })

@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const darkTheme = {
-    backgroundColor: '#0a0f1b',
+    backgroundColor: '#0A0F1B',
     backgroundColor2: '#1A2433',
     backgroundColor3: '#fff',
     backgroundColor4: '#26393E',
