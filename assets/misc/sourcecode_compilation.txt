@@ -1,0 +1,2619 @@
+import React, {useEffect, useState} from 'react';
+import { View, TouchableOpacity, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import { useTheme } from '../ThemeContext';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import IconDark from '../assets/icon4-1.png';
+import IconLight from '../assets/icon4-2.png';
+
+
+const ChordChecker = () => {
+    const { isDarkMode, toggleTheme, currentTheme } = useTheme();
+    const [selectedTheme, setSelectedTheme] = useState(isDarkMode ? 'dark' : 'light');
+
+    useEffect(() => {
+        setSelectedTheme(isDarkMode ? 'dark' : 'light');
+    }, [isDarkMode]);
+
+    const handleThemeChange = async (theme) => {
+        setSelectedTheme(theme);
+
+        await AsyncStorage.setItem('theme', theme);
+        if ((theme === 'dark' && !isDarkMode) || (theme === 'light' && isDarkMode)) {
+            toggleTheme();
+        }
+    };
+
+    return (
+        <ScrollView contentContainerStyle={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
+            <View style={[styles.headerCont, {backgroundColor: currentTheme.backgroundColor}]}>
+                <View style={[styles.logoContainer, {backgroundColor: currentTheme.backgroundColor}]}>
+                    <Image source={isDarkMode ? IconDark : IconLight} style={styles.logoImg}/>
+                    <Text style={[styles.logoTxt, {color: currentTheme.textColor}]}>G! Tara Na!</Text>
+                </View>
+                <TouchableOpacity style={[styles.searchBox, {backgroundColor: currentTheme.buttonColor}]}>
+                    <FontAwesome5 name='search' size={16}/>
+                    <Text style={[styles.searchTxt, {color: currentTheme.searchColor}]}>Search Chords</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={styles.mainContent}>
+                <Text style={[styles.mainTxt, {color: currentTheme.textColor}]}>Harmony Unleashed: Your Ultimate Guide to Guitar Chords!</Text>
+                <Image source={require('../assets/homeImg.png')} style={styles.mainImg}/>
+            </View>
+
+            <View style={styles.charBoxes}>
+                <TouchableOpacity style={[styles.charBox1, {backgroundColor: currentTheme.backgroundColor4}]}>
+                    <FontAwesome5 name='hands-helping' color={currentTheme.textColor} size={25}/>
+                    <Text style={[styles.charTxt1, {color: currentTheme.textColor}]}>Easy To Use</Text>    
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.charBox2, {backgroundColor: currentTheme.backgroundColor4}]}>                    
+                    <FontAwesome6 name='ear-listen' color={currentTheme.textColor} size={25}/>
+                    <Text style={[styles.charTxt2, {color: currentTheme.textColor}]}>Ear Trainer</Text>    
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.charBox3, {backgroundColor: currentTheme.backgroundColor4}]}>                    
+                    <Ionicons name='musical-note' color={currentTheme.textColor} size={25}/>
+                    <Text style={[styles.charTxt3, {color: currentTheme.textColor}]}>Harmonic Bliss</Text>    
+                </TouchableOpacity>
+            </View>
+        </ScrollView>
+    )
+}
+
+
+const styles = StyleSheet.create ({
+    mainCont: {
+        flexGrow: 1,
+        backgroundColor: '#0a0f1b',
+        padding: 20,
+        paddingTop: 40,
+    },
+    headerCont: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    logoContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+    },
+    logoImg: {
+        width: 50,
+        height: 50,
+        margin: 0,
+    },
+    logoTxt: {
+        color: '#FFF',
+        fontSize: 20,
+        fontWeight: '800',
+    },
+    searchBox: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 8,
+        backgroundColor: '#A8F94F',
+        width: 125,
+        height: 30,
+        borderRadius: 5,
+        gap: 10,
+        marginRight: 10,
+    },
+    searchTxt: {
+        fontSize: 13,
+        fontWeight: '800'
+    },
+    mainContent: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 30,
+        padding: 10,
+        marginVertical: 25,
+    },
+    mainTxt: {
+        color: '#FFF',
+        fontSize: 20,
+        textAlign: 'center',
+        width: '75%',
+        fontWeight: '700',
+    },  
+    mainImg: {
+        width: 300,
+        height: 280,
+    },
+
+    /*region charBoxes */
+    charBoxes: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        gap: 5,
+    },
+    charBox1: {
+        backgroundColor: '#26393E',
+        width: 100,
+        height: 130,
+        borderRadius: 5,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 10,
+    }, charTxt1: {
+        color: '#FFF',
+        fontWeight: '700',
+    },
+    charBox2: {
+        backgroundColor: '#26393E',
+        width: 100,
+        height: 130,
+        borderRadius: 5,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 10,
+    }, charTxt2: {
+        color: '#FFF',
+        fontWeight: '700',
+    },
+    charBox3: {
+        backgroundColor: '#26393E',
+        width: 100,
+        height: 130,
+        borderRadius: 5,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 10,
+    }, charTxt3: {
+        color: '#FFF',
+        fontWeight: '700',
+    },
+    /*endregion charBoxes */
+})
+
+export default ChordChecker;
+
+
+
+import { View, TouchableOpacity, TextInput, Text, Image, ImageBackground, StyleSheet, ScrollView, Alert } from 'react-native';
+import React, {useState} from 'react';
+import { useAppContext } from '../AppContext';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import { useNavigation } from '@react-navigation/native';
+
+
+const ClassPicker = () => {
+    const navigation = useNavigation();
+    const { setRole } = useAppContext();
+    
+
+    const handleRoleSelect = (selectedRole) => {
+        setRole(selectedRole); 
+
+        if (selectedRole === 'user' || selectedRole === 'coach') {
+            navigation.navigate('userAccountScreen', { role: selectedRole }); 
+        } else {
+            Alert.alert('Admin access is required.');
+        }
+    };
+
+    return (
+        <ScrollView contentContainerStyle={styles.mainCont}> 
+            <View style={styles.logoCont}>
+                <ImageBackground source={require('../assets/loginSignUpBG.png')} style={styles.mainLogoBG}>
+                    <Image source={require('../assets/icon4-1.png')} style={styles.mainLogo} />
+                    <Text style={styles.mainLogoTxt}>G! Tara Na!</Text>
+                </ImageBackground>
+            </View>
+
+            <View style={styles.classPickCont}>
+                <Text style={styles.classPickQuote}>WHAT'S YOUR ROLE?</Text>
+                
+                
+                <View style={styles.roleClass}>
+                    <TouchableOpacity style={styles.userClass} onPress={() => handleRoleSelect('user')}>
+                        <FontAwesome6 name='user-large' color={'#1B1212'} size={35} />
+                        <Text style={styles.roleTxt}>USER</Text>
+                    </TouchableOpacity>
+                </View>
+                
+                <View style={styles.roleClass}>
+                    <TouchableOpacity style={styles.coachClass} onPress={() => handleRoleSelect('coach')}>
+                        <FontAwesome6 name='user-group' color={'#1B1212'} size={35} />
+                        <Text style={styles.roleTxt}>COACH</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+
+            <Text style={styles.mainTxt}>"Harmony Unleashed: Your Ultimate Guide to Guitar Chords!"</Text>
+
+            <TouchableOpacity style={styles.adminBtnCont}>
+                <FontAwesome6 name='user-gear' color={'#fff'} size={12} style={styles.adminBtn} />
+            </TouchableOpacity>
+        </ScrollView>
+        
+    )
+}
+
+
+const styles = StyleSheet.create ({
+    mainCont: {
+        flexGrow: 1,
+        backgroundColor: '#0a0f1b',
+        padding: 20,
+        paddingTop: 0,
+        gap: 20,
+        alignItems: 'center',
+    },
+
+    //#region LogoBox 
+    logoCont: {
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: 30,
+    },
+    mainLogoBG: {
+        width: 450,
+        height: 220,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderBottomEndRadius: 200,
+        borderBottomStartRadius: 200,
+        overflow: 'hidden', 
+    },
+    mainLogo: {
+        marginTop: 10,
+        width: 140,
+        height: 140,
+    },
+    mainLogoTxt: {
+        color: '#FFF',
+        fontSize: 30,
+        fontWeight: '800',
+    },
+    //#endregion LogoBox 
+
+    classPickCont: {
+        display: 'flex',
+        backgroundColor: '#1A2433',
+        paddingVertical: 50,
+        paddingHorizontal: 25,
+        alignItems: 'center',
+        borderRadius: 10,
+        gap: 20,
+        width: '95%',
+    },
+
+    classPickQuote: {
+        color: '#FFF',
+        fontSize: 23,
+        fontWeight: '800',
+        letterSpacing: 1.5,
+    },
+
+    roleClass: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 40,
+    },
+
+    userClass: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 20,
+        backgroundColor: '#A8F94F',
+        width: '80%',
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderRadius: 10,
+    },
+    coachClass: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 20,
+        backgroundColor: '#80E0B4',
+        width: '80%',
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderRadius: 10,
+    },
+    
+    roleTxt: {
+        color: '#1B1212',
+        fontSize: 23,
+        fontWeight: '800',
+    },  
+
+    // Bottom Quote
+    mainTxt: {
+        marginTop: 90,
+        color: '#FFF',
+        fontSize: 13,
+        textAlign: 'center',
+        width: '75%',
+        fontWeight: '700',
+    },
+
+    adminBtnCont: {
+        display: 'flex',
+        alignSelf: 'flex-end',
+        padding: 10,
+        borderRadius: 50,
+    },
+
+    adminBtn: {
+        textAlign: 'center',
+    },
+})
+export default ClassPicker;
+
+
+import React, {useEffect, useState} from 'react';
+import { View, TouchableOpacity, TouchableHighlight, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import Ionicons from  'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTheme } from '../ThemeContext';
+import { Linking } from 'react-native';
+
+
+const CreditsPage = () => {
+    const { isDarkMode, toggleTheme, currentTheme } = useTheme();
+    const [selectedTheme, setSelectedTheme] = useState(isDarkMode ? 'dark' : 'light');
+
+    useEffect(() => {
+        setSelectedTheme(isDarkMode ? 'dark' : 'light');
+    }, [isDarkMode]);
+
+    const handleThemeChange = async (theme) => {
+        setSelectedTheme(theme);
+
+        await AsyncStorage.setItem('theme', theme);
+        if ((theme === 'dark' && !isDarkMode) || (theme === 'light' && isDarkMode)) {
+            toggleTheme();
+        }
+    };
+
+    return(
+        <ScrollView contentContainerStyle={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
+            <View style={[styles.labelCont, {backgroundColor: currentTheme.backgroundColor}]}>
+                <TouchableOpacity style={styles.backBtn} onPress={() => navigation.navigate('mainTabs')}>
+                    <Ionicons name='arrow-back' color="white" size={24} style={[styles.manageSVG, {color: currentTheme.textColor}]} />
+                </TouchableOpacity>
+                <Text style={[styles.themeLabel, {color: currentTheme.textColor}]}>Credits to the Creator</Text>
+            </View>
+
+            <Text style={[styles.appTrademark, {color: currentTheme.textColor}]}>G! Tara Na!</Text>
+
+            <TouchableOpacity style={styles.quoteCont}>
+                <Text style={[styles.mainQuote, {color: currentTheme.textColor}]}>Harmony Unleashed</Text>
+                <Text style={[styles.subQuote, {color: currentTheme.textColor}]}>Your Ultimate Guide to Guitar Chords!</Text>
+            </TouchableOpacity>
+
+            <View style={styles.contriCont}>
+                <Text style={[styles.contriLabel, {color: currentTheme.textColor}]}>Contributors</Text>
+                <TouchableOpacity onPress={() => {
+                    Linking.openURL("https://www.instagram.com/lawlensphotography/")
+                }}>
+                    <Image source={require('../assets/Contributors/Ace.jpg')} style={styles.contriJPG}/>
+                    <Text style={[styles.contriTXT, {color: currentTheme.textColor}]}>Ace Clavano</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    Linking.openURL("https://www.instagram.com/airacaughton4k/")
+                }}>
+                    <Image source={require('../assets/Contributors/Aira.png')} style={styles.contriJPG}/>
+                    <Text style={[styles.contriTXT, {color: currentTheme.textColor}]}>Aira Estur</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    Linking.openURL("https://www.instagram.com/cmllnieto_/")
+                }}>
+                    <Image source={require('../assets/Contributors/Cams.jpg')} style={styles.contriJPG}/>
+                    <Text style={[styles.contriTXT, {color: currentTheme.textColor}]}>Camille Nieto</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    Linking.openURL("https://www.instagram.com/ec_pzzz/")
+                }}>
+                    <Image source={require('../assets/Contributors/Eros.jpg')} style={styles.contriJPG}/>
+                    <Text style={[styles.contriTXT, {color: currentTheme.textColor}]}>Eros Ruffy</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={styles.frameworkCont}>
+                <Text style={[styles.frameworkLabel, {color: currentTheme.textColor}]}>Frameworks and Languages</Text>
+                <View style={styles.frame1}>
+                    <Image source={require('../assets/react-native.png')} style={styles.frameworkJPG1}/>
+                    <Image source={require('../assets/js.png')} style={styles.frameworkJPG1}/>
+                </View>
+                <View style={styles.frame2}>
+                    <Image source={isDarkMode ? require('../assets/expo.png') : require('../assets/expo-2.png')} style={styles.frameworkJPG2}/>
+                    <Image source={require('../assets/supabase.png')} style={styles.frameworkJPG2}/>
+                </View>
+            </View>
+
+            <Text style={[styles.rightsReserve, {color: currentTheme.textColor}]}>@ 2024 G! Tara Na! by AACE. All Rights Reserved</Text>
+        </ScrollView>
+    )
+}
+
+const styles = StyleSheet.create({
+    mainCont: {
+        flexGrow: 1,
+        backgroundColor: '#0a0f1b',
+        padding: 20,
+        paddingTop: 40,
+        paddingBottom: 50,
+    },
+    appTrademark: {
+        marginTop: 30,
+        color: '#FFF',
+        textAlign: 'center',
+        fontSize: 45,
+        fontWeight: '900'
+    },
+
+    rightsReserve: {
+        textAlign: 'center',
+        color: '#FFF',
+        marginTop: 50,
+    },
+    
+    //#region Quote Container
+    quoteCont:{
+        marginTop: 10,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 5,
+    },
+    mainQuote: {
+        color: '#FFF',
+        textAlign: 'center',
+        fontSize: 20,
+        fontWeight: '900'
+    },
+    subQuote: {
+        color: '#FFF',
+        textAlign: 'center',
+        fontSize: 15,
+        fontWeight: '500'
+    },
+    //#endregion Quote Container
+
+    //#region Label Container
+    labelCont: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10
+    },
+    manageSVG: {
+        padding: 7.5,
+        width: 40,
+        height: 40,
+        textAlign: 'center'
+    },
+    themeLabel: {
+        color: '#fff',
+        fontWeight: '700',
+        fontSize: 21,
+    },
+    //#endregion Label Container
+
+    //#region Contributors
+    contriCont: {
+        display: 'flex',
+        alignItems: 'center',
+        marginTop: 40,
+    },
+    contriLabel: {
+        fontSize: 30,
+        color: '#FFF',
+        textAlign: 'center',
+        fontWeight: '800',
+    },
+    contriJPG: {
+        width: 120,
+        height: 120,
+        borderRadius: 60,
+        marginVertical: 20,
+    },
+    contriTXT: {
+        fontSize: 21,
+        color: '#FFF',
+        textAlign: 'center',
+        fontWeight: '800',
+    },  
+    //#endregion Contributors
+
+    //#region Frameworks and Languages
+    frameworkCont: {
+        display: 'flex',
+        alignItems: 'center',
+        marginTop: 40,
+        gap: 30,
+    },
+    frameworkJPG1: {
+        width: 90,
+        height: 90,
+    },
+    frameworkJPG2: {
+        width: 110,
+        height: 110,
+    },
+    frameworkLabel: {
+        fontSize: 30,
+        color: '#FFF',
+        textAlign: 'center',
+        fontWeight: '800',
+    },
+    frame1: {
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 50,
+    },
+    frame2: {
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 35,
+    },
+    //#endregion Frameworks and Languages
+})
+
+export default CreditsPage;
+
+
+import { View, TouchableOpacity, TextInput, Text, Image, ImageBackground, StyleSheet, ScrollView, Alert, ActivityIndicator } from 'react-native';
+import React, {useState} from 'react';
+import { useAppContext } from '../AppContext';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading';
+
+
+const Login = ({ route, navigation }) => {
+    const [selected, setSelected] = useState('Login');
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const { logIn } = useAppContext();
+
+    const togglePasswordVisibility = () => {
+        setIsPasswordVisible(!isPasswordVisible);
+    };
+
+    const handleAuth = async () => {
+        if (!email || !password) {
+            Alert.alert("Please fill in the required fields.");
+            return;
+        }
+
+        if (password.length < 7) {
+            Alert.alert("Please enter a password with a minimum of 7 characters.");
+            return;
+        }
+
+        const isLoginCorrect = await logIn(email, password);
+
+        if (isLoginCorrect) {
+            navigation.navigate('mainTabs');
+        }
+        else {
+            Alert.alert("Error during Log-in", "Invalid login credentials");
+        }
+    }
+
+    // Loading Graphic 
+    const [fontsLoaded] = useFonts({
+        Roboto: require('../assets/fonts/roboto/Roboto-Regular.ttf'),
+        'Roboto-Bold': require('../assets/fonts/roboto/Roboto-Black.ttf'),
+    });
+
+    if (!fontsLoaded) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#A8F94F" />
+            </View>
+        );
+    }
+
+    return (
+        <ScrollView contentContainerStyle={styles.mainCont}>
+            <View style={styles.logoCont}>
+                <ImageBackground source={require('../assets/loginSignUpBG.png')} style={styles.mainLogoBG}>
+                    <Image source={require('../assets/icon4-1.png')} style={styles.mainLogo} />
+                    <Text style={styles.mainLogoTxt}>G! Tara Na!</Text>
+                </ImageBackground>
+            </View>
+
+            <View style={styles.loginContainer}>
+                <View style={styles.userMethodCont}>
+                    <TouchableOpacity 
+                        style={[styles.button, 
+                            selected === 'SignUp' ? styles.activeButton : 
+                            styles.inactiveButton
+                        ]} 
+                        onPress={() => {setSelected('Login')}} 
+                    >
+                        <Text style={[styles.buttonText, 
+                            selected === 'SignUp' ? styles.activeText : 
+                            styles.inactiveText
+                        ]}
+                        >
+                            {'Login'}
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        style={[styles.button, 
+                            selected === 'SignUp' ? styles.activeButton : 
+                            styles.inactiveButton
+                        ]}                         
+                        onPress={() => {setSelected('SignUp'); 
+                            navigation.navigate('SignUp')
+                        }} 
+                    >
+                        <Text style={[styles.buttonText, 
+                            selected === 'SignUp' ? styles.activeText : 
+                            styles.inactiveText]}
+                        >
+                            {'SignUp'}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                
+                <TextInput
+                    style={styles.inputFields}
+                    placeholder="Email"
+                    placeholderTextColor={"#FFF"}
+                    value={email}
+                    onChangeText={setEmail}
+                    autoCapitalize="none"
+                />
+
+                <View style={styles.passwordInputCont}>
+                    <TextInput
+                        style={styles.passwordInput}
+                        placeholder="Password"
+                        placeholderTextColor={"#FFF"}
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry={!isPasswordVisible}
+                    />
+                    <TouchableOpacity onPress={togglePasswordVisibility}>
+                        <MaterialIcons
+                            name={isPasswordVisible ? 'visibility' : 'visibility-off'}
+                            size={20}
+                            color='#FFF'
+                        />
+                    </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity style={styles.loginBtn} onPress={handleAuth}>
+                    <Text style={styles.loginBtnTxt}>{'Login'}</Text>
+                </TouchableOpacity>
+            </View>
+
+            <Text style={styles.mainTxt}>"Harmony Unleashed: Your Ultimate Guide to Guitar Chords!"</Text>
+        </ScrollView>
+    )
+}
+
+const styles = StyleSheet.create({
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#0a0f1b',
+    },
+
+    mainCont: {
+        flexGrow: 1,
+        backgroundColor: '#0a0f1b',
+        padding: 20,
+        paddingTop: 0,
+        gap: 20,
+        alignItems: 'center',
+    },
+
+    //#region LogoBox 
+    logoCont: {
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: 30,
+    },
+    mainLogoBG: {
+        width: 450,
+        height: 220,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderBottomEndRadius: 200,
+        borderBottomStartRadius: 200,
+        overflow: 'hidden', 
+    },
+    mainLogo: {
+        marginTop: 10,
+        width: 140,
+        height: 140,
+    },
+    mainLogoTxt: {
+        color: '#FFF',
+        fontSize: 30,
+        fontFamily: 'Roboto-Bold'
+    },
+    //#endregion LogoBox 
+
+    //#region EntryMethods
+    userMethodCont: {
+        flexDirection: 'row',
+        borderRadius: 25,
+        borderWidth: 2,
+        overflow: 'hidden',
+    },
+    button: {
+        flex: 1, 
+        paddingVertical: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    activeButton: {
+        backgroundColor: '#A8F94F', 
+    },
+    inactiveButton: {
+        backgroundColor: '#0a0f1b', 
+    },
+    buttonText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    activeText: {
+        color: '#000', 
+        textTransform: 'uppercase'
+    },
+    inactiveText: {
+        color: '#FFF', 
+        textTransform: 'uppercase'
+    },
+    //#endregion EntryMethods
+
+    //#region LoginBox 
+    loginContainer: {
+        display: 'flex',
+        backgroundColor: '#1A2433',
+        paddingVertical: 30,
+        paddingHorizontal: 25,
+        alignItems: 'center',
+        borderRadius: 10,
+        gap: 20,
+        width: '95%',
+    },
+    headerTwo: {
+        fontSize: 18,
+        marginBottom: 10,
+        textAlign: 'center',
+        fontWeight: '700',
+        color: '#FFF',
+        textTransform: 'uppercase',
+    },
+    inputFields: {
+        width: '90%',
+        borderBottomWidth: 1,
+        marginBottom: 20,
+        padding: 8,
+        borderColor: '#FFF',
+        color: '#FFF',
+        fontWeight: '800',
+    },
+    passwordInputCont: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderColor: '#FFF',
+        marginBottom: 20,
+        width: '90%',
+    },
+    passwordInput: {
+        flex: 1,
+        color: '#FFF',
+        padding: 8,
+        fontWeight: '800',
+    },
+    loginBtn: {
+        backgroundColor: '#A8F94F', 
+        padding: 8,
+        borderRadius: 5,
+        marginBottom: 5,
+    },
+    loginBtnTxt: {
+        color: '#000',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+    },
+    //#endregion LoginBox 
+
+    // Bottom Quote
+    mainTxt: {
+        marginTop: 40,
+        color: '#FFF',
+        fontSize: 13,
+        textAlign: 'center',
+        width: '75%',
+        fontWeight: '700',
+    },
+})
+
+export default Login;
+
+
+
+import React, {useEffect, useState} from 'react';
+import { View, TouchableOpacity, TouchableHighlight, Text, TextInput, Image, StyleSheet, ScrollView, Alert, Platform } from 'react-native';
+import { useAppContext } from '../AppContext';
+import { useTheme } from '../ThemeContext';
+import * as ImagePicker from 'expo-image-picker';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+
+const ManageUser = ({ navigation }) => {
+    const { userId, fetchUserData, updateUserDetails, logOut, uploadProfilePicture  } = useAppContext();
+    const [name, setName] = useState('');
+    const [username, setUserName] = useState('');
+    const [age, setAge] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [joinDate, setJoinDate] = useState('');
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [profilePic, setProfPic] = useState('');
+    const { isDarkMode, toggleTheme, currentTheme } = useTheme();
+    const [selectedTheme, setSelectedTheme] = useState(isDarkMode ? 'dark' : 'light');
+
+    useEffect(() => {
+        setSelectedTheme(isDarkMode ? 'dark' : 'light');
+    }, [isDarkMode]);
+
+    const handleThemeChange = async (theme) => {
+        setSelectedTheme(theme);
+
+        await AsyncStorage.setItem('theme', theme);
+        if ((theme === 'dark' && !isDarkMode) || (theme === 'light' && isDarkMode)) {
+            toggleTheme();
+        }
+    };
+
+    useEffect(() => {
+        console.log('userId in UserProfile:', userId);
+        const getUserData = async () => {
+            const userData = await fetchUserData(userId);
+            setEmail(userData.email)
+            setUserName(userData.username);
+            setName(userData.name);
+            setAge(userData.age);
+            setJoinDate(userData.created_at)
+            setProfPic(userData.profile_picture)
+        };
+
+        getUserData();
+    }, [userId]);
+
+    const togglePasswordVisibility = () => {
+        setIsPasswordVisible(!isPasswordVisible);
+    };
+
+    const handleUpdate = async () => {
+        console.log("Update Btn pressed.")
+
+        const initialData = {
+            email: email.trim(),
+            username: username.trim(),
+            name: name.trim(),
+            age: age ? age : null,
+        };
+
+        const updatedData = Object.fromEntries(
+            Object.entries(initialData).filter(([_, v]) => v != null && v !== '')
+        );
+
+        if (Object.keys(updatedData).length === 0 && !password.trim()) {
+            Alert.alert('Nothing to update');
+            return;
+        }
+
+        try {
+            // Log the current input for debugging
+            console.log('Current Input:', updatedData);
+    
+            // If user details are present, update them
+            if (Object.keys(updatedData).length > 0) {
+                const result = await updateUserDetails(userId, updatedData);
+                Alert.alert('Success, user details updated!');
+            } else {
+                Alert.alert('Error, user details failed to update.');
+                console.log('Update result:', result);
+            }
+    
+            // If the password is provided, update it
+            if (password.trim()) {
+                await updatePassword(password);
+            }
+        } catch (error) {
+            console.error('Error updating user details or password:', error.message);
+        }
+    };
+
+    const handleLogout = () => {
+        Alert.alert(
+          "Log Out", 
+          "Are you sure you want to log out?", 
+          [
+            {
+              text: "Cancel",
+              style: "cancel"
+            },
+            {
+              text: "Log Out",
+              onPress: async () => {
+                await logOut(),
+              navigation.navigate("userAccountScreen")
+                }
+            }
+            ]
+        );
+    };
+
+    const selectProfilePicture = async () => {
+        try {
+            const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [1, 1],
+                quality: 1,
+            });
+
+            if (!result.canceled) {
+                const imageUri = result.assets[0].uri;
+                const imageUrl = await uploadProfilePicture(userId, imageUri);
+                setProfPic(imageUrl);
+            }
+        } catch (error) {
+            console.error('Error selecting image:', error);
+        }
+    };
+
+    return (
+        <ScrollView style={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
+            <View style={[styles.headerCont, {backgroundColor: currentTheme.backgroundColor}]}>
+                <TouchableOpacity style={styles.backBtn} onPress={() => navigation.navigate('User')}>
+                    <Ionicons name='arrow-back' color="white" size={21} style={[styles.manageSVG, {color: currentTheme.textColor}]} />
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.logoutCont, {backgroundColor: currentTheme.buttonColor}]} onPress={handleLogout}>
+                    <AntDesign name='logout' color={'#000'} size={16}/>
+                    <Text style={[styles.logoutTxt, {color: currentTheme.textColor}]}>Logout</Text>
+                </TouchableOpacity>
+            </View>
+
+
+            <Text style={[styles.manageUserLabel, {color: currentTheme.textColor}]}>Manage User</Text>
+
+            <View style={[styles.infoCont, {backgroundColor: currentTheme.backgroundColor2}]}>
+                <Text style={[styles.basicInfoLabel, {color: currentTheme.textColor}]}>User Basic Information</Text>
+                <View style={styles.infoContainer}>
+                    <View style={styles.profilePic}>
+                        <Image source={profilePic ? { uri: profilePic } : require('../assets/erus.jpg')} style={styles.userProfPic}/>
+                        <TouchableOpacity onPress={selectProfilePicture} style={[styles.uploadBtnCont, {backgroundColor: currentTheme.buttonColor}]}> 
+                            <AntDesign name='clouduploado' color={'#000'} size={16} />
+                            <Text style={[styles.uploadBtn, {color: currentTheme.textColor}]}>Upload</Text>
+                        </TouchableOpacity>
+                        <View style={styles.joinDateCont}>
+                            <Text style={[styles.userJoin, {color: currentTheme.textColor}]}>{joinDate}</Text>
+                            <Text style={[styles.userJoinLab, {color: currentTheme.textColor}]}>Join Date</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.basicInfo}>
+                        <>
+                            <TextInput placeholder='Name' placeholderTextColor={'#FFF'} value={name} onChangeText={setName} style={[styles.infoInput, {color: currentTheme.textColor, borderColor: currentTheme.borderColor}]}/>
+                            <Text style={[styles.infoLabel, {color: currentTheme.textColor}]}>Name</Text>
+                        </>
+                        <>
+                            <TextInput placeholder='UserName' placeholderTextColor={'#FFF'} value={username} onChangeText={setUserName} style={[styles.infoInput, {color: currentTheme.textColor, borderColor: currentTheme.borderColor}]}/>
+                            <Text style={[styles.infoLabel, {color: currentTheme.textColor}]}>Username</Text>
+                        </>
+                        <>
+                            <TextInput placeholder='Age' placeholderTextColor={'#FFF'} value={age} onChangeText={setAge} style={[styles.infoInput, {color: currentTheme.textColor, borderColor: currentTheme.borderColor}]}/>
+                            <Text style={[styles.infoLabel, {color: currentTheme.textColor}]}>Age</Text>
+                        </>
+                    </View>
+                </View>
+
+                <View style={styles.emailPassword}>
+                    <Text style={[styles.emailPassLabel, {color: currentTheme.textColor}]}>Email & Password</Text>
+                    <>
+                        <TextInput placeholder='Email' placeholderTextColor={'#FFF'} value={email} onChangeText={setEmail} style={[styles.emailInput, {color: currentTheme.textColor, borderColor: currentTheme.borderColor}]}/>
+                        <Text style={[styles.infoLabel, {color: currentTheme.textColor}]}>Email</Text>
+                    </>
+                    <View style={styles.passwordInputCont}>
+                        <View style={styles.passwordCont}>
+                            <TextInput placeholder='Password' placeholderTextColor={currentTheme.textColor} value={password} onChangeText={setPassword} style={[styles.passwordInput, {color: currentTheme.textColor, borderColor: currentTheme.borderColor}]} secureTextEntry={!isPasswordVisible} />
+                            <Text style={[styles.infoLabel, {color: currentTheme.textColor}]}>Password</Text>
+                        </View>
+                        <TouchableOpacity onPress={togglePasswordVisibility} style={styles.visibilityBtn}>
+                            <MaterialIcons
+                                name={isPasswordVisible ? 'visibility' : 'visibility-off'}
+                                size={20}
+                                color={currentTheme.textColor}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+                <TouchableOpacity onPress={handleUpdate} style={[styles.updateBtn, {backgroundColor: currentTheme.buttonColor}]}
+                >
+                    <Text style={styles.updateBtnTxt}>Update</Text>
+                </TouchableOpacity>
+
+            </View>
+        </ScrollView>
+    )
+}
+
+const styles = StyleSheet.create({
+    //#region Main Preferences
+    mainCont: {
+        flexGrow: 1,
+        backgroundColor: '#0a0f1b',
+        padding: 20,
+        paddingTop: 45,
+    },
+    manageSVG: {
+        padding: 7.5,
+        width: 40,
+        height: 40,
+        textAlign: 'center'
+    },
+    headerCont: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: 30,
+        marginBottom: 5,
+    },
+    manageUserLabel: {
+        color: '#FFF',
+        fontSize: 28,
+        fontWeight: '800',
+        textTransform: 'uppercase',
+        textAlign: 'center',
+        marginTop: 20,
+        marginBottom: 25,
+    },
+    infoCont: {
+        display: 'flex',
+        gap: 30,
+        justifyContent: 'space-evenly',
+        paddingHorizontal: 25,
+        backgroundColor: '#1A2433',
+        paddingVertical: 30,
+        marginBottom: 100,
+        borderRadius: 10,  
+    },
+    infoContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        gap: 25,
+    },
+    //#endregion Main Preferences
+
+    //#region Logout
+    logoutCont: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        backgroundColor: '#A8F94F',
+        width: 95,
+        height: 30,
+        borderRadius: 5,
+        gap: 10,
+    },
+    logoutTxt: {
+        color: '#000',
+        fontSize: 14,
+        fontWeight: '800',
+        textTransform: 'uppercase',
+    },
+    //#endregion Logout
+
+    //#region Profile Pic Container && Basic Information 
+    profilePic: {
+        display: 'flex',
+        gap: 15,
+    },
+    basicInfo: {
+        display: 'flex',
+        gap: 10,
+        justifyContent: 'flex-end',
+    },
+    basicInfoLabel: {
+        color: '#FFF',
+        fontSize: 24,
+        fontWeight: '800',
+        textAlign: 'center',
+    },
+    userProfPic: {
+        borderWidth: 1,
+        borderColor: '#fff',
+        borderRadius: 60,
+        width: 110,
+        height: 110,
+    },
+    uploadBtnCont: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        backgroundColor: '#A8F94F',
+        width: 95,
+        height: 30,
+        borderRadius: 5,
+        gap: 5,
+    },
+    uploadBtn: {
+        color: '#000',
+        fontSize: 14,
+        fontWeight: '800',
+        textTransform: 'uppercase',
+        borderRadius: 5,
+    },
+    joinDateCont: {
+        gap: 5,
+    },
+    userJoinLab: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: '800',
+        textTransform: 'uppercase'
+    },
+    userJoin: {
+        color: '#fff',
+        fontSize: 17,
+    },
+    infoInput: {
+        borderWidth: 2,
+        borderColor: '#FFF',
+        padding: 5,
+        paddingHorizontal: 10,
+        color: '#FFF',
+        fontWeight: '700',
+        borderRadius: 10,
+        fontSize: 17,
+        width: 140,
+    },
+    infoLabel: {
+        color: '#fff',
+        fontWeight: '800',
+        textTransform: 'uppercase',
+        fontSize: 14,
+        marginLeft: 5
+    },
+    //#endregion Basic Information
+
+    //#region Email & Password 
+    emailPassword: {
+        display: 'flex',
+        gap: 15,
+    },
+    emailPassLabel: {
+        color: '#FFF',
+        fontSize: 22,
+        fontWeight: '800',
+    },
+    emailInput: {
+        borderWidth: 2,
+        borderColor: '#FFF',
+        padding: 5,
+        paddingHorizontal: 10,
+        color: '#FFF',
+        fontWeight: '700',
+        fontSize: 17,
+        borderRadius: 10,
+    },
+    passwordCont: {
+        display: 'flex',
+        gap: 15,
+    },
+    passwordInput: {
+        borderWidth: 2,
+        borderColor: '#FFF',
+        padding: 5,
+        paddingHorizontal: 10,
+        color: '#FFF',
+        fontWeight: '700',
+        fontSize: 17,
+        borderRadius: 10,
+        width: 270,
+    },
+    passwordInputCont: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    visibilityBtn: {
+        position: 'relative',
+        left: -30,
+        top: -15
+    },
+    //#endregion Email & Password 
+
+    updateBtn: {
+        backgroundColor: '#A8F94F', 
+        padding: 8,
+        borderRadius: 5,
+        marginBottom: 5,
+    },
+    updateBtnTxt: {
+        color: '#000',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+        textAlign: 'center'
+    },
+})
+
+export default ManageUser;
+
+
+
+
+import React, {useEffect, useState} from 'react';
+import { View, TouchableOpacity, TouchableHighlight, Text, Image, StyleSheet, ScrollView, Alert } from 'react-native';
+import { useAppContext } from '../AppContext';
+import { useTheme } from '../ThemeContext';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Octicons from  'react-native-vector-icons/Octicons';
+
+
+const SettingsPage = ({ navigation }) => {
+    const { logOut, userId, fetchUserData } = useAppContext();
+    const [userName, setUserName] = useState('');
+    const [userEmail, setUserEmail] = useState('');
+    const [profilePic, setProfPic] = useState('');
+    const { isDarkMode, toggleTheme, currentTheme } = useTheme();
+    const [selectedTheme, setSelectedTheme] = useState(isDarkMode ? 'dark' : 'light');
+
+    useEffect(() => {
+        setSelectedTheme(isDarkMode ? 'dark' : 'light');
+    }, [isDarkMode]);
+
+    const handleThemeChange = async (theme) => {
+        setSelectedTheme(theme);
+
+        await AsyncStorage.setItem('theme', theme);
+        if ((theme === 'dark' && !isDarkMode) || (theme === 'light' && isDarkMode)) {
+            toggleTheme();
+        }
+    };
+
+    useEffect(() => {
+        console.log('userId in UserProfile:', userId);
+        const getUserData = async () => {
+            const userData = await fetchUserData(userId);
+            setUserName(userData.name);
+            setUserEmail(userData.email)
+            setProfPic(userData.profile_picture)
+        };
+
+        getUserData();
+    }, [userId]);
+
+    const handleLogout = () => {
+        Alert.alert(
+          "Log Out", 
+          "Are you sure you want to log out?", 
+          [
+            {
+              text: "Cancel",
+              style: "cancel"
+            },
+            {
+              text: "Log Out",
+              onPress: async () => {
+                await logOut(),
+              navigation.navigate("userAccountScreen")
+            }
+        }
+        ]
+    );
+    };
+
+    return (
+        <ScrollView contentContainerStyle={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
+            <View style={[styles.headerCont, {color: currentTheme.textColor}]}>
+                <TouchableOpacity style={styles.settingLabel}>
+                    <Ionicons name='settings-outline' color={'#FFF'} size={25} style={{color: currentTheme.textColor}}/>
+                    <Text style={[styles.settingsTxt, {color: currentTheme.textColor}]}>Settings</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.logoutCont, {backgroundColor: currentTheme.buttonColor}]} onPress={handleLogout}>
+                    <AntDesign name='logout' color={'#000'} size={16}/>
+                    <Text style={styles.logoutTxt}>Logout</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={[styles.userProfileCont, {backgroundColor: currentTheme.backgroundColor2}]}>
+                <View style={styles.userProfLeft}>
+                    <Image source={profilePic ? {uri: profilePic} : require('../assets/erus.jpg')} style={styles.userProfPic}/>
+                </View>
+                <View style={styles.userProfRight}>
+                    <TouchableOpacity style={styles.userAgeCont}>
+                        <Text style={[styles.userProfName, {color: currentTheme.textColor}]}>{userName}</Text>
+                        <Text style={[styles.userNumber, {color: currentTheme.textColor}]}>{userEmail}</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+
+            <View style={styles.userSettings}>
+                <View style={styles.generalMenu}>
+                    <Text style={[styles.generalLabel, {color: currentTheme.textColor}]}>General</Text>
+                    <View style={styles.sectionContent}>
+                        <TouchableOpacity style={styles.manageSection} onPress={() => navigation.navigate('ThemePicker')}>
+                            <Octicons name='paintbrush' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
+                            <Text style={[styles.btnTxt, {color: currentTheme.textColor}]}>Theme</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.manageSection} onPress={() => navigation.navigate('')}>
+                            <Ionicons name='notifications-outline' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
+                            <Text style={[styles.btnTxt, {color: currentTheme.textColor}]}>Notifications</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={styles.supportMenu}>
+                    <Text style={[styles.supportLabel, {color: currentTheme.textColor}]}>Support</Text>
+                    <View style={styles.sectionContent}>
+                        <TouchableOpacity style={styles.manageSection} onPress={() => navigation.navigate('CreditsPage')}>
+                            <FontAwesome name='trademark' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
+                            <Text style={[styles.btnTxt, {color: currentTheme.textColor}]}>Credits</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.manageSection}>
+                            <Entypo name='documents' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
+                            <Text style={[styles.btnTxt, {color: currentTheme.textColor}]}>FAQs</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+
+        </ScrollView>
+    )
+}
+
+const styles = StyleSheet.create({
+    mainCont: {
+        flexGrow: 1,
+        backgroundColor: '#0a0f1b',
+        padding: 20,
+        paddingTop: 50,
+    },
+
+    //#region Header
+    headerCont: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: 30,
+        marginBottom: 50,
+    },  
+    settingLabel: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: 13,
+    },
+    settingsTxt: {
+        color: '#FFF',
+        fontSize: 25,
+        fontWeight: '800',
+    },
+    logoutCont: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        backgroundColor: '#A8F94F',
+        width: 95,
+        height: 30,
+        borderRadius: 5,
+        gap: 10,
+    },
+    logoutTxt: {
+        color: '#000',
+        fontSize: 14,
+        fontWeight: '800',
+        textTransform: 'uppercase',
+    },
+    //#endregion Header
+
+    //#region User
+    userProfileCont: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        gap: 10,
+        paddingHorizontal: 5,
+        backgroundColor: '#1A2433',
+        paddingVertical: 20,
+        borderRadius: 10,
+    },  
+    userProfLeft: {
+        display: 'flex',
+        alignItems: 'flex-start',
+    },  
+    userProfPic: {
+        borderWidth: 1,
+        borderColor: '#fff',
+        borderRadius: 60,
+        width: 90,
+        height: 90,
+    },
+    userProfRight: {
+        display: 'flex',
+        alignItems: 'flex-start',
+        gap: 20,
+        marginTop: 15,
+    },
+    userProfName: {
+        color: '#fff',
+        fontSize: 22,
+        textTransform: 'uppercase',
+        fontWeight: '800'
+    },
+    userNumber: {
+        color: '#fff',
+        fontSize: 15,
+    },
+    //#endregion User
+
+    //#region User Profile and Preferences Menu Section
+    userSettings: {
+        padding: 20,
+        marginVertical: 30,
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'space-evenly',
+    },
+
+    //#region General Menu
+    generalMenu: {
+        marginBottom: 20,
+        gap: 10,
+    },
+    generalLabel: {
+        color: '#fff',
+        fontWeight: '800',
+        fontSize: 25,
+    },
+    sectionContent: {
+        paddingHorizontal: 15,
+        marginTop: 5,
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        gap: 15,
+    },
+    manageSection: {
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 20,
+        alignItems: 'center'
+    },
+    manageSVG: {
+        padding: 7.5,
+        width: 40,
+        height: 40,
+        backgroundColor: '#fff',
+        borderRadius: 60,
+        textAlign: 'center'
+    },
+    btnTxt: {
+        color: '#fff',
+        fontWeight: '700',
+        fontSize: 18,
+    },
+    rightBtn: {
+        paddingVertical: 2,
+        textAlign: 'center',
+        width: 35,
+        height: 35,
+        backgroundColor: '#fff',
+        borderRadius: 60,
+    },
+    //#endregion General Menu
+    
+    //#region Support Menu
+    supportMenu: {
+        marginBottom: 20,
+        gap: 10,
+    },
+    supportLabel: {
+        color: '#fff',
+        fontWeight: '800',
+        fontSize: 25,
+    },
+    //#endregion Support Menu
+    
+    //#endregion User Profile and Preferences Menu Section
+
+})
+
+export default SettingsPage;
+
+
+
+import { View, TouchableOpacity, TextInput, Text, Image, ImageBackground, StyleSheet, ScrollView, Alert } from 'react-native';
+import React, {useState} from 'react';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { useAppContext } from '../AppContext';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+const SignUp = ({ route, navigation }) => {
+    const [selected, setSelected] = useState('SignUp');
+    const [date, setDate] = useState(new Date());
+    const [show, setShow] = useState(false);
+    const [dobString, setDobString] = useState('');
+
+    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
+    const [name, setName] = useState('');
+    const [age, setAge] = useState('');
+    const [password, setPassword] = useState('');
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const { role, signUp } = useAppContext();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+    const onChange = ( event, selectedDate ) => {
+        const currentDate = selectedDate || date;
+        setShow(false);
+        setDate(currentDate);
+        setDobString(currentDate.toLocaleDateString()); 
+    }
+
+    const handleAuth = async () => {
+        if (!role) {
+            Alert.alert("Role is not defined. Please select a role.");
+            return;
+        }
+
+        if (!email || !password) {
+            Alert.alert("Please fill in the required fields.");
+            return;
+        }
+
+        if (!emailRegex.test(email)) {
+            Alert.alert("Please enter a valid email address.");
+            return;
+        }
+
+        if (password.length < 7) {
+            Alert.alert("Please enter a password with a minimum of 7 characters.");
+            return;
+        }
+
+        if (username.length < 3) {
+            alert('Username should be at least 3 characters long.');
+            return;
+        }
+
+        try {
+            await signUp(email, username, name, age, password, role);
+            navigation.navigate('mainTabs');
+        } catch (error) {
+            Alert.alert("Error during sign-up", error.message);
+        }
+    }
+
+    const togglePasswordVisibility = () => {
+        setIsPasswordVisible(!isPasswordVisible);
+    };
+
+    return (
+        <ScrollView contentContainerStyle={styles.mainCont}>
+            <View style={styles.logoCont}>
+                <ImageBackground source={require('../assets/loginSignUpBG.png')} style={styles.mainLogoBG}>
+                    <Image source={require('../assets/icon4-1.png')} style={styles.mainLogo} />
+                    <Text style={styles.mainLogoTxt}>G! Tara Na!</Text>
+                </ImageBackground>
+            </View>
+
+            <View style={styles.signUpContainer}>
+                <View style={styles.userMethodCont}>
+                    <TouchableOpacity 
+                        style={[styles.button, 
+                            selected === 'SignUp' ? styles.activeButton : 
+                            styles.inactiveButton
+                        ]} 
+                        onPress={() => {setSelected('Login'); 
+                            navigation.navigate('Login')
+                        }} 
+                    >
+                        <Text style={[styles.buttonText, 
+                            selected === 'SignUp' ? styles.activeText : 
+                            styles.inactiveText]}
+                        >
+                            {'Login'}
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.button, 
+                        selected === 'SignUp' ? styles.activeButton : 
+                        styles.inactiveButton
+                    ]} 
+                        onPress={() => setSelected('SignUp')}>
+                        <Text style={[styles.buttonText, 
+                            selected === 'SignUp' ? styles.activeText : 
+                            styles.inactiveText]}
+                        >
+                            {'SignUp'}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+
+                <TextInput
+                    style={styles.inputFields}
+                    placeholder="Name"
+                    placeholderTextColor={"#FFF"}
+                    value={name}
+                    onChangeText={setName}
+                    autoCapitalize="none"
+                />
+
+                <TextInput
+                    style={styles.inputFields}
+                    placeholder="Age"
+                    placeholderTextColor={"#FFF"}
+                    value={age}
+                    onChangeText={setAge}
+                    autoCapitalize="none"
+                />
+
+                <TextInput
+                    style={styles.inputFields}
+                    placeholder="Username"
+                    placeholderTextColor={"#FFF"}
+                    value={username}
+                    onChangeText={setUsername}
+                    autoCapitalize="none"
+                />
+
+                <TextInput
+                    style={styles.inputFields}
+                    placeholder="Email"
+                    placeholderTextColor={"#FFF"}
+                    value={email}
+                    onChangeText={setEmail}
+                    autoCapitalize="none"
+                />
+
+                <View style={styles.passwordInputCont}>
+                    <TextInput
+                        style={styles.passwordInput}
+                        placeholder="Password"
+                        placeholderTextColor={"#FFF"}
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry={!isPasswordVisible}
+                    />
+                    <TouchableOpacity onPress={togglePasswordVisibility}>
+                        <MaterialIcons
+                            name={isPasswordVisible ? 'visibility' : 'visibility-off'}
+                            size={20}
+                            color='#FFF'
+                        />
+                    </TouchableOpacity>
+                </View>
+
+
+                <TouchableOpacity onPress={()=> setShow(true)} style={styles.birthBtn}> 
+                    <Text style={dobString ? styles.birthDateTxt : styles.birthBtnTxt}>
+                        {dobString ? dobString : 'Date of Birth'}
+                    </Text>
+                </TouchableOpacity>
+                {show && (
+                    <DateTimePicker 
+                        value={date}
+                        mode='date'
+                        is24Hour={true}
+                        display='default'
+                        onChange={onChange}
+                    />
+                )}
+
+                <TouchableOpacity style={styles.signUpBtn} onPress={handleAuth}>
+                    <Text style={styles.signUpBtnTxt}>{'SignUp'}</Text>
+                </TouchableOpacity>
+            </View>
+
+            <Text style={styles.mainTxt}>"Harmony Unleashed: Your Ultimate Guide to Guitar Chords!"</Text>
+        </ScrollView>
+    )
+}
+
+const styles = StyleSheet.create({
+    mainCont: {
+        flexGrow: 1,
+        backgroundColor: '#0a0f1b',
+        padding: 20,
+        paddingTop: 0,
+        gap: 20,
+        alignItems: 'center',
+    },
+
+    //#region LogoBox 
+    logoCont: {
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: 30,
+    },
+    mainLogoBG: {
+        width: 450,
+        height: 220,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderBottomEndRadius: 200,
+        borderBottomStartRadius: 200,
+        overflow: 'hidden', 
+    },
+    mainLogo: {
+        marginTop: 10,
+        width: 140,
+        height: 140,
+    },
+    mainLogoTxt: {
+        color: '#FFF',
+        fontSize: 30,
+        fontWeight: '800',
+    },
+    //#endregion LogoBox 
+
+    //#region EntryMethods
+    userMethodCont: {
+        flexDirection: 'row',
+        borderRadius: 25,
+        borderWidth: 2,
+        overflow: 'hidden',
+    },
+    button: {
+        flex: 1, 
+        paddingVertical: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    activeButton: {
+        backgroundColor: '#A8F94F', 
+    },
+    inactiveButton: {
+        backgroundColor: '#0a0f1b', 
+    },
+    buttonText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    activeText: {
+        color: '#000', 
+        textTransform: 'uppercase'
+    },
+    inactiveText: {
+        color: '#FFF', 
+        textTransform: 'uppercase'
+    },
+    //#endregion EntryMethods
+
+    //#region SignUpBox 
+    signUpContainer: {
+        display: 'flex',
+        backgroundColor: '#1A2433',
+        paddingVertical: 30,
+        paddingHorizontal: 25,
+        alignItems: 'center',
+        borderRadius: 10,
+        gap: 20,
+        width: '95%',
+    },
+    headerTwo: {
+        fontSize: 18,
+        marginBottom: 10,
+        textAlign: 'center',
+        fontWeight: '700',
+        color: '#FFF',
+        textTransform: 'uppercase',
+    },
+    inputFields: {
+        width: '90%',
+        borderBottomWidth: 1,
+        marginBottom: 20,
+        padding: 8,
+        borderColor: '#FFF',
+        color: '#FFF',
+        fontWeight: '800',
+    },
+    passwordInputCont: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderColor: '#FFF',
+        marginBottom: 20,
+        width: '90%',
+    },
+    passwordInput: {
+        flex: 1,
+        color: '#FFF',
+        padding: 8,
+        fontWeight: '800',
+    },
+    birthBtn: {
+        width: '90%',
+        borderBottomWidth: 1,
+        marginBottom: 20,
+        padding: 8,
+        borderColor: '#FFF',
+    },
+    birthBtnTxt: {
+        color: '#FFF',
+        fontWeight: '800',
+    },
+    birthDateTxt: {
+        color: '#FFF',
+        fontWeight: '800',
+    },
+    signUpBtn: {
+        backgroundColor: '#A8F94F', 
+        padding: 8,
+        borderRadius: 5,
+        marginBottom: 5,
+    },
+    signUpBtnTxt: {
+        color: '#000',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+    },
+    //#endregion SignUpBox 
+
+    // Bottom Quote
+    mainTxt: {
+        marginTop: 40,
+        color: '#FFF',
+        fontSize: 13,
+        textAlign: 'center',
+        width: '75%',
+        fontWeight: '700',
+    },
+})
+
+export default SignUp;
+
+
+import React, {useEffect, useState} from 'react';
+import { View, TouchableOpacity, TouchableHighlight, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import Ionicons from  'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTheme } from '../ThemeContext';
+
+const ThemePicker = ({ navigation }) => {
+    const { isDarkMode, toggleTheme, currentTheme } = useTheme();
+    const [selectedTheme, setSelectedTheme] = useState(isDarkMode ? 'dark' : 'light');
+
+    useEffect(() => {
+        setSelectedTheme(isDarkMode ? 'dark' : 'light');
+    }, [isDarkMode]);
+
+    const handleThemeChange = async (theme) => {
+        setSelectedTheme(theme);
+
+        await AsyncStorage.setItem('theme', theme);
+        if ((theme === 'dark' && !isDarkMode) || (theme === 'light' && isDarkMode)) {
+            toggleTheme();
+        }
+    };
+
+
+    return (
+        <ScrollView contentContainerStyle={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
+            <View style={[styles.themePickers, {backgroundColor: currentTheme.backgroundColor}]}>
+                <View style={[styles.labelCont, {backgroundColor: currentTheme.backgroundColor}]}>
+                    <TouchableOpacity style={styles.backBtn} onPress={() => navigation.navigate('mainTabs')}>
+                        <Ionicons name='arrow-back' color="white" size={24} style={[styles.manageSVG, {color: currentTheme.textColor}]} />
+                    </TouchableOpacity>
+                    <Text style={[styles.themeLabel, {color: currentTheme.textColor}]}>Theme</Text>
+                </View>
+
+
+                <View style={[styles.modePicker, {backgroundColor: currentTheme.backgroundColor2}]}>
+                    <TouchableOpacity
+                        style={styles.radioBtn}
+                        onPress={() => handleThemeChange('dark')}
+                    >
+                        <Ionicons
+                            name={selectedTheme === 'dark' ? 'radio-button-on' : 'radio-button-off'}
+                            size={24}
+                            color={currentTheme.textColor}
+                        />
+                        <Text style={[styles.radioLabel, {color: currentTheme.textColor}]}>Dark Mode</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.radioBtn}
+                        onPress={() => handleThemeChange('light')}
+                    >
+                        <Ionicons
+                            name={selectedTheme === 'light' ? 'radio-button-on' : 'radio-button-off'}
+                            size={24}
+                            color={currentTheme.textColor}
+                        />
+                        <Text style={[styles.radioLabel, {color: currentTheme.textColor}]}>Light Mode</Text>
+                    </TouchableOpacity>
+                </View>
+
+            </View>
+        </ScrollView>
+    )
+}
+
+const styles = StyleSheet.create({
+    mainCont: {
+        flexGrow: 1,
+        backgroundColor: '#0a0f1b',
+        padding: 20,
+        paddingTop: 40,
+    },
+
+    //#region Label Container
+    labelCont: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10
+    },
+    manageSVG: {
+        padding: 7.5,
+        width: 40,
+        height: 40,
+        textAlign: 'center'
+    },
+    themeLabel: {
+        color: '#fff',
+        fontWeight: '700',
+        fontSize: 21,
+    },
+    //#endregion Label Container
+
+    //#region Color Mode Selections
+    modePicker: {
+        backgroundColor: '#1A2433',
+        marginVertical: 20,
+        borderRadius: 15,
+    },
+    radioBtn: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 35,
+        paddingVertical: 20,
+        marginLeft: 10,
+    },
+    radioLabel: {
+        color: '#fff',
+        fontSize: 18,
+        marginLeft: 10,
+    },
+    //#endregion Color Mode Selections
+})
+
+export default ThemePicker;
+
+
+import React, { useEffect } from 'react';
+import { View, Image, StyleSheet } from 'react-native';
+import { useAppContext } from '../AppContext';
+
+
+const SplashScreen = ({ navigation }) => {
+    const { userId } = useAppContext();
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (userId) {
+                navigation.replace('mainTabs');
+            } else {
+                navigation.replace('ClassPicker');
+            }
+        }, 6000)
+
+        return () => clearTimeout(timer)
+    }, [userId, navigation])
+
+    return (
+        <View style={styles.container}>
+            <Image source={require('../assets/icon4-1.png')} style={styles.logo} />
+        </View>
+    )
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#0a0f1b',
+    },
+    logo: {
+        width: 150, 
+        height: 150,
+        resizeMode: 'contain',
+    },
+})
+
+export default SplashScreen;
+
+
+
+import React, {useEffect, useState} from 'react';
+import { View, TouchableOpacity, TouchableHighlight, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import { useAppContext } from '../AppContext';
+import { useTheme } from '../ThemeContext';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import IconDark from '../assets/icon4-1.png';
+import IconLight from '../assets/icon4-2.png';
+
+const UserProfile = ({ navigation }) => {
+    // App Contexts
+    const { userId, fetchUserData } = useAppContext();
+    const [userName, setUserName] = useState('');
+    const [joinDate, setJoinDate] = useState('');
+    const [userAge, setUserAge] = useState('');
+    const [profilePic, setProfPic] = useState('');
+    const { isDarkMode, toggleTheme, currentTheme } = useTheme();
+    const [selectedTheme, setSelectedTheme] = useState(isDarkMode ? 'dark' : 'light');
+
+    useEffect(() => {
+        setSelectedTheme(isDarkMode ? 'dark' : 'light');
+    }, [isDarkMode]);
+
+    const handleThemeChange = async (theme) => {
+        setSelectedTheme(theme);
+
+        await AsyncStorage.setItem('theme', theme);
+        if ((theme === 'dark' && !isDarkMode) || (theme === 'light' && isDarkMode)) {
+            toggleTheme();
+        }
+    };
+
+    useEffect(() => {
+        console.log('userId in UserProfile:', userId);
+        const getUserData = async () => {
+            const userData = await fetchUserData(userId);
+            setUserName(userData.name);
+            setJoinDate(userData.created_at)
+            setUserAge(userData.age)
+            setProfPic(userData.profile_picture)
+        };
+
+        getUserData();
+    }, [userId]);
+
+    return (
+        <ScrollView contentContainerStyle={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
+            <View style={[styles.headerCont, {backgroundColor: currentTheme.backgroundColor}]}>
+                <View style={[styles.logoContainer, {backgroundColor: currentTheme.backgroundColor}]}>
+                    <Image source={isDarkMode ? IconDark : IconLight} style={styles.logoImg}/>
+                    <Text style={[styles.logoTxt, {color: currentTheme.textColor}]}>G! Tara Na!</Text>
+                </View>
+            </View>
+
+            <View style={[styles.userProfileCont, {backgroundColor: currentTheme.backgroundColor2}]}>
+                <View style={styles.userProfLeft}>
+                    <Image source={profilePic ? {uri: profilePic} : require('../assets/erus.jpg')} style={styles.userProfPic}/>
+                    <Text style={[styles.userProfName, {color: currentTheme.textColor}]}>{userName}</Text>
+                </View>
+                <View style={styles.userProfRight}>
+                    <TouchableOpacity style={styles.userAgeCont}>
+                        <Text style={[styles.userAgeLab, {color: currentTheme.textColor}]}>Age</Text>
+                        <Text style={[styles.userAge, {color: currentTheme.textColor}]}>{userAge}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.userJoinCont}>
+                        <Text style={[styles.userJoinLab, {color: currentTheme.textColor}]}>Joined</Text>
+                        <Text style={[styles.userJoin, {color: currentTheme.textColor}]}>{joinDate}</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+
+            <View style={styles.userMenu}>
+                <View style={styles.profileMenu}>
+                    <Text style={[styles.profileMenuLab, {color: currentTheme.textColor}]}>Profile</Text>
+                    <TouchableOpacity style={styles.manageUser}>
+                        <View style={styles.manageUserLeft}>
+                            <FontAwesome6 name='user' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
+                            <Text style={[styles.manageUserTxt, {color: currentTheme.textColor}]}>Manage User</Text>
+                        </View>
+                        <TouchableOpacity style={styles.manageUserBtn} onPress={() => navigation.navigate('ManageUser')}>
+                            <FontAwesome name='caret-right' size={30} style={[styles.rightBtn, {backgroundColor: currentTheme.backgroundColor3}]}/>
+                        </TouchableOpacity>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.manageUserProgress}>
+                        <View style={styles.manageUserLeft}>
+                            <AntDesign name='areachart' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
+                            <Text style={[styles.manageUserTxt, {color: currentTheme.textColor}]}>User Progress</Text>
+                        </View>
+                        <TouchableOpacity style={styles.manageUserBtn} onPress={() => navigation.navigate('UserProgress')}>
+                            <FontAwesome name='caret-right' size={30} style={[styles.rightBtn, {backgroundColor: currentTheme.backgroundColor3}]}/>
+                        </TouchableOpacity>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        </ScrollView>
+    )
+}
+
+
+const styles = StyleSheet.create ({
+    mainCont: {
+        flexGrow: 1,
+        backgroundColor: '#0a0f1b',
+        padding: 20,
+        paddingTop: 40,
+    },
+
+    //#region Header
+    headerCont: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: 30,
+        marginBottom: 50,
+    },
+    logoContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+    },
+    logoImg: {
+        width: 50,
+        height: 50,
+        margin: 0,
+    },
+    logoTxt: {
+        color: '#FFF',
+        fontSize: 20,
+        fontWeight: '800',
+    },
+    searchBox: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 8,
+        backgroundColor: '#A8F94F',
+        width: 125,
+        height: 30,
+        borderRadius: 5,
+        gap: 10,
+        marginRight: 10,
+    },
+    searchTxt: {
+        fontSize: 13,
+        fontWeight: '800'
+    },
+    //#endregion Header
+
+    //#region User Profile Section: 
+    userProfileCont: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        gap: 10,
+        paddingHorizontal: 5,
+        backgroundColor: '#1A2433',
+        paddingVertical: 20,
+        borderRadius: 10,
+    },  
+    userProfLeft: {
+        display: 'flex',
+        alignItems: 'flex-start',
+        gap: 15,
+    },  
+    userProfPic: {
+        borderWidth: 1,
+        borderColor: '#fff',
+        borderRadius: 60,
+        width: 120,
+        height: 120,
+    },
+    userProfName: {
+        width: '95%',
+        color: '#fff',
+        fontSize: 24,
+        textTransform: 'uppercase',
+        fontWeight: '800'
+    },
+    userProfRight: {
+        display: 'flex',
+        alignItems: 'flex-start',
+        gap: 40,
+        marginTop: 15,
+    },
+    userAgeCont: {
+        gap: 5,
+    },
+    userAgeLab: {
+        color: '#fff',
+        fontSize: 20,
+        fontWeight: '800'
+    },
+    userAge: {
+        color: '#fff',
+        fontSize: 17,
+    },
+    userJoinCont: {
+        gap: 5,
+    },
+    userJoinLab: {
+        color: '#fff',
+        fontSize: 20,
+        fontWeight: '800'
+    },
+    userJoin: {
+        color: '#fff',
+        fontSize: 17,
+    },
+    //#endregion  User Profile Section
+
+    //#region User Profile and Preferences Menu Section
+    userMenu: {
+        padding: 20,
+        marginVertical: 30,
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'space-evenly',
+    },
+
+        //#region Profile Menu
+    profileMenu: {
+        marginBottom: 20,
+        gap: 20,
+    },
+    profileMenuLab: {
+        color: '#fff',
+        fontWeight: '800',
+        fontSize: 25,
+    },
+    manageUser: {
+        paddingHorizontal: 15,
+        marginTop: 5,
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 75,
+        alignItems: 'center'
+    },
+    manageUserProgress: {
+        paddingHorizontal: 15,
+        marginTop: 5,
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 68,
+        alignItems: 'center'
+    },
+    manageUserLeft: {
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 20,
+        alignItems: 'center'
+    },
+    manageSVG: {
+        padding: 7.5,
+        width: 40,
+        height: 40,
+        backgroundColor: '#fff',
+        borderRadius: 60,
+        textAlign: 'center'
+    },
+    manageUserTxt: {
+        color: '#fff',
+        fontWeight: '700',
+        fontSize: 18,
+    },
+    rightBtn: {
+        paddingVertical: 2,
+        textAlign: 'center',
+        width: 35,
+        height: 35,
+        backgroundColor: '#fff',
+        borderRadius: 60,
+    },
+        //#endregion Profile Menu
+
+    //#endregion User Profile and Preferences Menu Section
+
+
+})
+
+export default UserProfile;
+
+
+
+
+import React, {useEffect, useState} from 'react';
+import { View, TouchableOpacity, TouchableHighlight, Text, TextInput, Image, StyleSheet, ScrollView, Alert, Animated } from 'react-native';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import { useAppContext } from '../AppContext';
+import { useTheme } from '../ThemeContext';
+import { FlatList } from 'react-native-gesture-handler';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import moment from 'moment';
+
+const UserProgress = ({ navigation }) => {
+    const [selectedDate, setSelectedDate] = useState(moment());
+    const [weekDays, setWeekDays] = useState([]);
+    const { userId, fetchUserData } = useAppContext();
+    const [userName, setUserName] = useState('');
+    const { isDarkMode, toggleTheme, currentTheme } = useTheme();
+    const [selectedTheme, setSelectedTheme] = useState(isDarkMode ? 'dark' : 'light');
+
+    useEffect(() => {
+        setSelectedTheme(isDarkMode ? 'dark' : 'light');
+    }, [isDarkMode]);
+
+    const handleThemeChange = async (theme) => {
+        setSelectedTheme(theme);
+
+        await AsyncStorage.setItem('theme', theme);
+        if ((theme === 'dark' && !isDarkMode) || (theme === 'light' && isDarkMode)) {
+            toggleTheme();
+        }
+    };
+
+    useEffect(() => {
+        const startOfWeek = moment().startOf('week');
+        const days = Array.from({ length: 7 }).map((_, i) => 
+            moment(startOfWeek).add(i, 'days')
+        );
+        setWeekDays(days);
+    }, []);
+
+    useEffect(() => {
+        console.log('userId in UserProfile:', userId);
+        const getUserData = async () => {
+            const userData = await fetchUserData(userId);
+            setUserName(userData.name);
+        };
+
+        getUserData();
+    }, [userId])
+
+    const renderDayItem = ({ item }) => {
+        const isSelected = item.isSame(selectedDate, 'day');
+        return (
+            <TouchableOpacity onPress={() => setSelectedDate(item)} style={styles.dayContainer}>
+                <Text style={[styles.dayLabel, isSelected && styles.selectedDayLabel]}>{item.format('ddd')}</Text>
+                <Text style={[styles.dateLabel, isSelected && styles.selectedDateLabel]}>{item.format('D')}</Text>
+            </TouchableOpacity>
+        );
+    };
+
+    return (
+        <ScrollView contentContainerStyle={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
+            <TouchableOpacity style={styles.backBtn} onPress={() => navigation.navigate('User')}>
+                <Ionicons name='arrow-back' color="white" size={21} style={[styles.manageSVG, {color: currentTheme.textColor}]} />
+            </TouchableOpacity>
+            
+            <Text style={[styles.progressLabel, {color: currentTheme.textColor}]}>User Progress</Text>
+            <Text style={[styles.greetingCont, {color: currentTheme.textColor}]}>Good Day! {userName}!</Text>
+
+            <View style={[styles.calendarCont, {backgroundColor: currentTheme.backgroundColor5}]}>
+                <View style={styles.monthSelector}>
+                    <Text style={styles.monthText}>{selectedDate.format('MMMM')}</Text>
+                </View>
+
+                {/* Days of the Week */}
+                <FlatList
+                    horizontal
+                    data={weekDays}
+                    renderItem={renderDayItem}
+                    keyExtractor={(item) => item.format('D')}
+                    contentContainerStyle={styles.weekList}
+                    showsHorizontalScrollIndicator={false}
+                />
+            </View>
+            
+            <View style={styles.progressCharts}>
+                <View style={[styles.progressMajor, {backgroundColor: currentTheme.backgroundColor2}]}>
+                    <Text style={[styles.progressMajorLabel, {color: currentTheme.textColor}]}>Major Chords</Text>
+                    <AnimatedCircularProgress
+                        size={120}
+                        width={15}
+                        fill={75}
+                        tintColor={currentTheme.buttonColor}
+                        backgroundColor={currentTheme.backgroundColor4}
+                    >
+                        {
+                            (fill) => (
+                                <Text
+                                    style={[styles.progressMajorTxt, {color: currentTheme.textColor}]}
+                                >
+                                    {`${Math.round(fill)}%`}
+                                </Text>
+                            )
+                        }
+                    </AnimatedCircularProgress>
+                </View>
+
+                <View style={[styles.progressMinor, {backgroundColor: currentTheme.backgroundColor2}]}>
+                    <Text style={[styles.progressMinorLabel, {color: currentTheme.textColor}]}>Minor Chords</Text>
+                    <AnimatedCircularProgress
+                        size={120}
+                        width={15}
+                        fill={75}
+                        tintColor={currentTheme.buttonColor}
+                        backgroundColor={currentTheme.backgroundColor4}
+                    >
+                        {
+                            (fill) => (
+                                <Text
+                                    style={[styles.progressMinorTxt, {color: currentTheme.textColor}]}
+                                >
+                                    {`${Math.round(fill)}%`}
+                                </Text>
+                            )
+                        }
+                    </AnimatedCircularProgress>
+                </View>
+            </View>
+
+
+        </ScrollView>
+    )
+}
+
+const styles = StyleSheet.create({
+    mainCont: {
+        flexGrow: 1,
+        backgroundColor: '#0a0f1b',
+        padding: 20,
+        paddingTop: 40,
+    },
+    manageSVG: {
+        padding: 7.5,
+        width: 40,
+        height: 40,
+        textAlign: 'center'
+    },
+    progressLabel: {
+        color: '#FFF',
+        fontSize: 28,
+        textTransform: 'uppercase',
+        fontWeight: '800',
+        textAlign: 'center',
+        marginBottom: 20,
+    },
+    greetingCont: {
+        color: '#FFF',
+        textAlign: 'center',
+        fontSize: 19,
+        fontWeight: '700',
+        marginBottom: 25,
+    },
+
+    //#region Calendar Header
+    calendarCont: {
+        backgroundColor: '#A8F94F',
+        borderRadius: 20,
+        padding: 15,
+        marginBottom: 20,
+    },
+    monthSelector: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    monthText: {
+        color: '#000',
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginRight: 10,
+    },
+    weekList: {
+        justifyContent: 'space-around',
+    },
+    dayContainer: {
+        alignItems: 'center',
+        padding: 10,
+    },
+    dayLabel: {
+        color: '#000',
+        fontSize: 14,
+        fontWeight: 'bold',
+    },
+    dateLabel: {
+        color: '#000',
+        fontSize: 18,
+        marginTop: 5,
+    },
+    selectedDayLabel: {
+        color: '#000',
+    },
+    selectedDateLabel: {
+        backgroundColor: '#FFF',
+        color: '#000',
+        borderRadius: 15,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+    },
+    //#endregion Calendar Header
+
+    progressCharts: {
+        display: 'flex',
+        gap: 20,
+    },
+
+    //#region Minor Chords section
+    progressMinorLabel: {
+        fontSize: 20,
+        color: '#FFF',
+        fontWeight: '700',
+        marginBottom: 20,
+    },
+    progressMinor: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 25,
+        borderRadius: 20,
+    },
+    progressMinorTxt: {
+        fontSize: 19,
+        color: '#FFF',
+        fontWeight: '800',
+    },
+    //#endregion Minor Chords section
+
+    //#region Major Chords section
+    progressMajorLabel: {
+        fontSize: 20,
+        color: '#FFF',
+        fontWeight: '700',
+        marginBottom: 20,
+    },
+    progressMajor: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 25,
+        borderRadius: 20,
+    },
+    progressMajorTxt: {
+        fontSize: 19,
+        color: '#FFF',
+        fontWeight: '800',
+    },
+    //#endregion Major Chords section
+})
+
+export default UserProgress;
+
+

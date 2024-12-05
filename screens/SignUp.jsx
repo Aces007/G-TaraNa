@@ -12,7 +12,8 @@ const SignUp = ({ route, navigation }) => {
 
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
-    const [name, setName] = useState('');
+    const [firstname, setFirstName] = useState('');
+    const [lastname, setLastName] = useState('');
     const [age, setAge] = useState('');
     const [password, setPassword] = useState('');
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -54,7 +55,7 @@ const SignUp = ({ route, navigation }) => {
         }
 
         try {
-            await signUp(email, username, name, age, password, role);
+            await signUp(email, username, firstname, lastname, age, password, role);
             navigation.navigate('mainTabs');
         } catch (error) {
             Alert.alert("Error during sign-up", error.message);
@@ -108,10 +109,19 @@ const SignUp = ({ route, navigation }) => {
 
                 <TextInput
                     style={styles.inputFields}
-                    placeholder="Name"
+                    placeholder="First Name"
                     placeholderTextColor={"#FFF"}
-                    value={name}
-                    onChangeText={setName}
+                    value={firstname}
+                    onChangeText={setFirstName}
+                    autoCapitalize="none"
+                />
+                
+                <TextInput
+                    style={styles.inputFields}
+                    placeholder="Surname"
+                    placeholderTextColor={"#FFF"}
+                    value={lastname}
+                    onChangeText={setLastName}
                     autoCapitalize="none"
                 />
 
@@ -339,3 +349,6 @@ const styles = StyleSheet.create({
 })
 
 export default SignUp;
+
+
+

@@ -41,8 +41,10 @@ const Login = ({ route, navigation }) => {
 
     // Loading Graphic 
     const [fontsLoaded] = useFonts({
-        Roboto: require('../assets/fonts/roboto/Roboto-Regular.ttf'),
-        'Roboto-Bold': require('../assets/fonts/roboto/Roboto-Black.ttf'),
+        'Poppins-ExtraB': require('../assets/fonts/Poppins/Poppins-ExtraBold.ttf'),
+        'Montserrat-Bold': require('../assets/fonts/Montserrat/static/Montserrat-Bold.ttf'),
+        'Montserrat-Med': require('../assets/fonts/Montserrat/static/Montserrat-Medium.ttf'),
+        'RedHat-Bold': require('../assets/fonts/Red_Hat_Display/static/RedHatDisplay-Bold.ttf'),
     });
 
     if (!fontsLoaded) {
@@ -174,7 +176,6 @@ const styles = StyleSheet.create({
     mainLogoTxt: {
         color: '#FFF',
         fontSize: 30,
-        fontFamily: 'Roboto-Bold'
     },
     //#endregion LogoBox 
 

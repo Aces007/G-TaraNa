@@ -2,16 +2,20 @@ import React, {useEffect, useState} from 'react';
 import { View, TouchableOpacity, TouchableHighlight, Text, Image, StyleSheet, ScrollView, Alert } from 'react-native';
 import { useAppContext } from '../AppContext';
 import { useTheme } from '../ThemeContext';
+import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Octicons from  'react-native-vector-icons/Octicons';
+import Feather from  'react-native-vector-icons/Feather';
 
 
 const SettingsPage = ({ navigation }) => {
     const { logOut, userId, fetchUserData } = useAppContext();
-    const [userName, setUserName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [userEmail, setUserEmail] = useState('');
     const [profilePic, setProfPic] = useState('');
     const { isDarkMode, toggleTheme, currentTheme } = useTheme();
@@ -30,11 +34,21 @@ const SettingsPage = ({ navigation }) => {
         }
     };
 
+    const [fontsLoaded] = useFonts({
+        'Poppins-ExtraB': require('../assets/fonts/Poppins/Poppins-ExtraBold.ttf'),
+        'Montserrat-ExtraB': require('../assets/fonts/Montserrat/static/Montserrat-ExtraBold.ttf'),
+        'Montserrat-Bold': require('../assets/fonts/Montserrat/static/Montserrat-Bold.ttf'),
+        'Montserrat-Med': require('../assets/fonts/Montserrat/static/Montserrat-Medium.ttf'),
+        'Montserrat-Reg': require('../assets/fonts/Montserrat/static/Montserrat-Regular.ttf'),
+        'RedHat-Bold': require('../assets/fonts/Red_Hat_Display/static/RedHatDisplay-Bold.ttf'),
+    });
+
     useEffect(() => {
         console.log('userId in UserProfile:', userId);
         const getUserData = async () => {
             const userData = await fetchUserData(userId);
-            setUserName(userData.name);
+            setFirstName(userData.first_name);
+            setLastName(userData.last_name);
             setUserEmail(userData.email)
             setProfPic(userData.profile_picture)
         };
@@ -66,56 +80,51 @@ const SettingsPage = ({ navigation }) => {
         <ScrollView contentContainerStyle={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
             <View style={[styles.headerCont, {color: currentTheme.textColor}]}>
                 <TouchableOpacity style={styles.settingLabel}>
-                    <Ionicons name='settings-outline' color={'#FFF'} size={25} style={{color: currentTheme.textColor}}/>
+                    <Feather name='settings' color={'#FFF'} size={35} style={{color: currentTheme.textColor}}/>
                     <Text style={[styles.settingsTxt, {color: currentTheme.textColor}]}>Settings</Text>
                 </TouchableOpacity>
+
                 <TouchableOpacity style={[styles.logoutCont, {backgroundColor: currentTheme.buttonColor}]} onPress={handleLogout}>
                     <AntDesign name='logout' color={'#000'} size={16}/>
                     <Text style={styles.logoutTxt}>Logout</Text>
                 </TouchableOpacity>
-            </View>
 
-            <View style={[styles.userProfileCont, {backgroundColor: currentTheme.backgroundColor2}]}>
-                <View style={styles.userProfLeft}>
-                    <Image source={profilePic ? {uri: profilePic} : require('../assets/erus.jpg')} style={styles.userProfPic}/>
-                </View>
-                <View style={styles.userProfRight}>
-                    <TouchableOpacity style={styles.userAgeCont}>
-                        <Text style={[styles.userProfName, {color: currentTheme.textColor}]}>{userName}</Text>
-                        <Text style={[styles.userNumber, {color: currentTheme.textColor}]}>{userEmail}</Text>
-                    </TouchableOpacity>
-                </View>
             </View>
 
             <View style={styles.userSettings}>
                 <View style={styles.generalMenu}>
                     <Text style={[styles.generalLabel, {color: currentTheme.textColor}]}>General</Text>
+
                     <View style={styles.sectionContent}>
                         <TouchableOpacity style={styles.manageSection} onPress={() => navigation.navigate('ThemePicker')}>
                             <Octicons name='paintbrush' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
                             <Text style={[styles.btnTxt, {color: currentTheme.textColor}]}>Theme</Text>
                         </TouchableOpacity>
+
                         <TouchableOpacity style={styles.manageSection} onPress={() => navigation.navigate('')}>
                             <Ionicons name='notifications-outline' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
                             <Text style={[styles.btnTxt, {color: currentTheme.textColor}]}>Notifications</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
+
                 <View style={styles.supportMenu}>
                     <Text style={[styles.supportLabel, {color: currentTheme.textColor}]}>Support</Text>
+
                     <View style={styles.sectionContent}>
                         <TouchableOpacity style={styles.manageSection} onPress={() => navigation.navigate('CreditsPage')}>
                             <FontAwesome name='trademark' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
                             <Text style={[styles.btnTxt, {color: currentTheme.textColor}]}>Credits</Text>
                         </TouchableOpacity>
+
                         <TouchableOpacity style={styles.manageSection}>
                             <Entypo name='documents' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
                             <Text style={[styles.btnTxt, {color: currentTheme.textColor}]}>FAQs</Text>
                         </TouchableOpacity>
                     </View>
+
                 </View>
             </View>
-
         </ScrollView>
     )
 }
@@ -134,20 +143,19 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        gap: 30,
-        marginBottom: 50,
+        marginBottom: 10,
+        paddingHorizontal: 8,
     },  
     settingLabel: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
-        gap: 13,
+        gap: 10,
     },
     settingsTxt: {
         color: '#FFF',
-        fontSize: 25,
-        fontWeight: '800',
+        fontSize: 21,
+        fontFamily: 'Poppins-ExtraB',
     },
     logoutCont: {
         display: 'flex',
@@ -159,59 +167,21 @@ const styles = StyleSheet.create({
         height: 30,
         borderRadius: 5,
         gap: 10,
+        marginRight: 5,
     },
     logoutTxt: {
         color: '#000',
-        fontSize: 14,
-        fontWeight: '800',
+        fontSize: 12,
         textTransform: 'uppercase',
+        fontFamily: 'RedHat-Bold',
     },
     //#endregion Header
-
-    //#region User
-    userProfileCont: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        gap: 10,
-        paddingHorizontal: 5,
-        backgroundColor: '#1A2433',
-        paddingVertical: 20,
-        borderRadius: 10,
-    },  
-    userProfLeft: {
-        display: 'flex',
-        alignItems: 'flex-start',
-    },  
-    userProfPic: {
-        borderWidth: 1,
-        borderColor: '#fff',
-        borderRadius: 60,
-        width: 90,
-        height: 90,
-    },
-    userProfRight: {
-        display: 'flex',
-        alignItems: 'flex-start',
-        gap: 20,
-        marginTop: 15,
-    },
-    userProfName: {
-        color: '#fff',
-        fontSize: 22,
-        textTransform: 'uppercase',
-        fontWeight: '800'
-    },
-    userNumber: {
-        color: '#fff',
-        fontSize: 15,
-    },
-    //#endregion User
 
     //#region User Profile and Preferences Menu Section
     userSettings: {
         padding: 20,
-        marginVertical: 30,
+        marginVertical: 20,
+        marginHorizontal: 5,
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'space-evenly',
@@ -224,11 +194,11 @@ const styles = StyleSheet.create({
     },
     generalLabel: {
         color: '#fff',
-        fontWeight: '800',
         fontSize: 25,
+        fontFamily: 'Montserrat-ExtraB',
     },
     sectionContent: {
-        paddingHorizontal: 15,
+        marginHorizontal: 15,
         marginTop: 5,
         display: 'flex',
         alignItems: 'flex-start',
@@ -239,8 +209,8 @@ const styles = StyleSheet.create({
     manageSection: {
         display: 'flex',
         flexDirection: 'row',
-        gap: 20,
-        alignItems: 'center'
+        alignItems: 'center',
+        gap: 30,
     },
     manageSVG: {
         padding: 7.5,
@@ -252,16 +222,8 @@ const styles = StyleSheet.create({
     },
     btnTxt: {
         color: '#fff',
-        fontWeight: '700',
         fontSize: 18,
-    },
-    rightBtn: {
-        paddingVertical: 2,
-        textAlign: 'center',
-        width: 35,
-        height: 35,
-        backgroundColor: '#fff',
-        borderRadius: 60,
+        fontFamily: 'RedHat-Bold',
     },
     //#endregion General Menu
     
