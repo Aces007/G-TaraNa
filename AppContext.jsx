@@ -5,11 +5,12 @@ const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
     const [userId, setUserId] = useState(null);
+    const [role, setRole] = useState(null);
     const [updatedData, setUpdatedData] = useState(null);
     const [newPassword, setNewPassword] = useState(null);
 
     //region Initial User Management Stage (SignUp, SignIn, FetchUserData)
-    const signUp = async (email, username, name, age, password) => {
+    const signUp = async (email, username, name, age, password, role) => {
         try {
             const { data: signupData, error: authError } = await supabase.auth.signUp({ email, password });
             console.log('SignUp Response ', signupData);
@@ -38,6 +39,7 @@ export const AppProvider = ({ children }) => {
                     username, 
                     age,
                     name, 
+                    role,
                     created_at: formattedDate
                 }, 
                 {
@@ -50,6 +52,7 @@ export const AppProvider = ({ children }) => {
             }
     
             setUserId(user.id);
+            setRole(role);
     
         } catch (error) {
             console.error('Error signing up:', error.message);
@@ -209,8 +212,8 @@ export const AppProvider = ({ children }) => {
 
     return (
         <AppContext.Provider 
-            value={{userId, updatedData, signUp, logIn, logOut, fetchUserData,
-                updateUserDetails, updatePassword, uploadProfilePicture
+            value={{userId, updatedData, role, signUp, logIn, logOut, fetchUserData,
+                updateUserDetails, updatePassword, uploadProfilePicture, setRole
             }}
         >
             {children}

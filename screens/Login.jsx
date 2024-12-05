@@ -1,7 +1,9 @@
-import { View, TouchableOpacity, TextInput, Text, Image, ImageBackground, StyleSheet, ScrollView, Alert } from 'react-native';
+import { View, TouchableOpacity, TextInput, Text, Image, ImageBackground, StyleSheet, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import React, {useState} from 'react';
 import { useAppContext } from '../AppContext';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading';
 
 
 const Login = ({ route, navigation }) => {
@@ -35,6 +37,20 @@ const Login = ({ route, navigation }) => {
         else {
             Alert.alert("Error during Log-in", "Invalid login credentials");
         }
+    }
+
+    // Loading Graphic 
+    const [fontsLoaded] = useFonts({
+        Roboto: require('../assets/fonts/roboto/Roboto-Regular.ttf'),
+        'Roboto-Bold': require('../assets/fonts/roboto/Roboto-Black.ttf'),
+    });
+
+    if (!fontsLoaded) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#A8F94F" />
+            </View>
+        );
     }
 
     return (
@@ -119,6 +135,13 @@ const Login = ({ route, navigation }) => {
 }
 
 const styles = StyleSheet.create({
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#0a0f1b',
+    },
+
     mainCont: {
         flexGrow: 1,
         backgroundColor: '#0a0f1b',
@@ -151,7 +174,7 @@ const styles = StyleSheet.create({
     mainLogoTxt: {
         color: '#FFF',
         fontSize: 30,
-        fontWeight: '800',
+        fontFamily: 'Roboto-Bold'
     },
     //#endregion LogoBox 
 
