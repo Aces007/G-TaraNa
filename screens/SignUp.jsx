@@ -16,7 +16,7 @@ const SignUp = ({ route, navigation }) => {
     const [age, setAge] = useState('');
     const [password, setPassword] = useState('');
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-    const { signUp } = useAppContext();
+    const { role, signUp } = useAppContext();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 
@@ -28,6 +28,11 @@ const SignUp = ({ route, navigation }) => {
     }
 
     const handleAuth = async () => {
+        if (!role) {
+            Alert.alert("Role is not defined. Please select a role.");
+            return;
+        }
+
         if (!email || !password) {
             Alert.alert("Please fill in the required fields.");
             return;
@@ -49,7 +54,7 @@ const SignUp = ({ route, navigation }) => {
         }
 
         try {
-            await signUp(email, username, name, age, password);
+            await signUp(email, username, name, age, password, role);
             navigation.navigate('mainTabs');
         } catch (error) {
             Alert.alert("Error during sign-up", error.message);

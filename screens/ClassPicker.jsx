@@ -2,10 +2,24 @@ import { View, TouchableOpacity, TextInput, Text, Image, ImageBackground, StyleS
 import React, {useState} from 'react';
 import { useAppContext } from '../AppContext';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-
+import { useNavigation } from '@react-navigation/native';
 
 
 const ClassPicker = () => {
+    const navigation = useNavigation();
+    const { setRole } = useAppContext();
+    
+
+    const handleRoleSelect = (selectedRole) => {
+        setRole(selectedRole); 
+
+        if (selectedRole === 'user' || selectedRole === 'coach') {
+            navigation.navigate('userAccountScreen', { role: selectedRole }); 
+        } else {
+            Alert.alert('Admin access is required.');
+        }
+    };
+
     return (
         <ScrollView contentContainerStyle={styles.mainCont}> 
             <View style={styles.logoCont}>
@@ -17,23 +31,17 @@ const ClassPicker = () => {
 
             <View style={styles.classPickCont}>
                 <Text style={styles.classPickQuote}>WHAT'S YOUR ROLE?</Text>
-
-                <View style={styles.roleClass}>
-                    <TouchableOpacity style={styles.adminClass}>
-                        <FontAwesome6 name='user-gear' color={'#1B1212'} size={35} />
-                        <Text style={styles.roleTxt}>ADMIN</Text>
-                    </TouchableOpacity>
-                </View>
+                
                 
                 <View style={styles.roleClass}>
-                    <TouchableOpacity style={styles.userClass}>
+                    <TouchableOpacity style={styles.userClass} onPress={() => handleRoleSelect('user')}>
                         <FontAwesome6 name='user-large' color={'#1B1212'} size={35} />
                         <Text style={styles.roleTxt}>USER</Text>
                     </TouchableOpacity>
                 </View>
                 
                 <View style={styles.roleClass}>
-                    <TouchableOpacity style={styles.coachClass}>
+                    <TouchableOpacity style={styles.coachClass} onPress={() => handleRoleSelect('coach')}>
                         <FontAwesome6 name='user-group' color={'#1B1212'} size={35} />
                         <Text style={styles.roleTxt}>COACH</Text>
                     </TouchableOpacity>
@@ -41,11 +49,14 @@ const ClassPicker = () => {
             </View>
 
             <Text style={styles.mainTxt}>"Harmony Unleashed: Your Ultimate Guide to Guitar Chords!"</Text>
+
+            <TouchableOpacity style={styles.adminBtnCont}>
+                <FontAwesome6 name='user-gear' color={'#fff'} size={12} style={styles.adminBtn} />
+            </TouchableOpacity>
         </ScrollView>
         
     )
 }
-
 
 
 const styles = StyleSheet.create ({
@@ -98,7 +109,7 @@ const styles = StyleSheet.create ({
 
     classPickQuote: {
         color: '#FFF',
-        fontSize: 20,
+        fontSize: 23,
         fontWeight: '800',
         letterSpacing: 1.5,
     },
@@ -109,18 +120,6 @@ const styles = StyleSheet.create ({
         gap: 40,
     },
 
-    adminClass: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: 20,
-        backgroundColor: '#4A6E8F',
-        width: '80%',
-        paddingVertical: 10,
-        paddingHorizontal: 15,
-        borderRadius: 10,
-    },
     userClass: {
         display: 'flex',
         flexDirection: 'row',
@@ -150,17 +149,27 @@ const styles = StyleSheet.create ({
         color: '#1B1212',
         fontSize: 23,
         fontWeight: '800',
-        
     },  
 
     // Bottom Quote
     mainTxt: {
-        marginTop: 40,
+        marginTop: 90,
         color: '#FFF',
         fontSize: 13,
         textAlign: 'center',
         width: '75%',
         fontWeight: '700',
+    },
+
+    adminBtnCont: {
+        display: 'flex',
+        alignSelf: 'flex-end',
+        padding: 10,
+        borderRadius: 50,
+    },
+
+    adminBtn: {
+        textAlign: 'center',
     },
 })
 export default ClassPicker;
