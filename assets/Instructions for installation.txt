@@ -1,9 +1,0 @@
-Instructions for installation ::
-"The node modules are part of the gitignore rules when being pushed into the repository so the files are needed to be installed for use."
-
-1. First the node modules that are required to be installed is found at the assets/ folder.
-2. "npm install" is the command used for installing each of the node modules.
-3. After installing the modules, install Expo Go in your phones.
-4. To start the development process you will use the "npx expo start -c" command to initiate the development environment.
-5. You can manually input the address of the environment or scan the qr code using the app to sync the phone to the development environment.
-6. With that, you can start coding.
