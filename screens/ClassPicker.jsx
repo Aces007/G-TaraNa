@@ -1,8 +1,10 @@
 import { View, TouchableOpacity, TextInput, Text, Image, ImageBackground, StyleSheet, ScrollView, Alert } from 'react-native';
 import React, {useState} from 'react';
 import { useAppContext } from '../AppContext';
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import { useNavigation } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
 
 const ClassPicker = () => {
@@ -19,6 +21,16 @@ const ClassPicker = () => {
             Alert.alert('Admin access is required.');
         }
     };
+
+    const [fontsLoaded] = useFonts({
+        'Poppins-ExtraB': require('../assets/fonts/Poppins/Poppins-ExtraBold.ttf'),
+        'Montserrat-ExtraB': require('../assets/fonts/Montserrat/static/Montserrat-ExtraBold.ttf'),
+        'Montserrat-Bold': require('../assets/fonts/Montserrat/static/Montserrat-Bold.ttf'),
+        'Montserrat-Med': require('../assets/fonts/Montserrat/static/Montserrat-Medium.ttf'),
+        'Montserrat-Reg': require('../assets/fonts/Montserrat/static/Montserrat-Regular.ttf'),
+        'Montserrat-Thin': require('../assets/fonts/Montserrat/static/Montserrat-Light.ttf'),
+        'RedHat-Bold': require('../assets/fonts/Red_Hat_Display/static/RedHatDisplay-Bold.ttf'),
+    });
 
     return (
         <ScrollView contentContainerStyle={styles.mainCont}> 
@@ -48,7 +60,10 @@ const ClassPicker = () => {
                 </View>
             </View>
 
-            <Text style={styles.mainTxt}>"Harmony Unleashed: Your Ultimate Guide to Guitar Chords!"</Text>
+            <View style={styles.bottomQuote}>
+                <Text style={styles.mainTxtBottom}>Harmony Unleashed</Text>
+                <Text style={styles.subTxtBottom}>Your Ultimate Guide to Guitar Chords!</Text>
+            </View>
 
             <TouchableOpacity style={styles.adminBtnCont}>
                 <FontAwesome6 name='user-gear' color={'#fff'} size={12} style={styles.adminBtn} />
@@ -92,7 +107,7 @@ const styles = StyleSheet.create ({
     mainLogoTxt: {
         color: '#FFF',
         fontSize: 30,
-        fontWeight: '800',
+        fontFamily: 'Poppins-ExtraB'
     },
     //#endregion LogoBox 
 
@@ -109,8 +124,10 @@ const styles = StyleSheet.create ({
 
     classPickQuote: {
         color: '#FFF',
-        fontSize: 23,
-        fontWeight: '800',
+        fontSize: 21,
+        fontFamily: 'Montserrat-ExtraB',
+        textAlign: 'center',
+        width: 280,
         letterSpacing: 1.5,
     },
 
@@ -148,17 +165,29 @@ const styles = StyleSheet.create ({
     roleTxt: {
         color: '#1B1212',
         fontSize: 23,
-        fontWeight: '800',
+        fontFamily: 'Montserrat-Bold',
     },  
 
     // Bottom Quote
-    mainTxt: {
-        marginTop: 90,
+    bottomQuote: {
+        display: 'flex',
+        alignItems: 'center',
+        marginTop: 60,
+        marginBottom: 5,
+    },
+    mainTxtBottom: {
         color: '#FFF',
         fontSize: 13,
         textAlign: 'center',
         width: '75%',
-        fontWeight: '700',
+        fontFamily: 'Montserrat-Reg',
+    },
+    subTxtBottom: {
+        color: '#FFF',
+        fontSize: 11,
+        textAlign: 'center',
+        width: '80%',
+        fontFamily: 'Montserrat-Thin',
     },
 
     adminBtnCont: {

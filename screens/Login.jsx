@@ -1,9 +1,9 @@
 import { View, TouchableOpacity, TextInput, Text, Image, ImageBackground, StyleSheet, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import React, {useState} from 'react';
 import { useAppContext } from '../AppContext';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 
 const Login = ({ route, navigation }) => {
@@ -131,7 +131,10 @@ const Login = ({ route, navigation }) => {
                 </TouchableOpacity>
             </View>
 
-            <Text style={styles.mainTxt}>"Harmony Unleashed: Your Ultimate Guide to Guitar Chords!"</Text>
+            <View style={styles.bottomQuote}>
+                <Text style={styles.mainTxtBottom}>Harmony Unleashed</Text>
+                <Text style={styles.subTxtBottom}>Your Ultimate Guide to Guitar Chords!</Text>
+            </View>
         </ScrollView>
     )
 }
@@ -176,6 +179,7 @@ const styles = StyleSheet.create({
     mainLogoTxt: {
         color: '#FFF',
         fontSize: 30,
+        fontFamily: 'Poppins-ExtraB',
     },
     //#endregion LogoBox 
 
@@ -200,15 +204,17 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         fontSize: 16,
-        fontWeight: 'bold',
+        fontFamily: 'RedHat-Bold',
     },
     activeText: {
         color: '#000', 
-        textTransform: 'uppercase'
+        textTransform: 'uppercase',
+        fontFamily: 'RedHat-Bold',
     },
     inactiveText: {
         color: '#FFF', 
-        textTransform: 'uppercase'
+        textTransform: 'uppercase',
+        fontFamily: 'RedHat-Bold',
     },
     //#endregion EntryMethods
 
@@ -223,14 +229,6 @@ const styles = StyleSheet.create({
         gap: 20,
         width: '95%',
     },
-    headerTwo: {
-        fontSize: 18,
-        marginBottom: 10,
-        textAlign: 'center',
-        fontWeight: '700',
-        color: '#FFF',
-        textTransform: 'uppercase',
-    },
     inputFields: {
         width: '90%',
         borderBottomWidth: 1,
@@ -238,7 +236,7 @@ const styles = StyleSheet.create({
         padding: 8,
         borderColor: '#FFF',
         color: '#FFF',
-        fontWeight: '800',
+        fontFamily: 'Montserrat-Bold',
     },
     passwordInputCont: {
         flexDirection: 'row',
@@ -252,7 +250,7 @@ const styles = StyleSheet.create({
         flex: 1,
         color: '#FFF',
         padding: 8,
-        fontWeight: '800',
+        fontFamily: 'Montserrat-Bold',
     },
     loginBtn: {
         backgroundColor: '#A8F94F', 
@@ -263,19 +261,31 @@ const styles = StyleSheet.create({
     loginBtnTxt: {
         color: '#000',
         fontSize: 16,
-        fontWeight: 'bold',
+        fontFamily: 'RedHat-Bold',
         textTransform: 'uppercase',
     },
     //#endregion LoginBox 
 
     // Bottom Quote
-    mainTxt: {
-        marginTop: 40,
+    bottomQuote: {
+        display: 'flex',
+        alignItems: 'center',
+        marginTop: 60,
+        marginBottom: 30,
+    },
+    mainTxtBottom: {
         color: '#FFF',
         fontSize: 13,
         textAlign: 'center',
         width: '75%',
-        fontWeight: '700',
+        fontFamily: 'Montserrat-Reg',
+    },
+    subTxtBottom: {
+        color: '#FFF',
+        fontSize: 11,
+        textAlign: 'center',
+        width: '80%',
+        fontFamily: 'Montserrat-Thin',
     },
 })
 
