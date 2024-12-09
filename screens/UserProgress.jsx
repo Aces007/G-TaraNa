@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import { View, TouchableOpacity, TouchableHighlight, Text, TextInput, Image, StyleSheet, ScrollView, Alert, Animated } from 'react-native';
+import { View, TouchableOpacity, TouchableHighlight, Text, TextInput, Image, StyleSheet, ScrollView, Alert, Animated, ActivityIndicator } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { useAppContext } from '../AppContext';
 import { useTheme } from '../ThemeContext';
 import { FlatList } from 'react-native-gesture-handler';
 import { useFonts } from 'expo-font';
-import AppLoading from 'expo-app-loading';
+import { safeAreaView } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
@@ -67,6 +67,14 @@ const UserProgress = ({ navigation }) => {
         'Montserrat-Reg': require('../assets/fonts/Montserrat/static/Montserrat-Regular.ttf'),
         'RedHat-Bold': require('../assets/fonts/Red_Hat_Display/static/RedHatDisplay-Bold.ttf'),
     });
+
+    if (!fontsLoaded) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#A8F94F" />
+            </View>
+        );
+    }
 
 
     return (
@@ -144,6 +152,13 @@ const UserProgress = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#0a0f1b',
+    },
+
     mainCont: {
         flexGrow: 1,
         backgroundColor: '#0a0f1b',

@@ -1,8 +1,8 @@
-import { View, TouchableOpacity, TextInput, Text, Image, ImageBackground, StyleSheet, ScrollView, Alert } from 'react-native';
+import { View, TouchableOpacity, TextInput, Text, Image, ImageBackground, StyleSheet, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import React, {useState} from 'react';
 import { useAppContext } from '../AppContext';
 import { useFonts } from 'expo-font';
-import AppLoading from 'expo-app-loading';
+import { safeAreaView } from 'react-native-safe-area-context';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -74,6 +74,14 @@ const SignUp = ({ route, navigation }) => {
         'Montserrat-Med': require('../assets/fonts/Montserrat/static/Montserrat-Medium.ttf'),
         'RedHat-Bold': require('../assets/fonts/Red_Hat_Display/static/RedHatDisplay-Bold.ttf'),
     });
+
+    if (!fontsLoaded) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#A8F94F" />
+            </View>
+        );
+    }
     
 
     return (
@@ -210,6 +218,13 @@ const SignUp = ({ route, navigation }) => {
 }
 
 const styles = StyleSheet.create({
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#0a0f1b',
+    },
+
     mainCont: {
         flexGrow: 1,
         backgroundColor: '#0a0f1b',

@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import { View, TouchableOpacity, TouchableHighlight, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import { View, TouchableOpacity, TouchableHighlight, Text, Image, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { useTheme } from '../ThemeContext';
 import { useFonts } from 'expo-font';
-import AppLoading from 'expo-app-loading';
+import { safeAreaView } from 'react-native-safe-area-context';
 import Ionicons from  'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -31,6 +31,14 @@ const ThemePicker = ({ navigation }) => {
         'Montserrat-Reg': require('../assets/fonts/Montserrat/static/Montserrat-Regular.ttf'),
         'RedHat-Bold': require('../assets/fonts/Red_Hat_Display/static/RedHatDisplay-Bold.ttf'),
     });
+
+    if (!fontsLoaded) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#A8F94F" />
+            </View>
+        );
+    }
 
 
     return (
@@ -75,6 +83,13 @@ const ThemePicker = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#0a0f1b',
+    },
+
     mainCont: {
         flexGrow: 1,
         backgroundColor: '#0a0f1b',

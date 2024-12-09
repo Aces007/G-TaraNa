@@ -2,7 +2,7 @@ import { View, TouchableOpacity, TextInput, Text, Image, ImageBackground, StyleS
 import React, {useState} from 'react';
 import { useAppContext } from '../AppContext';
 import { useFonts } from 'expo-font';
-import AppLoading from 'expo-app-loading';
+import { safeAreaView } from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 

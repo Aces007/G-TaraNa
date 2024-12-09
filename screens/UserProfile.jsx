@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import { View, TouchableOpacity, TouchableHighlight, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import { View, TouchableOpacity, TouchableHighlight, Text, Image, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { useAppContext } from '../AppContext';
 import { useTheme } from '../ThemeContext';
 import { useFonts } from 'expo-font';
-import AppLoading from 'expo-app-loading';
+import { safeAreaView } from 'react-native-safe-area-context';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
@@ -60,6 +60,14 @@ const UserProfile = ({ navigation }) => {
         'Montserrat-Reg': require('../assets/fonts/Montserrat/static/Montserrat-Regular.ttf'),
         'RedHat-Bold': require('../assets/fonts/Red_Hat_Display/static/RedHatDisplay-Bold.ttf'),
     });
+
+    if (!fontsLoaded) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#A8F94F" />
+            </View>
+        );
+    }
 
 
 
@@ -119,6 +127,13 @@ const UserProfile = ({ navigation }) => {
 
 
 const styles = StyleSheet.create ({
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#0a0f1b',
+    },
+
     mainCont: {
         flexGrow: 1,
         backgroundColor: '#0a0f1b',

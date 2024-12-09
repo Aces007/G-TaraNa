@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import { View, TouchableOpacity, TouchableHighlight, Text, TextInput, Image, StyleSheet, ScrollView, Alert, Platform } from 'react-native';
+import { View, TouchableOpacity, TouchableHighlight, Text, TextInput, Image, StyleSheet, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import { useAppContext } from '../AppContext';
 import { useTheme } from '../ThemeContext';
 import { useFonts } from 'expo-font';
-import AppLoading from 'expo-app-loading';
+import { safeAreaView } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -45,6 +45,14 @@ const ManageUser = ({ navigation }) => {
         'Montserrat-Reg': require('../assets/fonts/Montserrat/static/Montserrat-Regular.ttf'),
         'RedHat-Bold': require('../assets/fonts/Red_Hat_Display/static/RedHatDisplay-Bold.ttf'),
     });
+
+    if (!fontsLoaded) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#A8F94F" />
+            </View>
+        );
+    }
 
 
     useEffect(() => {
@@ -234,6 +242,13 @@ const ManageUser = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#0a0f1b',
+    },
+
     //#region Main Preferences
     mainCont: {
         flexGrow: 1,
