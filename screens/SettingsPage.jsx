@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import { View, TouchableOpacity, TouchableHighlight, Text, Image, StyleSheet, ScrollView, Alert } from 'react-native';
+import { View, TouchableOpacity, TouchableHighlight, Text, Image, StyleSheet, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import { useAppContext } from '../AppContext';
 import { useTheme } from '../ThemeContext';
 import { useFonts } from 'expo-font';
-import AppLoading from 'expo-app-loading';
+import { safeAreaView } from 'react-native-safe-area-context';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -34,15 +34,7 @@ const SettingsPage = ({ navigation }) => {
         }
     };
 
-    const [fontsLoaded] = useFonts({
-        'Poppins-ExtraB': require('../assets/fonts/Poppins/Poppins-ExtraBold.ttf'),
-        'Montserrat-ExtraB': require('../assets/fonts/Montserrat/static/Montserrat-ExtraBold.ttf'),
-        'Montserrat-Bold': require('../assets/fonts/Montserrat/static/Montserrat-Bold.ttf'),
-        'Montserrat-Med': require('../assets/fonts/Montserrat/static/Montserrat-Medium.ttf'),
-        'Montserrat-Reg': require('../assets/fonts/Montserrat/static/Montserrat-Regular.ttf'),
-        'RedHat-Bold': require('../assets/fonts/Red_Hat_Display/static/RedHatDisplay-Bold.ttf'),
-    });
-
+    
     useEffect(() => {
         console.log('userId in UserProfile:', userId);
         const getUserData = async () => {
@@ -52,7 +44,7 @@ const SettingsPage = ({ navigation }) => {
             setUserEmail(userData.email)
             setProfPic(userData.profile_picture)
         };
-
+        
         getUserData();
     }, [userId]);
 
@@ -60,21 +52,38 @@ const SettingsPage = ({ navigation }) => {
         Alert.alert(
           "Log Out", 
           "Are you sure you want to log out?", 
-          [
-            {
-              text: "Cancel",
-              style: "cancel"
-            },
-            {
-              text: "Log Out",
-              onPress: async () => {
-                await logOut(),
-              navigation.navigate("userAccountScreen")
-            }
-        }
-        ]
-    );
+            [
+                {
+                text: "Cancel",
+                style: "cancel"
+                },
+                {
+                text: "Log Out",
+                onPress: async () => {
+                    await logOut(),
+                navigation.navigate("userAccountScreen")
+                    }
+                }
+            ]
+        );
     };
+
+    const [fontsLoaded] = useFonts({
+        'Poppins-ExtraB': require('../assets/fonts/Poppins/Poppins-ExtraBold.ttf'),
+        'Montserrat-ExtraB': require('../assets/fonts/Montserrat/static/Montserrat-ExtraBold.ttf'),
+        'Montserrat-Bold': require('../assets/fonts/Montserrat/static/Montserrat-Bold.ttf'),
+        'Montserrat-Med': require('../assets/fonts/Montserrat/static/Montserrat-Medium.ttf'),
+        'Montserrat-Reg': require('../assets/fonts/Montserrat/static/Montserrat-Regular.ttf'),
+        'RedHat-Bold': require('../assets/fonts/Red_Hat_Display/static/RedHatDisplay-Bold.ttf'),
+    });
+
+    if (!fontsLoaded) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#A8F94F" />
+            </View>
+        );
+    }
 
     return (
         <ScrollView contentContainerStyle={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
@@ -101,7 +110,7 @@ const SettingsPage = ({ navigation }) => {
                             <Text style={[styles.btnTxt, {color: currentTheme.textColor}]}>Theme</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.manageSection} onPress={() => navigation.navigate('')}>
+                        <TouchableOpacity style={styles.manageSection} onPress={() => navigation.navigate('NotificationsPanel')}>
                             <Ionicons name='notifications-outline' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
                             <Text style={[styles.btnTxt, {color: currentTheme.textColor}]}>Notifications</Text>
                         </TouchableOpacity>
@@ -130,6 +139,13 @@ const SettingsPage = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#0a0f1b',
+    },
+
     mainCont: {
         flexGrow: 1,
         backgroundColor: '#0a0f1b',

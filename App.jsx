@@ -7,7 +7,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { AppProvider, useAppContext } from "./AppContext"; 
 import { ThemeProvider, useTheme } from './ThemeContext';
 import { useFonts } from 'expo-font';
-import AppLoading from 'expo-app-loading';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
@@ -22,6 +21,7 @@ import ThemePicker from './screens/ThemePicker';
 import CreditsPage from './screens/CreditsPage';
 import ClassPicker from './screens/ClassPicker';
 import SplashScreen from './screens/SplashScreen';
+import NotificationsSet from './screens/NotificationSet';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -125,7 +125,7 @@ function MainScreen() {
   }
 
   return (
-    <Stack.Navigator initialRouteName={'ClassPicker'}>
+    <Stack.Navigator initialRouteName={'SplashScreen'}>
       <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
       <Stack.Screen name="ClassPicker" component={ClassPicker} options={{ headerShown: false }} />
       <Stack.Screen name="userAccountScreen" component={UserAccountManager} options={{ headerShown: false }} />
@@ -133,6 +133,7 @@ function MainScreen() {
       <Stack.Screen name="ManageUser" component={ManageUser} options={{ headerShown: false }} />
       <Stack.Screen name="UserProgress" component={UserProgress} options={{ headerShown: false }} />
       <Stack.Screen name="ThemePicker" component={ThemePicker} options={{ headerShown: false }} />
+      <Stack.Screen name="NotificationsPanel" component={NotificationsSet} options={{ headerShown: false }} />
       <Stack.Screen name="CreditsPage" component={CreditsPage} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
