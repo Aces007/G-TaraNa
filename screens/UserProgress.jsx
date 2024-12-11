@@ -88,7 +88,7 @@ const UserProgress = ({ navigation }) => {
 
             <View style={[styles.calendarCont, {backgroundColor: currentTheme.backgroundColor5}]}>
                 <View style={styles.monthSelector}>
-                    <Text style={styles.monthText}>{selectedDate.format('MMMM')}</Text>
+                    <Text style={styles.monthText}>{selectedDate.format('MMMM')} {selectedDate.format('YYYY')}</Text>
                 </View>
 
                 {/* Days of the Week */}
@@ -110,7 +110,7 @@ const UserProgress = ({ navigation }) => {
                         width={15}
                         fill={75}
                         tintColor={currentTheme.buttonColor}
-                        backgroundColor={currentTheme.backgroundColor4}
+                        backgroundColor={currentTheme.borderColor}
                     >
                         {
                             (fill) => (
@@ -131,7 +131,7 @@ const UserProgress = ({ navigation }) => {
                         width={15}
                         fill={75}
                         tintColor={currentTheme.buttonColor}
-                        backgroundColor={currentTheme.backgroundColor4}
+                        backgroundColor={currentTheme.borderColor}
                     >
                         {
                             (fill) => (

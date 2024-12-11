@@ -158,7 +158,7 @@ const styles = StyleSheet.create ({
     },  
     mainImg: {
         width: 300,
-        height: 280,
+        height: 275,
     },
     //#endregion Main
 
