@@ -176,7 +176,7 @@ const ManageUser = ({ navigation }) => {
 
                 <View style={styles.infoContainer}>
                     <View style={styles.profilePic}>
-                        <Image source={profilePic ? { uri: profilePic } : require('../assets/erus.jpg')} style={styles.userProfPic}/>
+                        <Image source={profilePic ? { uri: profilePic } : require('../assets/placeholderImg.png')} style={styles.userProfPic}/>
 
                         <TouchableOpacity onPress={selectProfilePicture} style={[styles.uploadBtnCont, {backgroundColor: currentTheme.buttonColor}]}> 
                             <AntDesign name='clouduploado' color={'#000'} size={16} />

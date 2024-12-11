@@ -82,7 +82,7 @@ const UserProfile = ({ navigation }) => {
 
             <View style={[styles.userProfileCont, {backgroundColor: currentTheme.backgroundColor2}]}>
                 <View style={styles.userProfLeft}>
-                    <Image source={profilePic ? {uri: profilePic} : require('../assets/erus.jpg')} style={styles.userProfPic}/>
+                    <Image source={profilePic ? {uri: profilePic} : require('../assets/placeholderImg.png')} style={styles.userProfPic}/>
                     <View style={styles.nameContainer}>
                         <Text style={[styles.userFirstName, {color: currentTheme.textColor}]}>
                             {firstName}

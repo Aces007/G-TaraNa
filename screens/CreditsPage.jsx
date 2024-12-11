@@ -62,27 +62,43 @@ const CreditsPage = ({ navigation }) => {
                 <Text style={[styles.contriLabel, {color: currentTheme.textColor}]}>Contributors</Text>
                 <TouchableOpacity onPress={() => {
                     Linking.openURL("https://www.instagram.com/lawlensphotography/")
-                }}>
+                }}
+                    style={styles.contriNameImg}
+                >
                     <Image source={require('../assets/Contributors/Ace.jpg')} style={styles.contriJPG}/>
                     <Text style={[styles.contriTXT, {color: currentTheme.textColor}]}>Ace Clavano</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                     Linking.openURL("https://www.instagram.com/airacaughton4k/")
-                }}>
+                }}
+                    style={styles.contriNameImg}
+                >
                     <Image source={require('../assets/Contributors/Aira.png')} style={styles.contriJPG}/>
                     <Text style={[styles.contriTXT, {color: currentTheme.textColor}]}>Aira Estur</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                     Linking.openURL("https://www.instagram.com/cmllnieto_/")
-                }}>
+                }}
+                    style={styles.contriNameImg}
+                >
                     <Image source={require('../assets/Contributors/Cams.jpg')} style={styles.contriJPG}/>
                     <Text style={[styles.contriTXT, {color: currentTheme.textColor}]}>Camille Nieto</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                     Linking.openURL("https://www.instagram.com/ec_pzzz/")
-                }}>
+                }}
+                    style={styles.contriNameImg}
+                >
                     <Image source={require('../assets/Contributors/Eros.jpg')} style={styles.contriJPG}/>
                     <Text style={[styles.contriTXT, {color: currentTheme.textColor}]}>Eros Ruffy</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    Linking.openURL("https://www.facebook.com/shawn.maurin")
+                }}
+                    style={styles.contriNameImg}
+                >
+                    <Image source={require('../assets/Contributors/Shawn.jpg')} style={styles.contriJPG}/>
+                    <Text style={[styles.contriTXT, {color: currentTheme.textColor}]}>Shawn Maurin</Text>
                 </TouchableOpacity>
             </View>
 
@@ -176,19 +192,24 @@ const styles = StyleSheet.create({
     contriCont: {
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'center',
         marginTop: 40,
     },
     contriLabel: {
         color: '#FFF',
         fontSize: 25,
-        textAlign: 'center',
         fontFamily: 'Montserrat-Med',
+    },
+    contriNameImg: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
     },
     contriJPG: {
         width: 120,
         height: 120,
         borderRadius: 60,
-        marginVertical: 20,
+        marginVertical: 20
     },
     contriTXT: {
         color: '#FFF',
@@ -196,6 +217,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontFamily: 'Montserrat-Reg',
     },  
+
     //#endregion Contributors
 
     //#region Frameworks and Languages
