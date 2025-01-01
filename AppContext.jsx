@@ -211,11 +211,51 @@ export const AppProvider = ({ children }) => {
     //endregion Profile Picture Upload
 
 
+    //region Class Integration
+    const generateClassCode = () => {
+        return Math.random().toString(36).substring(2, 8).toUpperCase();
+    }
+
+    const createClass = async ( name, description, coachId ) => {
+        const code = generateClassCode();
+
+        const { data, error } = await supabase 
+            .from('Classes')
+            .insert({ class_name: name, class_description: description, code, coach_id: coachId });
+
+        if (error) throw error;
+
+        return data;
+    }
+    
+    const joinClass = async ( classCode, userId ) => {
+        
+        const { data: classData, error: fetchError } = await supabase 
+            .from('Classes')
+            .select('*')
+            .eq('code', classCode)
+            .single();
+
+        if (fetchError || !classData) throw new Error('Class Not Found');
+
+
+        const { error: joinError } = await supabase
+            .from('ClassParticipants')
+            .insert({ class_id: classData.id, user_id: userId });
+
+        if (joinError) throw joinError
+        
+        
+        return classData;
+    }
+    //endregion Class Integration
+
 
     return (
         <AppContext.Provider 
             value={{userId, updatedData, role, signUp, logIn, logOut, fetchUserData,
-                updateUserDetails, updatePassword, uploadProfilePicture, setRole
+                updateUserDetails, updatePassword, uploadProfilePicture, setRole, generateClassCode,
+                createClass, joinClass
             }}
         >
             {children}

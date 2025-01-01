@@ -22,6 +22,8 @@ import CreditsPage from './screens/CreditsPage';
 import ClassPicker from './screens/ClassPicker';
 import SplashScreen from './screens/SplashScreen';
 import NotificationsSet from './screens/NotificationSet';
+import CreateClass from './screens/CreateClass';
+import JoinClass from './screens/JoinClass';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -132,6 +134,8 @@ function MainScreen() {
       <Stack.Screen name="mainTabs" component={TabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="ManageUser" component={ManageUser} options={{ headerShown: false }} />
       <Stack.Screen name="UserProgress" component={UserProgress} options={{ headerShown: false }} />
+      <Stack.Screen name="CreateClass" component={CreateClass} options={{ headerShown: false }} />
+      <Stack.Screen name="JoinClass" component={JoinClass} options={{ headerShown: false }} />
       <Stack.Screen name="ThemePicker" component={ThemePicker} options={{ headerShown: false }} />
       <Stack.Screen name="NotificationsPanel" component={NotificationsSet} options={{ headerShown: false }} />
       <Stack.Screen name="CreditsPage" component={CreditsPage} options={{ headerShown: false }} />
