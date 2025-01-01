@@ -8,6 +8,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import IconDark from '../assets/icon4-1.png';
 import IconLight from '../assets/icon4-2.png';
 
@@ -78,6 +79,9 @@ const UserProfile = ({ navigation }) => {
                     <Image source={isDarkMode ? IconDark : IconLight} style={styles.logoImg}/>
                     <Text style={[styles.logoTxt, {color: currentTheme.textColor}]}>G! Tara Na!</Text>
                 </View>
+                <TouchableOpacity style={styles.classBtn} onPress={() => navigation.navigate('CreateClass')}>
+                    <Ionicons name='add-circle-outline' size={25} style={styles.manageSVG} />
+                </TouchableOpacity>
             </View>
 
             <View style={[styles.userProfileCont, {backgroundColor: currentTheme.backgroundColor2}]}>
@@ -145,8 +149,8 @@ const styles = StyleSheet.create ({
     headerCont: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
+        justifyContent: 'space-between',
         gap: 30,
         marginBottom: 30,
     },
@@ -166,6 +170,10 @@ const styles = StyleSheet.create ({
         color: '#FFF',
         fontSize: 21,
         fontFamily: 'Poppins-ExtraB',
+    },
+    classBtn: {
+        height: '100%',
+        paddingTop: 6,
     },
     //#endregion Header
 
@@ -275,7 +283,6 @@ const styles = StyleSheet.create ({
         padding: 7.5,
         width: 40,
         height: 40,
-        backgroundColor: '#fff',
         borderRadius: 60,
         textAlign: 'center'
     },
