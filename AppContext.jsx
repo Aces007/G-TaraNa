@@ -72,6 +72,7 @@ export const AppProvider = ({ children }) => {
             console.log('Login successful, User ID:', user.id);
 
             setUserId(user.id);
+            const usersRole = await fetchUserData(user.id);
             return true;
 
         } catch (error) {
@@ -102,7 +103,7 @@ export const AppProvider = ({ children }) => {
         try {
             const { data, error } = await supabase
                 .from('Users')
-                .select('first_name, last_name, age, username, email, created_at, profile_picture')
+                .select('first_name, last_name, age, username, email, created_at, role, profile_picture')
                 .eq('id', userId)
                 .single()
     
@@ -115,6 +116,7 @@ export const AppProvider = ({ children }) => {
                 age: data.age, 
                 email: data.email, 
                 created_at: data.created_at,
+                user_role: data.role,
                 profile_picture: data.profile_picture
             }
         
@@ -221,7 +223,7 @@ export const AppProvider = ({ children }) => {
 
         const { data, error } = await supabase 
             .from('Classes')
-            .insert({ class_name: name, class_description: description, code, coach_id: coachId });
+            .insert({ class_name: name, class_description: description, class_code: code, coach_id: coachId });
 
         if (error) throw error;
 
@@ -248,6 +250,38 @@ export const AppProvider = ({ children }) => {
         
         return classData;
     }
+
+    const fetchClasses = async (coachId) => {
+        try {
+            const { data, error } = await supabase
+                .from('Classes')
+                .select('*')
+                .eq('coach_id', coachId);
+
+            if (error) throw error;
+
+
+            return data;
+        } catch (error) {
+            console.error('Class Fetching Error: ', error.message);
+            return [];
+        }
+    };
+
+    const fetchAllClasses = async () => {
+        try {
+            const { data, error } = await supabase 
+                .from('Classes')
+                .select('*');
+
+            if (error) throw error;
+
+            return data;
+        } catch (error) {
+            console.error('Class Fetching Error: ', error.message)
+            return[];
+        }
+    };
     //endregion Class Integration
 
 
@@ -255,7 +289,7 @@ export const AppProvider = ({ children }) => {
         <AppContext.Provider 
             value={{userId, updatedData, role, signUp, logIn, logOut, fetchUserData,
                 updateUserDetails, updatePassword, uploadProfilePicture, setRole, generateClassCode,
-                createClass, joinClass,
+                createClass, joinClass, fetchClasses, fetchAllClasses,
             }}
         >
             {children}

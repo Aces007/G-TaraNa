@@ -9,6 +9,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconDark from '../assets/icon4-1.png';
 import IconLight from '../assets/icon4-2.png';
 
@@ -21,6 +22,7 @@ const UserProfile = ({ navigation }) => {
     const [lastName, setLastName] = useState('');
     const [joinDate, setJoinDate] = useState('');
     const [userAge, setUserAge] = useState('');
+    const [userRole, setUserRole] = useState('');
     const [profilePic, setProfPic] = useState('');
     const { isDarkMode, toggleTheme, currentTheme } = useTheme();
     const [selectedTheme, setSelectedTheme] = useState(isDarkMode ? 'dark' : 'light');
@@ -46,6 +48,7 @@ const UserProfile = ({ navigation }) => {
             setLastName(userData.last_name);
             setJoinDate(userData.created_at)
             setUserAge(userData.age)
+            setUserRole(userData.user_role)
             setProfPic(userData.profile_picture)
         };
 
@@ -79,7 +82,7 @@ const UserProfile = ({ navigation }) => {
                     <Image source={isDarkMode ? IconDark : IconLight} style={styles.logoImg}/>
                     <Text style={[styles.logoTxt, {color: currentTheme.textColor}]}>G! Tara Na!</Text>
                 </View>
-                <TouchableOpacity style={styles.classBtn} onPress={() => navigation.navigate('JoinClass')}>
+                <TouchableOpacity style={styles.classBtn} onPress={() => userRole === 'user' ? navigation.navigate('JoinClass') : navigation.navigate('CreateClass')}>
                     <Ionicons name='add-circle-outline' size={25} color={currentTheme.textColor} style={styles.manageSVG} />
                 </TouchableOpacity>
             </View>
@@ -110,20 +113,25 @@ const UserProfile = ({ navigation }) => {
 
             </View>
 
-            <View style={styles.profileMenu}>
-                <Text style={[styles.profileMenuLab, {color: currentTheme.textColor}]}>Profile</Text>
-
-                <TouchableOpacity style={styles.manageUserLeft} onPress={() => navigation.navigate('ManageUser')}>
-                    <FontAwesome6 name='user' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
-                    <Text style={[styles.manageUserTxt, {color: currentTheme.textColor}]}>Manage User</Text>
-                </TouchableOpacity>
-
-
-                <TouchableOpacity style={styles.manageUserLeft} onPress={() => navigation.navigate('UserProgress')}>
-                    <AntDesign name='areachart' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
-                    <Text style={[styles.manageUserTxt, {color: currentTheme.textColor}]}>User Progress</Text>
-                </TouchableOpacity>
-
+            <View style={styles.menuSection}>
+                <View style={styles.userProfileMenus}>
+                    <Text style={[styles.userMenuLab, {color: currentTheme.textColor}]}>My Classes</Text>
+                    <TouchableOpacity style={styles.manageUserLeft} onPress={() => navigation.navigate('ClassList')}>
+                        <MaterialIcons name='class' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
+                        <Text style={[styles.manageUserTxt, {color: currentTheme.textColor}]}>View Classes</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.userProfileMenus}>
+                    <Text style={[styles.userMenuLab, {color: currentTheme.textColor}]}>Profile</Text>
+                    <TouchableOpacity style={styles.manageUserLeft} onPress={() => navigation.navigate('ManageUser')}>
+                        <FontAwesome6 name='user' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
+                        <Text style={[styles.manageUserTxt, {color: currentTheme.textColor}]}>Manage User</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.manageUserLeft} onPress={() => navigation.navigate('UserProgress')}>
+                        <AntDesign name='areachart' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
+                        <Text style={[styles.manageUserTxt, {color: currentTheme.textColor}]}>User Progress</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </ScrollView>
     )
@@ -259,15 +267,17 @@ const styles = StyleSheet.create ({
     //#endregion  User Profile Section
 
     //#region Profile Menu
-    profileMenu: {
-        marginVertical: 25,
+    menuSection: {
+        marginVertical: 20,
+    },
+    userProfileMenus: {
         gap: 20,
         padding: 20,
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'space-evenly',
     },
-    profileMenuLab: {
+    userMenuLab: {
         color: '#fff',
         fontSize: 25,
         fontFamily: 'Montserrat-ExtraB',

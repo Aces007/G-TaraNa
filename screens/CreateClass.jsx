@@ -9,7 +9,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const CreateClass = ({ navigation }) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    const { userId, CreateClass } = useAppContext();
+    const { userId, createClass } = useAppContext();
     const { isDarkMode, toggleTheme, currentTheme } = useTheme();
     const [selectedTheme, setSelectedTheme] = useState(isDarkMode ? 'dark' : 'light');
 
@@ -30,7 +30,7 @@ const CreateClass = ({ navigation }) => {
 
     const handleCreatingClass = async () => {
         try {
-            const newClass = await CreateClass(name, description, userId);
+            const newClass = await createClass(name, description, userId);
             alert('Class Created')
         } catch (error) {
             alert('Class Failed to Create: ' + error.message)
