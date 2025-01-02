@@ -79,8 +79,8 @@ const UserProfile = ({ navigation }) => {
                     <Image source={isDarkMode ? IconDark : IconLight} style={styles.logoImg}/>
                     <Text style={[styles.logoTxt, {color: currentTheme.textColor}]}>G! Tara Na!</Text>
                 </View>
-                <TouchableOpacity style={styles.classBtn} onPress={() => navigation.navigate('CreateClass')}>
-                    <Ionicons name='add-circle-outline' size={25} style={styles.manageSVG} />
+                <TouchableOpacity style={styles.classBtn} onPress={() => navigation.navigate('JoinClass')}>
+                    <Ionicons name='add-circle-outline' size={25} color={currentTheme.textColor} style={styles.manageSVG} />
                 </TouchableOpacity>
             </View>
 

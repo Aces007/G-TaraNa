@@ -255,7 +255,7 @@ export const AppProvider = ({ children }) => {
         <AppContext.Provider 
             value={{userId, updatedData, role, signUp, logIn, logOut, fetchUserData,
                 updateUserDetails, updatePassword, uploadProfilePicture, setRole, generateClassCode,
-                createClass, joinClass
+                createClass, joinClass,
             }}
         >
             {children}
