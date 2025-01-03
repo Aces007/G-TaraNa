@@ -25,6 +25,7 @@ import NotificationsSet from './screens/NotificationSet';
 import CreateClass from './screens/CreateClass';
 import JoinClass from './screens/JoinClass';
 import ViewClasses from './screens/ViewClasses';
+import PrimaryClasses from './screens/PrimaryClasses';
 
 
 
@@ -140,6 +141,7 @@ function MainScreen() {
       <Stack.Screen name="CreateClass" component={CreateClass} options={{ headerShown: false }} />
       <Stack.Screen name="JoinClass" component={JoinClass} options={{ headerShown: false }} />
       <Stack.Screen name="ClassList" component={ViewClasses} options={{ headerShown: false }} />
+      <Stack.Screen name="PrimaryClasses" component={PrimaryClasses} options={{ headerShown: false }} />
       <Stack.Screen name="ThemePicker" component={ThemePicker} options={{ headerShown: false }} />
       <Stack.Screen name="NotificationsPanel" component={NotificationsSet} options={{ headerShown: false }} />
       <Stack.Screen name="CreditsPage" component={CreditsPage} options={{ headerShown: false }} />

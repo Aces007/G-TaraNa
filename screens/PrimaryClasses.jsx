@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import { View, TouchableOpacity, FlatList, Text, Image, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import { View, TouchableOpacity, FlatList, Text, Alert, StyleSheet, ActivityIndicator } from 'react-native';
 import { useAppContext } from '../AppContext';
 import { useTheme } from '../ThemeContext';
 import { useFonts } from 'expo-font';
 import { safeAreaView } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
-const ViewClasses = ({ navigation }) => {
-    const { userId, fetchCoachClasses, fetchUserClasses, fetchUserData } = useAppContext();
+const PrimaryClasses = ({ navigation }) => {
+    const { userId, fetchCoachClasses, fetchUserClasses, fetchUserData, logOut } = useAppContext();
     const [userRole, setUserRole] = useState('');
     const [classes, setClasses] = useState([]);
     const { isDarkMode, toggleTheme, currentTheme } = useTheme();
@@ -53,6 +54,26 @@ const ViewClasses = ({ navigation }) => {
         </TouchableOpacity>
     )
 
+    const handleLogout = () => {
+        Alert.alert(
+            "Log Out", 
+            "Are you sure you want to log out?", 
+            [
+                {
+                text: "Cancel",
+                style: "cancel"
+                },
+                {
+                text: "Log Out",
+                onPress: async () => {
+                    await logOut(),
+                navigation.navigate("userAccountScreen")
+                    }
+                }
+            ]
+        );
+    };
+
     useEffect(() => {
         setSelectedTheme(isDarkMode ? 'dark' : 'light');
     }, [isDarkMode]);
@@ -87,11 +108,13 @@ const ViewClasses = ({ navigation }) => {
     return(
         <View style={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
             <View style={[styles.headerCont, {backgroundColor: currentTheme.backgroundColor}]}>
-                <TouchableOpacity style={styles.backBtn} onPress={() => navigation.navigate('User')}>
-                    <Ionicons name='arrow-back' color="white" size={25} style={[styles.manageSVG, {color: currentTheme.textColor}]} />
-                </TouchableOpacity>
                 <TouchableOpacity style={styles.classBtn} onPress={() => userRole === 'user' ? navigation.navigate('JoinClass') : navigation.navigate('CreateClass')}>
                     <Ionicons name='add-circle-outline' size={25} color={currentTheme.textColor} style={styles.manageSVG} />
+                </TouchableOpacity>
+                
+                <TouchableOpacity style={[styles.logoutCont, {backgroundColor: currentTheme.buttonColor}]} onPress={handleLogout}>
+                    <AntDesign name='logout' color={'#000'} size={16}/>
+                    <Text style={styles.logoutTxt}>Logout</Text>
                 </TouchableOpacity>
             </View>
 
@@ -150,7 +173,25 @@ const styles = StyleSheet.create({
     classListCont: {
         marginVertical: 25,
     },
+    logoutCont: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        backgroundColor: '#A8F94F',
+        width: 95,
+        height: 30,
+        borderRadius: 5,
+        gap: 10,
+        marginRight: 5,
+    },
+    logoutTxt: {
+        color: '#000',
+        fontSize: 12,
+        textTransform: 'uppercase',
+        fontFamily: 'RedHat-Bold',
+    },
 })  
 
 
-export default ViewClasses;
+export default PrimaryClasses;

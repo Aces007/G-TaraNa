@@ -32,7 +32,7 @@ const Login = ({ route, navigation }) => {
         const isLoginCorrect = await logIn(email, password);
 
         if (isLoginCorrect) {
-            navigation.navigate('mainTabs');
+            navigation.navigate('PrimaryClasses');
         }
         else {
             Alert.alert("Error during Log-in", "Invalid login credentials");

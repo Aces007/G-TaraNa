@@ -235,7 +235,7 @@ export const AppProvider = ({ children }) => {
         const { data: classData, error: fetchError } = await supabase 
             .from('Classes')
             .select('*')
-            .eq('code', classCode)
+            .eq('class_code', classCode)
             .single();
 
         if (fetchError || !classData) throw new Error('Class Not Found');
@@ -251,7 +251,7 @@ export const AppProvider = ({ children }) => {
         return classData;
     }
 
-    const fetchClasses = async (coachId) => {
+    const fetchCoachClasses = async (coachId) => {
         try {
             const { data, error } = await supabase
                 .from('Classes')
@@ -262,6 +262,22 @@ export const AppProvider = ({ children }) => {
 
 
             return data;
+        } catch (error) {
+            console.error('Class Fetching Error: ', error.message);
+            return [];
+        }
+    };
+
+    const fetchUserClasses = async (userId) => {
+        try {
+            const { data, error } = await supabase
+                .from('ClassParticipants')
+                .select('class_id, Classes(*)')
+                .eq('user_id', userId)
+            
+            if (error) throw error;
+
+            return data.map((record) => record.Classes);
         } catch (error) {
             console.error('Class Fetching Error: ', error.message);
             return [];
@@ -289,7 +305,7 @@ export const AppProvider = ({ children }) => {
         <AppContext.Provider 
             value={{userId, updatedData, role, signUp, logIn, logOut, fetchUserData,
                 updateUserDetails, updatePassword, uploadProfilePicture, setRole, generateClassCode,
-                createClass, joinClass, fetchClasses, fetchAllClasses,
+                createClass, joinClass, fetchCoachClasses, fetchUserClasses, fetchAllClasses,
             }}
         >
             {children}
