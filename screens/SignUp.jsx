@@ -58,7 +58,7 @@ const SignUp = ({ route, navigation }) => {
 
         try {
             await signUp(email, username, firstname, lastname, age, password, role);
-            navigation.navigate('mainTabs');
+            navigation.navigate('PrimaryClasses');
         } catch (error) {
             Alert.alert("Error during sign-up", error.message);
         }
