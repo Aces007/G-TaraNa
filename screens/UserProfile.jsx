@@ -116,7 +116,7 @@ const UserProfile = ({ navigation }) => {
             <View style={styles.menuSection}>
                 <View style={styles.userProfileMenus}>
                     <Text style={[styles.userMenuLab, {color: currentTheme.textColor}]}>My Classes</Text>
-                    <TouchableOpacity style={styles.manageUserLeft} onPress={() => navigation.navigate('ClassList')}>
+                    <TouchableOpacity style={styles.manageUserLeft} onPress={() => userRole === 'coach' ? navigation.navigate('StudentsList') : navigation.navigate('ClassList')}>
                         <MaterialIcons name='class' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
                         <Text style={[styles.manageUserTxt, {color: currentTheme.textColor}]}>View Classes</Text>
                     </TouchableOpacity>

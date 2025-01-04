@@ -26,6 +26,7 @@ import CreateClass from './screens/CreateClass';
 import JoinClass from './screens/JoinClass';
 import ViewClasses from './screens/ViewClasses';
 import PrimaryClasses from './screens/PrimaryClasses';
+import StudentsList from './screens/StudentsList';
 
 
 
@@ -142,6 +143,7 @@ function MainScreen() {
       <Stack.Screen name="JoinClass" component={JoinClass} options={{ headerShown: false }} />
       <Stack.Screen name="ClassList" component={ViewClasses} options={{ headerShown: false }} />
       <Stack.Screen name="PrimaryClasses" component={PrimaryClasses} options={{ headerShown: false }} />
+      <Stack.Screen name="StudentsList" component={StudentsList} options={{ headerShown: false }} />
       <Stack.Screen name="ThemePicker" component={ThemePicker} options={{ headerShown: false }} />
       <Stack.Screen name="NotificationsPanel" component={NotificationsSet} options={{ headerShown: false }} />
       <Stack.Screen name="CreditsPage" component={CreditsPage} options={{ headerShown: false }} />

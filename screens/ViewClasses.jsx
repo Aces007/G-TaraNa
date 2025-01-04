@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderWidth: 2,
         borderRadius: 5,
+        marginBottom: 40,
     },
     className: {
         fontFamily: 'Montserrat-Bold',

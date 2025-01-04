@@ -216,7 +216,7 @@ export const AppProvider = ({ children }) => {
     //region Class Integration
     const generateClassCode = () => {
         return Math.random().toString(36).substring(2, 8).toUpperCase();
-    }
+    };
 
     const createClass = async ( name, description, coachId ) => {
         const code = generateClassCode();
@@ -228,7 +228,7 @@ export const AppProvider = ({ children }) => {
         if (error) throw error;
 
         return data;
-    }
+    };
     
     const joinClass = async ( classCode, userId ) => {
         
@@ -241,15 +241,28 @@ export const AppProvider = ({ children }) => {
         if (fetchError || !classData) throw new Error('Class Not Found');
 
 
+        const { data: userData, error: userError } = await supabase
+            .from('Users')
+            .select('first_name, last_name')
+            .eq('id', userId)
+            .single();
+
+        if (userError || !userData) throw new Error('User Not Found');
+
+
         const { error: joinError } = await supabase
             .from('ClassParticipants')
-            .insert({ class_id: classData.id, user_id: userId });
+            .insert({ 
+                class_id: classData.id, 
+                user_id: userId,
+                user_name: `${userData.first_name} ${userData.last_name}`
+            });
 
         if (joinError) throw joinError
         
         
         return classData;
-    }
+    };
 
     const fetchCoachClasses = async (coachId) => {
         try {
@@ -298,6 +311,31 @@ export const AppProvider = ({ children }) => {
             return[];
         }
     };
+
+    const fetchStudentsInClass = async () => {
+        try {
+            if (!classId) {
+                throw new Error('Class ID is missing.');
+            }
+    
+            const { data, error } = await supabase
+                .from('ClassParticipants')
+                .select('user_id, Users(first_name, last_name, email)')
+                .eq('class_id', classId);
+    
+            if (error) throw error;
+    
+            return data.map((participant) => ({
+                user_id: participant.user_id,
+                name: `${participant.Users.first_name} ${participant.Users.last_name}`,
+                email: participant.Users.email,
+            }));
+        } catch (error) {
+            console.error('Student Fetching Error: ', error.message);
+            return [];
+        }
+    };
+    
     //endregion Class Integration
 
 
@@ -305,7 +343,7 @@ export const AppProvider = ({ children }) => {
         <AppContext.Provider 
             value={{userId, updatedData, role, signUp, logIn, logOut, fetchUserData,
                 updateUserDetails, updatePassword, uploadProfilePicture, setRole, generateClassCode,
-                createClass, joinClass, fetchCoachClasses, fetchUserClasses, fetchAllClasses,
+                createClass, joinClass, fetchCoachClasses, fetchUserClasses, fetchAllClasses, fetchStudentsInClass,
             }}
         >
             {children}
