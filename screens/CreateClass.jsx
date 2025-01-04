@@ -32,6 +32,7 @@ const CreateClass = ({ navigation }) => {
         try {
             const newClass = await createClass(name, description, userId);
             alert('Class Created')
+            navigation.navigate('mainTabs')
         } catch (error) {
             alert('Class Failed to Create: ' + error.message)
         }
@@ -58,7 +59,7 @@ const CreateClass = ({ navigation }) => {
 
     return (
         <ScrollView contentContainerStyle={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
-            <TouchableOpacity style={styles.backBtn} onPress={() => navigation.navigate('User')}>
+            <TouchableOpacity style={styles.backBtn} onPress={() => navigation.navigate('mainTabs')}>
                 <Ionicons name='arrow-back' color="white" size={25} style={[styles.manageSVG, {color: currentTheme.textColor}]} />
             </TouchableOpacity>
             

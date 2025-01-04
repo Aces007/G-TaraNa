@@ -31,6 +31,7 @@ const JoinClass = ({ navigation }) => {
         try {
             const joinClasses = await joinClass(classCode ,userId);
             alert('Successfully Joined Class')
+            navigation.navigate('mainTabs')
         } catch (error) {
             alert('Failed to Join Class: ' + error.message)
         }

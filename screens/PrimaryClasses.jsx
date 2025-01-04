@@ -27,23 +27,24 @@ const PrimaryClasses = ({ navigation }) => {
     
     
     useEffect(() => {
-        const showCoachClasses = async () => {
-            const myClasses = await fetchCoachClasses(userId);
-            setClasses(myClasses);
+        const filterClassesByRole = async () => {
+            try {
+                if  (userRole === 'coach') {
+                    const myClasses = await fetchCoachClasses(userId);
+                    setClasses(myClasses);
+                } else {
+                    const allClasses = await fetchUserClasses(userId);
+                    setClasses(allClasses);
+                }
+            } catch (error) {
+                Alert('Class Fetching Error: ', error.message);
+            }
         };
         
-        const showAllClasses = async () => {
-            const myClasses = await fetchUserClasses(userId);
-            setClasses(myClasses);
-        };
-
-        if (userRole === 'coach') {
-            showCoachClasses();
-        } else {
-            showAllClasses();
+        if (userRole) {
+            filterClassesByRole();
         }
-        
-    }, [userId]);
+    }, [userId, userRole]);
 
     const renderClasses = ({ item }) => (
         <TouchableOpacity onPress={() => navigation.navigate('mainTabs')}>
@@ -161,6 +162,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderWidth: 2,
         borderRadius: 5,
+        marginBottom: 40,
     },
     className: {
         fontFamily: 'Montserrat-Bold',
