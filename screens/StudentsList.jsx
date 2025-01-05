@@ -9,7 +9,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
 const StudentsList = ({ route, navigation }) => {
-    const { fetchStudentsInClass, userId } = useAppContext();
+    const { fetchStudentsInClass, userId, classId } = useAppContext();
     const [students, setStudents] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -19,20 +19,27 @@ const StudentsList = ({ route, navigation }) => {
 
     useEffect(() => {
         const getStudents = async () => {
+            if (!classId) {
+                console.error('Class ID is missing.');
+                Alert.alert('Error', 'Class ID is missing.');
+                navigation.navigate('mainTabs')
+                setLoading(false);
+                return;
+            }
+
             try {
-                const studentsList = await fetchStudentsInClass();
-                setStudents(studentsList)
+                const studentsList = await fetchStudentsInClass(classId);
+                setStudents(studentsList);
             } catch (error) {
-                Alert('Error', "Students Fetching Failed")
+                console.error('Error fetching students:', error.message);
+                Alert.alert('Error', 'Failed to fetch students.');
             } finally {
                 setLoading(false);
             }
-            
         };
 
-
         getStudents();
-    });
+    }, [classId]);
 
 
     useEffect(() => {
@@ -65,10 +72,17 @@ const StudentsList = ({ route, navigation }) => {
         );
     }
 
-
     return (
         <View style={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
-
+            <FlatList 
+                data={students}
+                keyExtractor={(item) => item.user_id}
+                renderItem={({ item }) => (
+                    <View>
+                        <Text>{item.user_name}</Text>
+                    </View>
+                )}
+            />
         </View>
     )
 

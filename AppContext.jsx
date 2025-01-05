@@ -5,6 +5,8 @@ const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
     const [userId, setUserId] = useState(null);
+    const [classId, setClassId] = useState(null);
+    const [students, setStudents] = useState([]);
     const [role, setRole] = useState(null);
     const [updatedData, setUpdatedData] = useState(null);
     const [newPassword, setNewPassword] = useState(null);
@@ -312,36 +314,37 @@ export const AppProvider = ({ children }) => {
         }
     };
 
-    const fetchStudentsInClass = async () => {
-        try {
-            if (!classId) {
-                throw new Error('Class ID is missing.');
-            }
+    const fetchStudentsInClass = async (classId) => {
+        if (!classId) {
+            console.error('Class ID is missing.');
+            return [];
+        }
     
+        try {
             const { data, error } = await supabase
                 .from('ClassParticipants')
-                .select('user_id, Users(first_name, last_name, email)')
+                .select('user_name, user_id') // Adjust fields as needed
                 .eq('class_id', classId);
     
             if (error) throw error;
     
-            return data.map((participant) => ({
-                user_id: participant.user_id,
-                name: `${participant.Users.first_name} ${participant.Users.last_name}`,
-                email: participant.Users.email,
+            // Map the data if additional formatting is needed
+            return data.map((student) => ({
+                user_name: student.user_name,
+                user_id: student.user_id,
             }));
         } catch (error) {
-            console.error('Student Fetching Error: ', error.message);
+            console.error('Error fetching students in class:', error.message);
             return [];
         }
     };
-    
+        
     //endregion Class Integration
 
 
     return (
         <AppContext.Provider 
-            value={{userId, updatedData, role, signUp, logIn, logOut, fetchUserData,
+            value={{userId, classId, setClassId, updatedData, role, signUp, logIn, logOut, fetchUserData,
                 updateUserDetails, updatePassword, uploadProfilePicture, setRole, generateClassCode,
                 createClass, joinClass, fetchCoachClasses, fetchUserClasses, fetchAllClasses, fetchStudentsInClass,
             }}
