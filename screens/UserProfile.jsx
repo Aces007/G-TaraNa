@@ -12,12 +12,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconDark from '../assets/icon4-1.png';
 import IconLight from '../assets/icon4-2.png';
+import StudentsList from './StudentsList';
 
 
 
 const UserProfile = ({ navigation }) => {
     // App Contexts
-    const { userId, fetchUserData } = useAppContext();
+    const { userId, fetchUserData, classId, setClassId } = useAppContext();
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [joinDate, setJoinDate] = useState('');
@@ -26,6 +27,12 @@ const UserProfile = ({ navigation }) => {
     const [profilePic, setProfPic] = useState('');
     const { isDarkMode, toggleTheme, currentTheme } = useTheme();
     const [selectedTheme, setSelectedTheme] = useState(isDarkMode ? 'dark' : 'light');
+
+    const handleClassSelection = (selectedClassId) => {
+        setClassId(selectedClassId);
+        console.log(selectedClassId);
+        navigation.navigate(StudentsList);
+    }
 
     useEffect(() => {
         setSelectedTheme(isDarkMode ? 'dark' : 'light');
@@ -116,7 +123,7 @@ const UserProfile = ({ navigation }) => {
             <View style={styles.menuSection}>
                 <View style={styles.userProfileMenus}>
                     <Text style={[styles.userMenuLab, {color: currentTheme.textColor}]}>My Classes</Text>
-                    <TouchableOpacity style={styles.manageUserLeft} onPress={() => userRole === 'coach' ? navigation.navigate('StudentsList') : navigation.navigate('ClassList')}>
+                    <TouchableOpacity style={styles.manageUserLeft} onPress={() => userRole === 'coach' ? handleClassSelection(classId) : navigation.navigate('ClassList')}>
                         <MaterialIcons name='class' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
                         <Text style={[styles.manageUserTxt, {color: currentTheme.textColor}]}>View Classes</Text>
                     </TouchableOpacity>
