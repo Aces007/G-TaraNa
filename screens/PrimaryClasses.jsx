@@ -47,18 +47,13 @@ const PrimaryClasses = ({ navigation }) => {
     }, [userId, userRole]);
 
     const renderClasses = ({ item }) => (
-        <TouchableOpacity onPress={() => navigation.navigate('mainTabs')}>
-            <View style={[styles.classLists, {borderColor: currentTheme.borderColor}]}>
-                <Text style={[styles.className, {color: currentTheme.textColor}]}>{item.class_name}</Text>
-                <Text style={[styles.classCode, {color: currentTheme.textColor}]}>Class Code: {item.class_code}</Text>
-            </View>
-        </TouchableOpacity>
-    )
+      </View>
+
 
     const handleLogout = () => {
         Alert.alert(
             "Log Out", 
-            "Are you sure you want to log out?", 
+
             [
                 {
                 text: "Cancel",
