@@ -68,7 +68,7 @@ const ChordChecker = () => {
 
     try {
       const response = await Promise.race([
-        fetch("http://192.168.1.32:5000/api/detect2", {
+        fetch("http://192.168.1.34:5000/api/detect2", {
           method: "GET",
         }),
         timeout,
@@ -79,7 +79,7 @@ const ChordChecker = () => {
 
         let chords = await response.json();
 
-        Alert.alert("Chords", JSON.stringify(chords.chords));
+        Alert.alert("Chords", chords.chords[0]);
       } else {
         // Alert.alert("Error", "Failed to communicate with the server.");
         console.log("Error", "Failed to communicate with the server.");
