@@ -79,7 +79,7 @@ const ChordChecker = () => {
 
         let chords = await response.json();
 
-        Alert.alert("Chords", chords.chords[0]);
+        Alert.alert("Chords", chords.chords.join(", "));
       } else {
         // Alert.alert("Error", "Failed to communicate with the server.");
         console.log("Error", "Failed to communicate with the server.");
