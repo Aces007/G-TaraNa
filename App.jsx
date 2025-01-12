@@ -27,6 +27,7 @@ import JoinClass from './screens/JoinClass';
 import ViewClasses from './screens/ViewClasses';
 import PrimaryClasses from './screens/PrimaryClasses';
 import StudentsList from './screens/StudentsList';
+import ChordHistory from './screens/ChordHistory';
 
 
 
@@ -146,6 +147,7 @@ function MainScreen() {
       <Stack.Screen name="StudentsList" component={StudentsList} options={{ headerShown: false }} />
       <Stack.Screen name="ThemePicker" component={ThemePicker} options={{ headerShown: false }} />
       <Stack.Screen name="NotificationsPanel" component={NotificationsSet} options={{ headerShown: false }} />
+      <Stack.Screen name="ChordHistory" component={ChordHistory} options={{ headerShown: false }} />
       <Stack.Screen name="CreditsPage" component={CreditsPage} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
