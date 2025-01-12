@@ -10,6 +10,7 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import IconDark from '../assets/icon4-1.png';
 import IconLight from '../assets/icon4-2.png';
 import StudentsList from './StudentsList';
@@ -137,6 +138,13 @@ const UserProfile = ({ navigation }) => {
                     <TouchableOpacity style={styles.manageUserLeft} onPress={() => navigation.navigate('UserProgress')}>
                         <AntDesign name='areachart' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
                         <Text style={[styles.manageUserTxt, {color: currentTheme.textColor}]}>User Progress</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.userProfileMenus}>
+                    <Text style={[styles.userMenuLab, {color: currentTheme.textColor}]}>History</Text>
+                    <TouchableOpacity style={styles.manageUserLeft} onPress={() => navigation.navigate('ChordHistory')}>
+                        <Fontisto name='history' size={21} style={[styles.manageSVG, {backgroundColor: currentTheme.backgroundColor3}]} />
+                        <Text style={[styles.manageUserTxt, {color: currentTheme.textColor}]}>Chord History</Text>
                     </TouchableOpacity>
                 </View>
             </View>
