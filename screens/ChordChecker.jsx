@@ -68,7 +68,7 @@ const ChordChecker = () => {
 
     try {
       const response = await Promise.race([
-        fetch("http://192.168.1.34:5000/api/detect2", {
+        fetch("http://aira-raspberrypi.local:5000/api/detected", {
           method: "GET",
         }),
         timeout,
