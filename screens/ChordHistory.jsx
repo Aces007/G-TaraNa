@@ -61,6 +61,44 @@ const ChordHistory = ({ navigation }) => {
         );
     }
 
+    const handlePing = async () => {
+        const timeout = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Timeout")), 3000)
+        );
+    
+        try {
+          const response = await Promise.race([
+            fetch("http://192.168.1.34:5000/api/detect2", {
+              method: "GET",
+            }),
+            timeout,
+        ]);
+
+        if (response.ok) {
+        console.log("Ping successful");
+
+        let chords = await response.json();
+
+        Alert.alert("Chords", chords.chords.join(", "));
+        } else {
+        // Alert.alert("Error", "Failed to communicate with the server.");
+        console.log("Error", "Failed to communicate with the server.");
+        }
+    } catch (error) {
+        //   Alert.alert(
+        //     "Error",
+        //     error.message === "Timeout" ? "Failed ping" : "Server error"
+        //   );
+
+        console.log(
+        "Error",
+        error.message === "Timeout"
+            ? "Failed ping"
+            : "Server error" + error.message
+        );
+    }
+    };
+
     return (
         <ScrollView contentContainerStyle={[styles.mainCont, {backgroundColor: currentTheme.backgroundColor}]}>
             <TouchableOpacity style={styles.backBtn} onPress={() => navigation.navigate('User')}>
@@ -70,7 +108,11 @@ const ChordHistory = ({ navigation }) => {
             <Text style={[styles.historyLabel, {color: currentTheme.textColor}]}>Chord History</Text>
             <Text style={[styles.greetingCont, {color: currentTheme.textColor}]}>Good Day! {userName}!</Text>
 
-            
+            <View style={styles.btnCont}>
+                <TouchableOpacity onPress={handlePing} style={[styles.fetchBtn, {borderColor: currentTheme.borderColor}]}>
+                    <Text style={[styles.fetchBtnTxt, {color: currentTheme.textColor}]}>Fetch Chords</Text>
+                </TouchableOpacity>
+            </View>
         </ScrollView>
     )
 }
@@ -99,6 +141,24 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 20,
         marginBottom: 25,
+    },
+    btnCont: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center', 
+    },
+    fetchBtn: {
+        borderWidth: 3,
+        paddingVertical: 50,
+        paddingHorizontal: 20,
+        width: '100',
+        height: '100',
+        borderRadius: 64,
+        marginTop: 50,
+    },  
+    fetchBtnTxt: {
+        fontFamily: 'RedHat-Bold',
+        textAlign: 'center',
     },
 })
 export default ChordHistory;
